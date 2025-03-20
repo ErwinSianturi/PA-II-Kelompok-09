@@ -7,13 +7,9 @@ import 'package:flutter_firebase/components/my_textfld.dart';
 
 class ChatPage extends StatefulWidget {
   final String receiverEmail;
-  final String receiverID; 
+  final String receiverID;
 
-  ChatPage({
-    super.key,
-    required this.receiverEmail,
-    required this.receiverID,
-  });
+  ChatPage({super.key, required this.receiverEmail, required this.receiverID});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -21,151 +17,125 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final TextEditingController _messageController = TextEditingController();
-
-  //Chat auth serice
   final ChatServices _chatServices = ChatServices();
-
   final AuthService _authService = AuthService();
-
-  // field focus
+  final ScrollController _scrollController = ScrollController();
   FocusNode myFocusNode = FocusNode();
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-
-    myFocusNode.addListener((){
-      if (myFocusNode.hasFocus){
-        // cause delau so keyboard habe delay
-
-
-        Future.delayed(const Duration(milliseconds: 300),
-        () => scrollDown(),
-
-        );
+    myFocusNode.addListener(() {
+      if (myFocusNode.hasFocus) {
+        Future.delayed(const Duration(milliseconds: 300), () => scrollDown());
       }
     });
-  Future.delayed(
-    const Duration(milliseconds: 300),
-    () => scrollDown(),
-  );
-     
   }
 
   @override
-  void dispose(){
+  void dispose() {
     myFocusNode.dispose();
     _messageController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
-  final ScrollController _scrollController = ScrollController();
-  void scrollDown(){
+  void scrollDown() {
     _scrollController.animateTo(
-      _scrollController.position.maxScrollExtent, 
-      duration: const Duration(milliseconds: 300), 
-      curve: Curves.fastOutSlowIn,
-      );
+      _scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
   }
 
-
   void sendMessage() async {
-    if (_messageController.text.isNotEmpty){
-      //send 
+    if (_messageController.text.isNotEmpty) {
       await _chatServices.sendMessage(widget.receiverID, _messageController.text);
-
       _messageController.clear();
       scrollDown();
-    
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  AppBar(title: Text(widget.receiverEmail)),
-      body: Column(
-        children: [
-          Expanded(
-            child: _buildMessageList(), 
-            
-          ),
-
-          _buildUserInput(),
-        ],
+      appBar: AppBar(
+        title: Text(widget.receiverEmail, style: TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.blueAccent,
+        elevation: 0,
+      ),
+      body: Container(
+        color: Colors.white, // Light background for better readability
+        child: Column(
+          children: [
+            Expanded(child: _buildMessageList()),
+            _buildUserInput(),
+          ],
+        ),
       ),
     );
-    
   }
 
-  Widget _buildMessageList(){
+  Widget _buildMessageList() {
     String senderID = _authService.getCurrentUser()!.uid;
     return StreamBuilder(
-      stream: _chatServices.getMessages(widget.receiverID, senderID), 
-      builder: (context, snapshot){
-        if (snapshot.hasError){
-          return const Text("Error");
+      stream: _chatServices.getMessages(widget.receiverID, senderID),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) return const Center(child: Text("Error loading messages"));
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
         }
 
-        if(snapshot.connectionState == ConnectionState.waiting ){
-          return const Text("Loading...");
-        }
+        WidgetsBinding.instance.addPostFrameCallback((_) => scrollDown());
 
         return ListView(
           controller: _scrollController,
-          children: snapshot.data!.docs.map((doc) => _buildMessageItem(doc)).toList()
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          children: snapshot.data!.docs.map((doc) => _buildMessageItem(doc)).toList(),
         );
-      })
-      
-      
-      ;
+      },
+    );
   }
 
-  Widget _buildMessageItem(DocumentSnapshot doc)  {
+  Widget _buildMessageItem(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-
-    // is current user
     bool isCurrentUser = data['senderID'] == _authService.getCurrentUser()!.uid;
 
-    var aligment = 
-    isCurrentUser ? Alignment.centerRight : Alignment.centerLeft;
+    return Align(
+      alignment: isCurrentUser ? Alignment.centerRight : Alignment.centerLeft,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        child: ChatBubble(
+          message: data["message"],
+          isCurrentUser: isCurrentUser,
+        ),
+      ),
+    );
+  }
 
-    // align message to right sender curr user, other left
-
-    return Container(
-      alignment: aligment,
-      child: Column(
-        crossAxisAlignment: isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start ,
+  Widget _buildUserInput() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
         children: [
-          ChatBubble(
-            message: data["message"], 
-            isCurrentUser: isCurrentUser
+          Expanded(
+            child: MyTextfld(
+              controller: _messageController,
+              hintText: "Type a message...",
+              obscureText: false,
+              focusNode: myFocusNode,
+            ),
+          ),
+          const SizedBox(width: 8),
+          CircleAvatar(
+            backgroundColor: Colors.blueAccent,
+            child: IconButton(
+              icon: const Icon(Icons.send, color: Colors.white),
+              onPressed: sendMessage,
+            ),
           ),
         ],
-      ),);
-  } 
-
-  // inpit
-  Widget _buildUserInput(){
-    return Row(
-      children: [
-        // textfield should 
-
-        Expanded(child: MyTextfld(
-          controller: _messageController,
-          hintText: "Type a message",
-          obscureText: false,
-          focusNode: myFocusNode,
-        ),
-        ),
-
-        IconButton(
-        onPressed: sendMessage, 
-        icon: const Icon(Icons.arrow_upward),
-        ),
-
-
-      ],
+      ),
     );
   }
 }

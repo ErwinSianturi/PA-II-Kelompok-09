@@ -4,19 +4,15 @@ import 'package:flutter_firebase/components/my_button.dart';
 import 'package:flutter_firebase/components/my_textfld.dart';
 
 class LoginPage extends StatelessWidget {
-  // Email and password controllers
   final TextEditingController _pwController = TextEditingController();
   final TextEditingController _emlController = TextEditingController();
 
   LoginPage({super.key, required this.onTap});
 
-  //tap to register
   final void Function()? onTap;
 
   void login(BuildContext context) async {
-    //auth
     final authService = AuthService();
-    //try
     try {
       await authService.signInWithEmailPassword(
           _emlController.text, _pwController.text);
@@ -32,60 +28,77 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
-      body: Center(
-        // Removed const here
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.message,
-              size: 60,
-            ),
-            const SizedBox(
-              height: 50,
-            ),
-            Text(
-              "Welcome Back! We Missed you",
-              style: TextStyle(
-                color: Colors.blue,
-                fontSize: 16,
-              ),
-            ),
-            const SizedBox(
-              height: 50,
-            ),
-            MyTextfld(
-              hintText: "Email",
-              obscureText: false,
-              controller: _emlController,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            MyTextfld(
-              hintText: "Password",
-              obscureText: true,
-              controller: _pwController,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            MyButton(button: "Login", onTap: () => login(context)),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blue, Colors.lightBlueAccent],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Don't have an account? Sign up now"),
-                GestureDetector(
-                  onTap: onTap,
-                  child: Text("Register"),
+                Icon(
+                  Icons.message,
+                  size: 60,
+                  color: Colors.white,
+                ),
+                const SizedBox(height: 30),
+                Text(
+                  "Welcome Back! We Missed You",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 30),
+                MyTextfld(
+                  hintText: "Email",
+                  obscureText: false,
+                  controller: _emlController,
+                 
+                ),
+                const SizedBox(height: 20),
+                MyTextfld(
+                  hintText: "Password",
+                  obscureText: true,
+                  controller: _pwController,
+
+                ),
+                const SizedBox(height: 20),
+                MyButton(
+                  button: "Login",
+                  onTap: () => login(context),
+
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Don't have an account? ",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    GestureDetector(
+                      onTap: onTap,
+                      child: Text(
+                        "Register",
+                        style: TextStyle(
+                          color: Colors.orangeAccent,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );
