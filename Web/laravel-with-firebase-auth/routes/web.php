@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Auth::routes();
@@ -28,9 +28,8 @@ Route::get('/email/verify', [App\Http\Controllers\Auth\ResetController::class, '
 
 Route::post('login/{provider}/callback', 'Auth\LoginController@handleCallback');
 
-Route::resource('/home/profile', App\Http\Controllers\Auth\ProfileController::class)->middleware('user','fireauth');
+Route::resource('/home/profile', App\Http\Controllers\Auth\ProfileController::class)->middleware('user', 'fireauth');
 
 Route::resource('/password/reset', App\Http\Controllers\Auth\ResetController::class);
 
 Route::resource('/img', App\Http\Controllers\ImageController::class);
-
