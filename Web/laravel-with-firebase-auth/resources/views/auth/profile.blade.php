@@ -29,7 +29,7 @@
         <button type="button" class="close" data-dismiss="alert">&times;</button>
       </div>
     @endif
-    
+
     <div class="row justify-content-center">
       <div class="col-lg-4">
         <h4>Profile Information</code></h5>
@@ -43,9 +43,6 @@
             {!! Form::open() !!}
 
             <div class="form-group px-3">
-              {!! Form::label('displayName', 'Name ',['class'=>'col-12 text-left pl-0']) !!}
-              {!! Form::text('displayName', null, ['class'=>' col-md-8 form-control'])!!}
-
               {!! Form::label('email', 'Email ',['class'=>'pt-3 col-12 text-left pl-0']) !!}
               {!! Form::email('email', null, ['class'=>'col-md-8 form-control'])!!}
 

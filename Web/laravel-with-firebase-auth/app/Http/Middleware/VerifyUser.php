@@ -21,7 +21,7 @@ class VerifyUser
     {
       $uid = Session::get('uid');
       $verify = app('firebase.auth')->getUser($uid)->emailVerified;
-        if ($verify == 0) {
+        if ($verify == 1) {
           return redirect()->route('verify');
         }
         else{
