@@ -37,4 +37,9 @@ class JobsController extends Controller
         ]);
         return redirect('jobs')->with('status', 'jobs post');
     }
+    public function edit(int $id){
+        $jobs = JobPosting::findOrFail($id);
+        // return $jobs;
+        return view('jobs.edit', compact('jobs'));
+    }
 }

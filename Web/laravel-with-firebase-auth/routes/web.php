@@ -49,3 +49,4 @@ use App\Http\Controllers\JobsController;
 Route::get('/jobs', [JobsController::class, 'index']);
 Route::get('/jobs/create', [JobsController::class, 'create']);
 Route::post('/jobs/create', [JobsController::class, 'store']);
+Route::get('/jobs/{id}/edit', [JobsController::class, 'edit']);
