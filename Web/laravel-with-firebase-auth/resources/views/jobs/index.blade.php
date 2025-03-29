@@ -15,7 +15,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>Nama Pekerjaan</th>
-                        <th>Email</th>
+                        <th>Deskripsi</th>
                         <th>Harga</th>
                         <th>Status</th>
                         <th>Aksi</th>
@@ -25,7 +25,7 @@
                     @foreach($jobs as $job)
                     <tr>
                         <td>{{ $job->nama_pekerjaan }}</td>
-                        <td>{{ $job->email }}</td>
+                        <td>{{ $job->deskripsi }}</td>
                         <td>Rp{{ number_format($job->harga_pekerjaan, 0, ',', '.') }}</td>
                         <td>
                             @php
@@ -41,11 +41,7 @@
                         </td>
                         <td>
                             <a href="{{ url('jobs/' . $job->id . '/edit') }}" class="btn btn-sm btn-warning">Edit</a>
-                            <form action="{{ url('jobs/' . $job->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus pekerjaan ini?');">Hapus</button>
-                            </form>
+                            <a href="{{ url('jobs/' . $job->id . '/delete') }}" class="btn btn-sm btn-danger">Delete</a>
                         </td>
                     </tr>
                     @endforeach
@@ -53,5 +49,6 @@
             </table>
         </div>
     </div>
+    <button type="button" class="btn btn-secondary" onclick="window.history.back();">Kembali</button>
 </div>
 @endsection

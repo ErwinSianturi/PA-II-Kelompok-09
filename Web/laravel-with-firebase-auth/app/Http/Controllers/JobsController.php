@@ -42,4 +42,29 @@ class JobsController extends Controller
         // return $jobs;
         return view('jobs.edit', compact('jobs'));
     }
+
+    public function update(Request $request, int $id)
+    {
+        $validated = $request->validate([
+            'nama_pekerjaan' => 'required|string',
+            'email' => 'required|email',
+            'harga_pekerjaan' => 'required|numeric',
+            'deskripsi' => 'required|string',
+            'status_pekerjaan' => 'required'
+        ]);
+        JobPosting::findOrFail($id)->update([
+            'nama_pekerjaan' => $request->nama_pekerjaan,
+            'email' => $request->email,
+            'harga_pekerjaan' => $request->harga_pekerjaan,
+            'deskripsi' => $request->deskripsi,
+            'status_pekerjaan' => $request->status_pekerjaan,
+        ]);
+        return redirect('jobs')->with('status', 'jobs update');
+    }
+    public function delete(int $id){
+        $jobs = JobPosting:: findOrFail($id);
+        $jobs->delete();
+
+        return redirect('jobs')->with('Status', 'Job Deleted');
+    }
 }
