@@ -65,6 +65,7 @@ class JobsController extends Controller
             'harga_pekerjaan' => 'required|numeric',
             'deskripsi' => 'required|string',
             'status_pekerjaan' => 'required'
+
         ]);
         JobPosting::findOrFail($id)->update([
             'nama_pekerjaan' => $request->nama_pekerjaan,
