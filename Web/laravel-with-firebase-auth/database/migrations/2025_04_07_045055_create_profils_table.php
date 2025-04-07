@@ -9,15 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('job_postings', function (Blueprint $table) {
+        Schema::create('profils', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_pekerjaan');
             $table->string('email');
-            $table->decimal('harga_pekerjaan', 10, 2);
-            $table->text('deskripsi');
-            $table->enum('status_pekerjaan', ['Tersedia', 'Dalam Proses','Selesai'])->default('Tersedia');
+            $table->string('username');
+            $table->enum('harga_pekerjaan',['Laki-laki', 'Perempuan']);
+            $table->date('tanggal_lahir');
+            $table->string('provinsi');
+            $table->string('desa');
+            $table->string('alamat_lengkap');
+            $table->string('pekerjaan');
             $table->string('image')->nullable();
             $table->timestamps();
         });
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('job_postings');
+        Schema::dropIfExists('profils');
     }
 };

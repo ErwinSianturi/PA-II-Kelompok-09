@@ -57,7 +57,7 @@
             <img src="{{ asset('images/gambar_atas.png') }}" alt="gambar_atas" class="w-[600px]">
         </div>
     </section>
-    
+
     <section class="px-20 py-4">
         <div class="flex items-center gap-6">
             <h2 class="text-4xl text-white bg-purple-600 px-4 py-2 rounded-lg inline-block">
@@ -120,7 +120,7 @@
             </div>
         </div>
     </section>
-    
+
 
 </body>
 </html>

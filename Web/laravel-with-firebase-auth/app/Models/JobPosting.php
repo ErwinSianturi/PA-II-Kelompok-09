@@ -14,6 +14,7 @@ class JobPosting extends Model
         'email',
         'harga_pekerjaan',
         'deskripsi',
-        'status_pekerjaan'
+        'status_pekerjaan',
+        'image'
     ];
 }

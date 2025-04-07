@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserItemController;
 use App\Http\Controllers\JobsController;
+use App\Http\Controllers\ProfilController;
 
 
 Route::get('/', function () {
@@ -24,3 +25,8 @@ Route::post('/jobs/create', [JobsController::class, 'store']);
 Route::get('/jobs/{id}/edit', [JobsController::class, 'edit']);
 Route::put('/jobs/{id}/edit', [JobsController::class, 'update']);
 Route::get('/jobs/{id}/delete', [JobsController::class, 'delete']);
+
+
+
+
+Route::get('/profil', [ProfilController::class, 'index'])->name('profil.index');
