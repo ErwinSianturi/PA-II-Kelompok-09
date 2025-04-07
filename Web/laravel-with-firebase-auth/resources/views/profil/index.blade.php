@@ -7,9 +7,9 @@
                 <img src="{{ asset('images/profile.jpg') }}" class="rounded-circle me-3" width="100" height="100"
                     alt="Profile Picture">
                 <div>
-                    <h4 class="card-title mb-0">John Doe</h4>
+                    <h4 class="card-title mb-0"></h4>
                     @if (Auth::check())
-                    <p class="text-muted">{{ Auth::user()->email }}</p>
+                        <p class="text-muted">{{ Auth::user()->email }}</p>
                     @endif
 
                 </div>
@@ -35,7 +35,10 @@
             <div class="tab-pane fade show active" id="posts" role="tabpanel">
                 <div class="card mb-3">
                     <div class="card-body">
-
+                        <p><strong>Nama:</strong> {{ $profils }} </p>
+                        <p><strong>Email:</strong></p>
+                        <p><strong>Location:</strong> </p>
+                        <p><strong>Joined:</strong></p>
                     </div>
                 </div>
             </div>
@@ -43,7 +46,7 @@
             <div class="tab-pane fade" id="about" role="tabpanel">
                 <div class="card">
                     <div class="card-body">
-                        <p><strong>Bio:</strong> Web developer, coffee enthusiast ☕</p>
+                        <p><strong>Nama:</strong> Web developer, coffee enthusiast ☕</p>
                         <p><strong>Location:</strong> Jakarta, Indonesia</p>
                         <p><strong>Joined:</strong> January 2020</p>
                     </div>
