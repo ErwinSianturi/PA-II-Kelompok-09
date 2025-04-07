@@ -7,7 +7,7 @@ use App\Http\Controllers\JobsController;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
 Auth::routes();
