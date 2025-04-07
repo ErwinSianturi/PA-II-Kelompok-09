@@ -65,6 +65,7 @@
                 Temukan layanan profesional sesuai kebutuhan Anda, semua tersedia di satu platform.
                 Pilih kategori di bawah ini dan dapatkan bantuan dari berbagai pekerja.
             </p>
+            
         </div>
         
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-12 mt-10">
