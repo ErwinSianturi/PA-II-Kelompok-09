@@ -38,8 +38,6 @@
             </div>
         </div>
     </nav>
-    
-    
 
     <section class="w-full h-screen flex items-center justify-between px-20 mb-0">
         <div class="max-w-lg">
