@@ -28,10 +28,10 @@
                 <a href="#" class="text-gray-700">Obrolan</a>
                 <a href="#" class="text-gray-700">Status kerja</a>
                 <a href="#" class="text-gray-700">Profil</a>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="text-gray-700">Logout</button>
-                </form>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                                <button type="submit" class="text-gray-700">Logout</button>
+                            </form>
                 <button class="px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm hover:bg-gray-100 transition">
                     Memberi Pekerjaan
                 </button>
