@@ -2,9 +2,9 @@
 
 @section('content')
     <div class="container py-4">
-        <h2 class="mb-4">Daftar Pekerjaan</h2>
         @if (Auth::check())
             <h3>Hi, {{ Auth::user()->email }}!</h3>
+            <h4>Berikut daftar pekerjaan yang kamu posting</h4>
         @endif
 
         <a href="{{ url('jobs/create') }}" class="btn btn-primary mb-3">Tambah Pekerjaan</a>
@@ -29,7 +29,7 @@
                                 <td>
                                     @if ($job->image)
                                         <img src="{{ asset($job->image) }}" width="100" height="100"
-                                            style="object-fit: cover;">
+                                        style="object-fit: cover;">
                                     @else
                                         <span class="text-muted">No Image</span>
                                     @endif

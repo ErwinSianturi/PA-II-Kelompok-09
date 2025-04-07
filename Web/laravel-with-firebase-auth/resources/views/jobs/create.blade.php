@@ -31,9 +31,25 @@
             </div>
             <div class="mb-3">
                 <label>Gambar</label>
-                <input type="text" name="name">
-                <input type="file" name="image">
+                <input type="file" name="image" id="imageInput">
+                <img id="previewImage" src="" alt="Preview" width="100" height="100"
+                    style="object-fit: cover;">
             </div>
+
+            <script>
+                document.getElementById('imageInput').addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    const preview = document.getElementById('previewImage');
+
+                    if (file) {
+                        preview.src = URL.createObjectURL(file);
+                        preview.onload = () => URL.revokeObjectURL(preview.src); // Free memory
+                    } else {
+                        preview.src = '';
+                    }
+                });
+            </script>
+
             <button type="submit" class="btn btn-success">Simpan</button>
             <button type="button" class="btn btn-secondary" onclick="window.history.back();">Kembali</button>
         </form>

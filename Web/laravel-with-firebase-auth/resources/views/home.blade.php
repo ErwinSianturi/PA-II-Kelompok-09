@@ -26,7 +26,7 @@
                 <a href="#" class="text-purple-500 ">Home</a>
                 <a href="#" class="text-gray-700">Obrolan</a>
                 <a href="#" class="text-gray-700">Status kerja</a>
-                <a href="#" class="text-gray-700">Profil</a>
+                <a href="/profil" class="text-gray-700">Profil</a>
                 <button onclick="window.location.href='/jobs/create'"  class="px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm hover:bg-gray-100 transition">
                     Memberi Pekerjaan
                 </button>
