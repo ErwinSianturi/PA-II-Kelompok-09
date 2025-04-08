@@ -16,6 +16,7 @@ class FirebaseUserProvider implements UserProvider {
       $this->hasher = $hasher;
       $this->auth = app('firebase.auth');
    }
+
    public function retrieveById($identifier) {
       $firebaseUser = $this->auth->getUser($identifier);
       $user = new User([
