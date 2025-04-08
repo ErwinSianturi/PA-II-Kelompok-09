@@ -1,2 +1,0 @@
-D:/Semester 4/PA II/Github/PA-II-Kelompok-09/Aplikasi/flutter_aplikasi/android/app/.cxx/Debug/245q4r69/x86/CMakeFiles/edit_cache.dir
-D:/Semester 4/PA II/Github/PA-II-Kelompok-09/Aplikasi/flutter_aplikasi/android/app/.cxx/Debug/245q4r69/x86/CMakeFiles/rebuild_cache.dir

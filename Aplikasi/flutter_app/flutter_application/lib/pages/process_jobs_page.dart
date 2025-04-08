@@ -1,0 +1,62 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_application/component/job_card.dart';
+import 'package:flutter_application/component/tab_filter.dart';
+import 'package:flutter_application/component/job_selector.dart';
+
+class ProcessJobsPage extends StatelessWidget {
+  const ProcessJobsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF5F3FF),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: const Icon(Icons.arrow_back, color: Colors.black),
+        centerTitle: true,
+        title: const Text(
+          'Pekerjaan Dalam Proses',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            const DateSelector(),
+            const SizedBox(height: 16),
+            const TabFilter(),
+            const SizedBox(height: 16),
+            Expanded(
+              child: ListView(
+                children: const [
+                  JobCard(
+                    title: 'Mencuci Kendaraan',
+                    description: 'Dibutuhkan tenaga untuk mencuci mobil saya...',
+                    time: '14.00 WIB',
+                    status: 'Dalam Proses',
+                    color: Colors.orange,
+                    icon: Icons.directions_car,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.purple,
+        unselectedItemColor: Colors.grey,
+        currentIndex: 0,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Obrolan'),
+          BottomNavigationBarItem(icon: Icon(Icons.add_circle_outline), label: 'Beri Kerja'),
+          BottomNavigationBarItem(icon: Icon(Icons.work), label: 'Aktivitas'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
+        ],
+      ),
+    );
+  }
+}
