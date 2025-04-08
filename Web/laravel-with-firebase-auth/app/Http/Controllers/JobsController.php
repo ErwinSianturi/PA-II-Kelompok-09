@@ -11,7 +11,7 @@ class JobsController extends Controller
 {
     public function index()
     {
-        $jobs = JobPosting::where('email', Auth::user()->email)->get(); // Filter by logged-in user's email
+        $jobs = JobPosting::where('email', Auth::user()->email)->get(); 
 
         return view('jobs.index', compact('jobs'));
     }
