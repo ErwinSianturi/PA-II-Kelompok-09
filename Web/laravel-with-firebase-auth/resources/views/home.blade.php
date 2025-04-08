@@ -21,14 +21,12 @@
             <div class="text-2xl font-bold flex items-center">
                 <img src="{{ asset('images/logo.png') }}" alt="GIGNEGO Logo" class="h-20 transform -translate-x-9">
             </div>
-    
 
             <!-- Nav Menu -->
             <div class="flex items-center space-x-6 text-[16px] font-medium font-[Poppins]">
                 <a href="#" class="text-purple-500">Home</a>
                 <a href="#" class="text-gray-700">Obrolan</a>
                 <a href="#" class="text-gray-700">Status kerja</a>
-                <a href="#" class="text-gray-700">Profil</a>
                 <a href="/profil" class="text-gray-700">Profil</a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
@@ -67,7 +65,6 @@
                 Temukan layanan profesional sesuai kebutuhan Anda, semua tersedia di satu platform.
                 Pilih kategori di bawah ini dan dapatkan bantuan dari berbagai pekerja.
             </p>
-            
 
         </div>
 <<<<<<< Updated upstream
@@ -179,7 +176,6 @@
                     <span>Lihat Selengkapnya</span>
                 </button>
             </div>
-                
 
             <div class="p-10 bg-white rounded-xl border-2 border-gray-300 shadow-[0px_5px_10px_rgba(0,0,0,0.1)] min-h-[260px]">
                 <h3 class="text-2xl font-semibold text-purple-600">Perbaikan Elektronik</h3>
@@ -188,7 +184,6 @@
                     <span>Lihat Selengkapnya</span>
                 </button>
             </div>
-                
 
             <div class="p-10 bg-white rounded-xl border-2 border-gray-300 shadow-[0px_5px_10px_rgba(0,0,0,0.1)] min-h-[260px]">
                 <h3 class="text-2xl font-semibold text-purple-600">Tutor</h3>
@@ -197,7 +192,6 @@
                     <span>Lihat Selengkapnya</span>
                 </button>
             </div>
-    
 
             <div class="p-10 bg-white rounded-xl border-2 border-gray-300 shadow-[0px_5px_10px_rgba(0,0,0,0.1)] min-h-[260px]">
                 <h3 class="text-2xl font-semibold text-purple-600">Rumah Tangga</h3>
