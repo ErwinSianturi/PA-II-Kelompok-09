@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'edit_profil.dart';
+
 
 class ProfilPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      floatingActionButton: CustomFAB(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavBar(),
       body: SingleChildScrollView(
         child: Column(
@@ -12,103 +16,131 @@ class ProfilPage extends StatelessWidget {
             Stack(
               alignment: Alignment.topCenter,
               children: [
-                // Background putih
+                Container(height: 200, color: Colors.white),
                 Container(
-                  height: 200,
-                  color: Colors.white,
-                ),
-                // Rectangle besar dengan gradient
-                Container(
-                  margin: EdgeInsets.only(top: 100),
-                  padding: EdgeInsets.only(top: 60),
+                  margin: EdgeInsets.only(top: 100, left: 20, right: 20),
+                  padding: EdgeInsets.only(top: 10),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [Color(0xFFAB74F1), Color(0xFF7C4CB8), Color(0xFF593785)],
+                      colors: [
+                        Color(0xFFAB74F1),
+                        Color(0xFF7C4CB8),
+                        Color(0xFF593785)
+                      ],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                     ),
                     borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
                   ),
-                  child: Column(
-                    children: [
-                      SizedBox(height: 40),
-                      Text(
-                        "Yenny Angelita Gurning",
-                        style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        "Profil Belum Lengkap",
-                        style: TextStyle(color: Colors.white70, fontSize: 14),
-                      ),
-                      Text(
-                        "Last Update: 20 Maret 2025",
-                        style: TextStyle(color: Colors.white70, fontSize: 12),
-                      ),
-                      SizedBox(height: 10),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          side: BorderSide(color: Colors.white),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20), // Margin 20 untuk body
+                    child: Column(
+                      children: [
+                        SizedBox(height: 40),
+                        Text("Yenny Angelita Gurning",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold)),
+                        Text("Profil Belum Lengkap",
+                            style: TextStyle(color: Colors.white70, fontSize: 14)),
+                        Text("Last Update: 20 Maret 2025",
+                            style: TextStyle(color: Colors.white70, fontSize: 12)),
+                        SizedBox(height: 10),
+                        ElevatedButton(
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => EditProfilPage()),
+    );
+  },
+  style: ElevatedButton.styleFrom(
+    backgroundColor: Colors.transparent,
+    side: BorderSide(color: Colors.white),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20),
+    ),
+  ),
+  child: Text("Edit Profil", style: TextStyle(color: Colors.white)),
+),
+
+                        SizedBox(height: 20),
+                        Container(
+                          padding: EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(color: Colors.black12, blurRadius: 5)
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Column(
+                                    children: [
+                                      Text("Penghasilan Belum \nJatuh Tempo (Rp)",
+                                          textAlign: TextAlign.center),
+                                      SizedBox(height: 5),
+                                      Text("50.000,00",
+                                          style: TextStyle(fontWeight: FontWeight.bold)),
+                                    ],
+                                  ),
+                                  Container(width: 1, height: 40, color: Colors.grey),
+                                  Column(
+                                    children: [
+                                      Text("Aset Penghasilan (Rp)",
+                                          textAlign: TextAlign.center),
+                                      SizedBox(height: 5),
+                                      Text("2.000.000,00",
+                                          style: TextStyle(fontWeight: FontWeight.bold)),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 10),
+                              Divider(color: Colors.grey),
+                              Row(
+                                children: [
+                                  Icon(Icons.info_outline,
+                                      color: Colors.grey, size: 16),
+                                  SizedBox(width: 5),
+                                  Expanded(
+                                      child: Text(
+                                          "Penghasilan belum jatuh tempo akan cair dalam 2 hari setelah waktu kerja")),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                        child: Text("Edit Profil", style: TextStyle(color: Colors.white)),
-                      ),
-                      SizedBox(height: 20),
-                      // Penghasilan Section
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20),
-                        padding: EdgeInsets.all(15),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5)],
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Column(
-                                  children: [
-                                    Text("Penghasilan Belum \nJatuh Tempo (Rp)", textAlign: TextAlign.center),
-                                    SizedBox(height: 5),
-                                    Text("50.000,00", style: TextStyle(fontWeight: FontWeight.bold)),
-                                  ],
-                                ),
-                                Container(width: 1, height: 40, color: Colors.grey),
-                                Column(
-                                  children: [
-                                    Text("Aset Penghasilan (Rp)", textAlign: TextAlign.center),
-                                    SizedBox(height: 5),
-                                    Text("2.000.000,00", style: TextStyle(fontWeight: FontWeight.bold)),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 10),
-                            Divider(color: Colors.grey),
-                            Row(
-                              children: [
-                                Icon(Icons.info_outline, color: Colors.grey, size: 16),
-                                SizedBox(width: 5),
-                                Expanded(child: Text("Penghasilan belum jatuh tempo akan cair dalam 2 hari setelah waktu kerja")),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      ProfileSection(icon: Icons.work, title: "Pengalaman Kerja", buttonText: "Tambah Pengalaman Kerja"),
-                      ProfileSection(icon: Icons.school, title: "Pendidikan", buttonText: "Tambah Pendidikan"),
-                      ProfileSection(icon: Icons.star, title: "Skill", buttonText: "Tambah Skill"),
-                      ProfileSection(icon: Icons.file_present, title: "CV", buttonText: "Tambah CV"),
-                      ProfileSection(icon: Icons.help_outline, title: "Butuh Bantuan", buttonText: "Tambah Pertanyaan"),
-                      SizedBox(height: 20),
-                    ],
+                        SizedBox(height: 20),
+                        ProfileSection(
+                            icon: Icons.business_center,
+                            title: "Pengalaman Kerja",
+                            buttonText: "Tambah Pengalaman Kerja"),
+                        ProfileSection(
+                            icon: Icons.school,
+                            title: "Pendidikan",
+                            buttonText: "Tambah Pendidikan"),
+                        ProfileSection(
+                            icon: Icons.build,
+                            title: "Skill",
+                            buttonText: "Tambah Skill"),
+                        ProfileSection(
+                            icon: Icons.description,
+                            title: "CV",
+                            buttonText: "Tambah CV"),
+                        ProfileSection(
+                            icon: Icons.help_outline,
+                            title: "Butuh Bantuan",
+                            buttonText: "Tambah Pertanyaan"),
+                        SizedBox(height: 20),
+                      ],
+                    ),
                   ),
                 ),
-                // Foto Profil (Naik ke atas)
                 Positioned(
                   top: 50,
                   child: CircleAvatar(
@@ -118,6 +150,25 @@ class ProfilPage extends StatelessWidget {
                       radius: 46,
                       backgroundImage: AssetImage("assets/profile.jpg"),
                     ),
+                  ),
+                ),
+                Positioned(
+                  top: -20,
+                  left: 20,
+                  child: Image.asset(
+                    "assets/gignego.png",
+                    width: 150,
+                    height: 150,
+                  ),
+                ),
+                Positioned(
+                  top: 30,
+                  right: 20,
+                  child: IconButton(
+                    icon: Icon(Icons.settings, color: const Color(0xFF054DC0)),
+                    onPressed: () {
+                      // Arahkan ke halaman setting nanti
+                    },
                   ),
                 ),
               ],
@@ -134,12 +185,16 @@ class ProfileSection extends StatelessWidget {
   final String title;
   final String buttonText;
 
-  ProfileSection({required this.icon, required this.title, required this.buttonText});
+  const ProfileSection({
+    required this.icon,
+    required this.title,
+    required this.buttonText,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      margin: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -153,7 +208,9 @@ class ProfileSection extends StatelessWidget {
             children: [
               Icon(icon, color: Color(0xFF054DC0)),
               SizedBox(width: 10),
-              Expanded(child: Text(title, style: TextStyle(fontWeight: FontWeight.bold))),
+              Expanded(
+                  child:
+                      Text(title, style: TextStyle(fontWeight: FontWeight.bold))),
               Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
             ],
           ),
@@ -161,7 +218,9 @@ class ProfileSection extends StatelessWidget {
           TextButton.icon(
             onPressed: () {},
             icon: Icon(Icons.add, color: Color(0xFF054DC0)),
-            label: Text(buttonText, style: TextStyle(color: Color(0xFF054DC0), fontWeight: FontWeight.bold)),
+            label: Text(buttonText,
+                style: TextStyle(
+                    color: Color(0xFF054DC0), fontWeight: FontWeight.bold)),
           ),
         ],
       ),
@@ -181,11 +240,56 @@ class BottomNavBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            IconButton(icon: Image.asset("assets/home.png", width: 30, height: 30), onPressed: () {}),
-            IconButton(icon: Image.asset("assets/obrolan.png", width: 30, height: 30), onPressed: () {}),
-            IconButton(icon: Image.asset("assets/aktivitas.png", width: 30, height: 30), onPressed: () {}),
-            IconButton(icon: Image.asset("assets/profil.png", width: 30, height: 30), onPressed: () {}),
+            IconButton(
+                icon: Image.asset("assets/home.png", width: 30, height: 30),
+                onPressed: () {}),
+            IconButton(
+                icon: Image.asset("assets/obrolan.png", width: 30, height: 30),
+                onPressed: () {}),
+            SizedBox(width: 40),
+            IconButton(
+                icon: Image.asset("assets/aktivitas.png", width: 30, height: 30),
+                onPressed: () {}),
+            IconButton(
+                icon: Image.asset("assets/profil.png", width: 30, height: 30),
+                onPressed: () {}),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class CustomFAB extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 70,
+      height: 70,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: SweepGradient(
+          colors: [
+            Color(0xFF2979FF),
+            Color(0xFF80BF80),
+            Color(0xFF15AFFF),
+            Color(0xFF00E5FF),
+            Color(0xFFFF9800),
+            Color(0xFF2979FF),
+          ],
+        ),
+      ),
+      child: Center(
+        child: Container(
+          width: 60,
+          height: 60,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+          ),
+          child: Center(
+            child: Icon(Icons.add, color: Colors.black, size: 30),
+          ),
         ),
       ),
     );
