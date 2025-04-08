@@ -22,12 +22,14 @@
                 <img src="{{ asset('images/logo.png') }}" alt="GIGNEGO Logo" class="h-20 transform -translate-x-9">
             </div>
     
+
             <!-- Nav Menu -->
             <div class="flex items-center space-x-6 text-[16px] font-medium font-[Poppins]">
                 <a href="#" class="text-purple-500">Home</a>
                 <a href="#" class="text-gray-700">Obrolan</a>
                 <a href="#" class="text-gray-700">Status kerja</a>
                 <a href="#" class="text-gray-700">Profil</a>
+                <a href="/profil" class="text-gray-700">Profil</a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
                                 <button type="submit" class="text-gray-700">Logout</button>
@@ -66,7 +68,9 @@
                 Pilih kategori di bawah ini dan dapatkan bantuan dari berbagai pekerja.
             </p>
             
+
         </div>
+<<<<<<< Updated upstream
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 max-w-6xl mx-auto">
            <!-- Card Kebersihan -->
            <div class="flex flex-col md:flex-row justify-between items-center p-6 bg-[#F8F8FB] w-full max-w-5xl mx-auto"
@@ -75,6 +79,18 @@
         border: 1px solid rgba(0, 0, 0, 1);  /* Stroke tipis */
         box-shadow: 0 18px 38px rgba(0, 0, 0, 0.1), 0 8px 15px rgba(0, 0, 0, 0.85); /* Shadow pekat */
      ">
+=======
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-12 mt-10">
+            <!-- Contoh 1 kartu -->
+            <div class="p-10 bg-white rounded-xl border-2 border-gray-300 shadow-[0px_5px_10px_rgba(0,0,0,0.1)] min-h-[260px]">
+                <h3 class="text-2xl font-semibold text-purple-600">Kebersihan</h3>
+                <p class="text-gray-600 mt-4 text-lg">Jasa layanan kebersihan untuk rumah, kantor, dan lainnya.</p>
+                <button class="mt-6 flex items-center text-purple-600 font-semibold text-lg">
+                    <span>Lihat Selengkapnya</span>
+                </button>
+            </div>
+>>>>>>> Stashed changes
 
   <!-- Kiri: Teks -->
   <div class="flex flex-col basis-1/2 gap-4">
@@ -113,6 +129,7 @@
                 </g>
               </svg>
             </div>
+<<<<<<< Updated upstream
             
           </div>
           
@@ -152,6 +169,9 @@
 
           
     
+=======
+
+>>>>>>> Stashed changes
             <div class="p-10 bg-white rounded-xl border-2 border-gray-300 shadow-[0px_5px_10px_rgba(0,0,0,0.1)] min-h-[260px]">
                 <h3 class="text-2xl font-semibold text-purple-600">Perbaikan Kendaraan</h3>
                 <p class="text-gray-600 mt-4 text-lg">Layanan perbaikan mobil dan motor.</p>
@@ -160,6 +180,7 @@
                 </button>
             </div>
                 
+
             <div class="p-10 bg-white rounded-xl border-2 border-gray-300 shadow-[0px_5px_10px_rgba(0,0,0,0.1)] min-h-[260px]">
                 <h3 class="text-2xl font-semibold text-purple-600">Perbaikan Elektronik</h3>
                 <p class="text-gray-600 mt-4 text-lg">Layanan perbaikan Perangkat Elektronik.</p>
@@ -168,6 +189,7 @@
                 </button>
             </div>
                 
+
             <div class="p-10 bg-white rounded-xl border-2 border-gray-300 shadow-[0px_5px_10px_rgba(0,0,0,0.1)] min-h-[260px]">
                 <h3 class="text-2xl font-semibold text-purple-600">Tutor</h3>
                 <p class="text-gray-600 mt-4 text-lg">Layanan les privat dan bimbingan belajar.</p>
@@ -176,6 +198,7 @@
                 </button>
             </div>
     
+
             <div class="p-10 bg-white rounded-xl border-2 border-gray-300 shadow-[0px_5px_10px_rgba(0,0,0,0.1)] min-h-[260px]">
                 <h3 class="text-2xl font-semibold text-purple-600">Rumah Tangga</h3>
                 <p class="text-gray-600 mt-4 text-lg">Layanan asisten rumah tangga dan sejenisnya.</p>

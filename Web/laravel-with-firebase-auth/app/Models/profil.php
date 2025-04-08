@@ -17,6 +17,7 @@ class profil extends Model
         'tanggal_lahir',
         'image',
         'provinsi',
+        'desa',
         'alamat_lengkap',
         'pekerjaan',
     ];

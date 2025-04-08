@@ -32,16 +32,28 @@
         </ul>
 
         <div class="tab-content mt-3" id="profileTabsContent">
-            <div class="tab-pane fade show active" id="posts" role="tabpanel">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <p><strong>Nama:</strong> {{ $profils }} </p>
-                        <p><strong>Email:</strong></p>
-                        <p><strong>Location:</strong> </p>
-                        <p><strong>Joined:</strong></p>
+
+
+
+            @if (!$profils)
+                <div class="tab-pane fade show active" id="posts" role="tabpanel">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            @foreach ($profils as $prof )
+                            <p><strong>Nama:</strong> {{ $prof->username }} </p>
+                            <p><strong>Email:</strong> {{ $prof }} </p>
+                            <p><strong>Location:</strong> {{ $prof }} </p>
+                            <p><strong>Joined:</strong> {{ $prof}} </p>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
-            </div>
+            @else
+                <script>
+                    window.location.href = "{{ route('addprofile') }}";
+                </script>
+            @endif
+            
 
             <div class="tab-pane fade" id="about" role="tabpanel">
                 <div class="card">
