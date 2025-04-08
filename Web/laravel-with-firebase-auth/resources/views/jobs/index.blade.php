@@ -18,6 +18,7 @@
                             <th>Nama Pekerjaan</th>
                             <th>Deskripsi</th>
                             <th>Harga</th>
+                            <th>Email</th>
                             <th>Status</th>
                             <th>Aksi</th>
 
@@ -38,6 +39,7 @@
                                 <td>{{ $job->nama_pekerjaan }}</td>
                                 <td>{{ $job->deskripsi }}</td>
                                 <td>Rp{{ number_format($job->harga_pekerjaan, 0, ',', '.') }}</td>
+                                <td>{{$job->email}}</td>
                                 <td>
                                     @php
                                         $status_classes = [

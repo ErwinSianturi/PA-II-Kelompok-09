@@ -33,3 +33,4 @@ Route::get('/jobs/{id}/delete', [JobsController::class, 'delete']);
 Route::get('/profil', [ProfilController::class, 'index'])->name('profil.index');
 Route::get('/addprofile', [ProfilController::class, 'create'])->name('addprofile');
 Route::post('/addprofile', [ProfilController::class, 'store'])->name('profile.store');
+
