@@ -37,23 +37,26 @@
                 class="hidden md:flex md:items-center w-full md:w-auto mt-4 md:mt-0 space-y-4 md:space-y-0 md:space-x-8 text-lg">
                 <a href="#" class="text-purple-500">Home</a>
                 <a href="#" class="text-gray-700 block hover:text-purple-500">Obrolan</a>
-                <a href="#" class="text-gray-700 block hover:text-purple-500">Status kerja</a>
+                <a href="/jobs" class="text-gray-700 block hover:text-purple-500">Status kerja</a>
                 <a href="/profil" class="text-gray-700 block hover:text-purple-500">Profil</a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                     @csrf
                     <button type="submit" class="text-gray-700 hover:text-purple-500">Logout</button>
                 </form>
 
-                <button
-                    class="relative px-6 py-2 rounded-lg bg-white border border-gray-300 text-black font-medium transition duration-300 overflow-hidden group">
-                    <span
-                        class="relative z-10 bg-clip-text text-black group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:via-lime-400 group-hover:to-orange-500 transition duration-300">
-                        Memberi Pekerjaan
-                    </span>
-                    <span
-                        class="absolute inset-0 rounded-lg pointer-events-none group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:via-lime-400 group-hover:to-orange-500 p-px transition duration-300"></span>
-                    <span class="absolute inset-[2px] rounded-lg bg-white"></span>
-                </button>
+                <a href="/jobs/create">
+                    <button
+                        class="relative px-6 py-2 rounded-lg bg-white border border-gray-300 text-black font-medium transition duration-300 overflow-hidden group">
+                        <span
+                            class="relative z-10 bg-clip-text text-black group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:via-lime-400 group-hover:to-orange-500 transition duration-300">
+                            Memberi Pekerjaan
+                        </span>
+                        <span
+                            class="absolute inset-0 rounded-lg pointer-events-none group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:via-lime-400 group-hover:to-orange-500 p-px transition duration-300"></span>
+                        <span class="absolute inset-[2px] rounded-lg bg-white"></span>
+                    </button>
+                </a>
+
 
 
             </div>
@@ -591,67 +594,75 @@
         </div>
 </section>
 
-  <section id="kategori" class="px-20 py-4">
+<section id="kategori" class="px-20 py-4">
     <div class="flex items-center gap-6">
-      <h2 class="text-4xl text-white bg-purple-600 px-4 py-2 rounded-lg inline-block mt-16 mb-16">
-        Saran Pekerjaan
-      </h2>
-      <p class="text-gray-600 text-lg mt-4 mb-4">
-        Beberapa saran pekerjaan yang tersedia dan yang mungkin<br>
-        valid untuk anda.
-      </p>
+        <h2 class="text-4xl text-white bg-purple-600 px-4 py-2 rounded-lg inline-block mt-16 mb-16">
+            Saran Pekerjaan
+        </h2>
+        <p class="text-gray-600 text-lg mt-4 mb-4">
+            Beberapa saran pekerjaan yang tersedia dan yang mungkin<br>
+            valid untuk anda.
+        </p>
     </div>
-  </section>
-  
-  <!-- saran pekerjaan -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-16 p-6 max-w-7xl mx-auto">
+</section>
+
+<!-- saran pekerjaan -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-16 p-6 max-w-7xl mx-auto">
     <div class="flex flex-col md:flex-row justify-between items-center px-8 py-12 w-[800px] md:w-[1250px] h-auto rounded-[30px] transition transform duration-300 hover:scale-105"
-         style="background-image: linear-gradient(to right, #7321DA, #AD7E80, #3A42D2);">
-  <!-- Kiri: Teks -->
-  <div class="flex flex-col basis-1/2 gap-2">
-    <h3 class="text-white px-4 py-1 rounded-lg text-3xl w-fit font-normal mb-6">Mengecat Rumah</h3>
-    <p class="text-white text-sm">“Suka bekerja di luar ruangan??”
-    <br>
-      kami mencari tenaga pengecatan rumah<br>
-       untuk membantu dalam renovasi</p>
-    
-    <!-- Tombol -->
-    <button class="flex items-center gap-2 mt-4 bg-white text-black font-semibold w-fit px-4 py-2 rounded-lg">
-      Lihat Selengkapnya
-    </button>
-  </div>
-  
-  <!-- Kanan: Ikon -->
-  <div class="flex items-center justify-center basis-1/2">
-    <div class="w-full max-w-[112px] md:max-w-[128px] h-auto">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 299.01 299.01" class="w-full h-auto">
-        <defs>
-          <linearGradient id="kebersihanGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#E325E6" />
-            <stop offset="100%" stop-color="#43AFBB" />
-          </linearGradient>
-        </defs>
-        <g id="XMLID_212_">
-          <g>
-            <g fill="url(#kebersihanGradient)">
-              <path d="M265.79,0H112.151c-4.028,0-7.63,1.853-10.002,4.75c2.605,2.296,4.846,4.99,6.657,7.972h156.985c0.112,0,0.204,0.092,0.204,0.205v140.806c0,0.112-0.092,0.205-0.204,0.205H120.192v12.722H265.79c7.127,0,12.927-5.799,12.927-12.927V12.927C278.717,5.799,272.918,0,265.79,0z"/>
-              <path d="M133.684,138.25l36.08-27.141c5.077-3.819,6.131-10.994,2.409-16.114c1.851-7.6,6.62-27.18,8.396-34.476l27.451,6.685c1.223,0.298,2.456-0.452,2.754-1.675l2.985-12.258c0.298-1.223-0.452-2.456-1.675-2.754l-71.59-17.435c-1.223-0.298-2.456,0.452-2.754,1.675l-2.985,12.258c-0.298,1.223,0.452,2.456,1.675,2.754l27.451,6.685c-0.383,1.573-6.569,26.971-8.943,36.72l-16.737,12.591l-0.081-16.188c-0.076-15.081-12.404-27.365-27.503-27.365c-7.162,0-56.366,0-62.393,0C26.128,62.224,20.78,77.994,20.722,89.577l-0.429,85.382c-0.033,6.419,5.145,11.648,11.563,11.681c0.02,0,0.04,0,0.06,0c6.348,0,11.588-5.141,11.621-11.564l0.429-85.383c0.007-1.238,1.013-2.237,2.25-2.233c1.237,0.003,2.238,1.008,2.238,2.244c0.001,27.769,0.005,182.647,0.005,195.359c0,7.703,6.243,13.946,13.946,13.946c7.691,0,13.946-6.228,13.946-13.946V173.588h6.022v111.475c0,7.68,6.218,13.946,13.946,13.946c7.688,0,13.946-6.227,13.946-13.946c0-182.046-0.247-82.185-0.253-195.357c0-1.341,1.085-2.428,2.425-2.432c1.341-0.004,2.432,1.078,2.439,2.419l0.198,39.327C115.124,138.594,126.093,143.961,133.684,138.25z"/>
-              <polygon points="231.512,23.778 229.738,31.243 222.272,33.017 229.738,34.791 231.512,42.256 233.286,34.791 240.751,33.017 233.286,31.243"/>
-              <polygon points="245.506,58.685 246.791,53.276 252.201,51.99 246.791,50.705 245.506,45.295 244.221,50.705 238.811,51.99 244.221,53.276"/>
-              <polygon points="235.328,69.128 233.799,75.565 227.361,77.095 233.799,78.624 235.328,85.062 236.858,78.624 243.296,77.095 236.858,75.565"/>
-              <path d="M79.52,54.535c13.22,0,24.087-10.717,24.087-24.087c0-13.303-10.784-24.087-24.087-24.087c-13.303,0-24.087,10.784-24.087,24.087C55.433,43.857,66.344,54.535,79.52,54.535z"/>
-            </g>
-          </g>
-        </g>
-      </svg>
+        style="background-image: linear-gradient(to right, #7321DA, #AD7E80, #3A42D2);">
+        <!-- Kiri: Teks -->
+        <div class="flex flex-col basis-1/2 gap-2">
+            <h3 class="text-white px-4 py-1 rounded-lg text-3xl w-fit font-normal mb-6">Mengecat Rumah</h3>
+            <p class="text-white text-sm">“Suka bekerja di luar ruangan??”
+                <br>
+                kami mencari tenaga pengecatan rumah<br>
+                untuk membantu dalam renovasi
+            </p>
+
+            <!-- Tombol -->
+            <button class="flex items-center gap-2 mt-4 bg-white text-black font-semibold w-fit px-4 py-2 rounded-lg">
+                Lihat Selengkapnya
+            </button>
+        </div>
+
+        <!-- Kanan: Ikon -->
+        <div class="flex items-center justify-center basis-1/2">
+            <div class="w-full max-w-[112px] md:max-w-[128px] h-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 299.01 299.01" class="w-full h-auto">
+                    <defs>
+                        <linearGradient id="kebersihanGradient" x1="0%" y1="0%" x2="100%"
+                            y2="100%">
+                            <stop offset="0%" stop-color="#E325E6" />
+                            <stop offset="100%" stop-color="#43AFBB" />
+                        </linearGradient>
+                    </defs>
+                    <g id="XMLID_212_">
+                        <g>
+                            <g fill="url(#kebersihanGradient)">
+                                <path
+                                    d="M265.79,0H112.151c-4.028,0-7.63,1.853-10.002,4.75c2.605,2.296,4.846,4.99,6.657,7.972h156.985c0.112,0,0.204,0.092,0.204,0.205v140.806c0,0.112-0.092,0.205-0.204,0.205H120.192v12.722H265.79c7.127,0,12.927-5.799,12.927-12.927V12.927C278.717,5.799,272.918,0,265.79,0z" />
+                                <path
+                                    d="M133.684,138.25l36.08-27.141c5.077-3.819,6.131-10.994,2.409-16.114c1.851-7.6,6.62-27.18,8.396-34.476l27.451,6.685c1.223,0.298,2.456-0.452,2.754-1.675l2.985-12.258c0.298-1.223-0.452-2.456-1.675-2.754l-71.59-17.435c-1.223-0.298-2.456,0.452-2.754,1.675l-2.985,12.258c-0.298,1.223,0.452,2.456,1.675,2.754l27.451,6.685c-0.383,1.573-6.569,26.971-8.943,36.72l-16.737,12.591l-0.081-16.188c-0.076-15.081-12.404-27.365-27.503-27.365c-7.162,0-56.366,0-62.393,0C26.128,62.224,20.78,77.994,20.722,89.577l-0.429,85.382c-0.033,6.419,5.145,11.648,11.563,11.681c0.02,0,0.04,0,0.06,0c6.348,0,11.588-5.141,11.621-11.564l0.429-85.383c0.007-1.238,1.013-2.237,2.25-2.233c1.237,0.003,2.238,1.008,2.238,2.244c0.001,27.769,0.005,182.647,0.005,195.359c0,7.703,6.243,13.946,13.946,13.946c7.691,0,13.946-6.228,13.946-13.946V173.588h6.022v111.475c0,7.68,6.218,13.946,13.946,13.946c7.688,0,13.946-6.227,13.946-13.946c0-182.046-0.247-82.185-0.253-195.357c0-1.341,1.085-2.428,2.425-2.432c1.341-0.004,2.432,1.078,2.439,2.419l0.198,39.327C115.124,138.594,126.093,143.961,133.684,138.25z" />
+                                <polygon
+                                    points="231.512,23.778 229.738,31.243 222.272,33.017 229.738,34.791 231.512,42.256 233.286,34.791 240.751,33.017 233.286,31.243" />
+                                <polygon
+                                    points="245.506,58.685 246.791,53.276 252.201,51.99 246.791,50.705 245.506,45.295 244.221,50.705 238.811,51.99 244.221,53.276" />
+                                <polygon
+                                    points="235.328,69.128 233.799,75.565 227.361,77.095 233.799,78.624 235.328,85.062 236.858,78.624 243.296,77.095 236.858,75.565" />
+                                <path
+                                    d="M79.52,54.535c13.22,0,24.087-10.717,24.087-24.087c0-13.303-10.784-24.087-24.087-24.087c-13.303,0-24.087,10.784-24.087,24.087C55.433,43.857,66.344,54.535,79.52,54.535z" />
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
 
-  
 
 
-</body>
+
+    </body>
 
 </html>
