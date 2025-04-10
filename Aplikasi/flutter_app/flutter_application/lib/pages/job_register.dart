@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/pages/form_validasi.dart'; // pastikan ini sesuai path-mu
+import 'package:flutter_application/pages/form_validasi.dart';
 
 class JobRegisterPage extends StatefulWidget {
   const JobRegisterPage({super.key});
@@ -54,16 +54,19 @@ class _JobRegisterPageState extends State<JobRegisterPage> {
       return;
     }
 
+    // Tampilkan notifikasi berhasil
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Form disubmit!")),
+      const SnackBar(
+        content: Text("Form disubmit!..."),
+        backgroundColor: Colors.green,
+      ),
     );
 
-    Future.delayed(const Duration(seconds: 1), () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => const FormValidasiPage()),
-      );
-    });
+    // Pindah ke halaman validasi
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const FormValidasiPage()),
+    );
   }
 
   @override

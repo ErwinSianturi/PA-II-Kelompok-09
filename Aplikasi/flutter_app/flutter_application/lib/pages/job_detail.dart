@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/pages/job_register.dart'; 
 
-class JobDeskripPage extends StatelessWidget {
-  const JobDeskripPage({super.key});
+class JobDetailPage extends StatelessWidget {
+  const JobDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +24,8 @@ class JobDeskripPage extends StatelessWidget {
                 context: context,
                 label: 'Lakukan Negosiasi',
                 isPrimary: true,
-                onPressed: () {
-                },
+                icon: Icons.lock, 
+                onPressed: () {},
               ),
             ),
             const SizedBox(width: 10),
@@ -35,14 +34,8 @@ class JobDeskripPage extends StatelessWidget {
                 context: context,
                 label: 'Daftar Sekarang',
                 isPrimary: true,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const JobRegisterPage(),
-                    ),
-                  );
-                },
+                icon: Icons.lock,
+                onPressed: () {},
               ),
             ),
           ],
@@ -165,12 +158,14 @@ class JobDeskripPage extends StatelessWidget {
     required String label,
     required bool isPrimary,
     required VoidCallback onPressed,
+    IconData? icon,
   }) {
-    return ElevatedButton(
+    return ElevatedButton.icon(
       onPressed: onPressed,
-      child: Text(label),
+      icon: Icon(icon ?? Icons.lock, color: Colors.white),
+      label: Text(label),
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.purple, // warna ungu
+        backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(vertical: 14),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

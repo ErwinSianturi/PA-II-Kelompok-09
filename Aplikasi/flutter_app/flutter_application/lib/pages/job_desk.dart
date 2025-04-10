@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/pages/job_register.dart'; 
 
 class JobDeskPage extends StatelessWidget {
   const JobDeskPage({super.key});
@@ -23,8 +24,9 @@ class JobDeskPage extends StatelessWidget {
               child: buildButton(
                 context: context,
                 label: 'Lakukan Negosiasi',
-                isPrimary: false,
-                onPressed: () {},
+                isPrimary: true,
+                onPressed: () {
+                },
               ),
             ),
             const SizedBox(width: 10),
@@ -33,7 +35,14 @@ class JobDeskPage extends StatelessWidget {
                 context: context,
                 label: 'Daftar Sekarang',
                 isPrimary: true,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const JobRegisterPage(),
+                    ),
+                  );
+                },
               ),
             ),
           ],
@@ -55,7 +64,7 @@ class JobDeskPage extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             const Text(
-              'Kebersihan\nMencuci Kendaraan',
+              'Kebersihan\nMembersihkan Property Rumah',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 4),
@@ -104,7 +113,7 @@ class JobDeskPage extends StatelessWidget {
                     ),
                   ),
                   TextSpan(
-                    text: '09.00 WIB',
+                    text: '10.00 WIB',
                     style: TextStyle(color: Colors.black),
                   ),
                 ],
@@ -112,7 +121,7 @@ class JobDeskPage extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             const Text(
-              'Rp 50.000,00',
+              'Rp 250.000,00',
               style: TextStyle(color: Colors.green, fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const Divider(height: 24),
@@ -122,7 +131,7 @@ class JobDeskPage extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             const Text(
-              'Mencuci mobil dengan teliti untuk menghilangkan debu, kotoran, dan noda, serta menjaga tampilan kendaraan tetap bersih dan terawat. Cocok untuk yang detail, cekatan, dan memiliki ketelitian dalam membersihkan setiap bagian mobil.',
+              'Membersihkan bagian dalam dan luar rumah, termasuk menyapu, mengepel, mengelap perabot, dan merapikan ruangan agar tetap bersih dan nyaman. Cocok untuk yang teliti, cekatan, dan memiliki keterampilan dalam pekerjaan kebersihan.',
             ),
             const SizedBox(height: 16),
             const Text(
@@ -130,11 +139,11 @@ class JobDeskPage extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
             const SizedBox(height: 4),
-            const Text('1. Membersihkan mobil dari debu, lumpur, dan kotoran menggunakan sabun khusus dan peralatan yang sesuai.'),
-            const Text('2. Merawat eksterior kendaraan, termasuk pencucian bodi, kaca, velg, dan ban. Tidak termasuk perbaikan cat atau detailing mendalam.'),
-            const Text('3. Memiliki pengalaman dalam mencuci atau merawat kendaraan (lebih disukai).'),
-            const Text('4. Mampu bekerja di luar ruangan dalam berbagai kondisi cuaca.'),
-            const Text('5. Disiplin, teliti, dan memiliki etos kerja yang baik.'),
+            const Text('1. Melakukan pembersihan menyeluruh pada lantai, perabot, jendela, dan area lainnya sesuai permintaan.'),
+            const Text('2. Menangani tugas seperti menyapu, mengepel, mengelap debu, dan merapikan barang. Tidak termasuk perbaikan atau renovasi.'),
+            const Text('3. Memiliki pengalaman dalam pekerjaan kebersihan (lebih disukai).'),
+            const Text('4. Mampu bekerja secara mandiri atau dalam tim serta menyesuaikan dengan kebutuhan pelanggan.'),
+            const Text('5. Disiplin, rajin, dan memiliki etos kerja yang baik.'),
             const SizedBox(height: 16),
             const Text(
               'Lingkup Pekerjaan',
@@ -158,15 +167,14 @@ class JobDeskPage extends StatelessWidget {
   }) {
     return ElevatedButton(
       onPressed: onPressed,
+      child: Text(label),
       style: ElevatedButton.styleFrom(
-        backgroundColor: isPrimary ? Colors.purple : Colors.white,
-        foregroundColor: isPrimary ? Colors.white : Colors.purple,
-        side: const BorderSide(color: Colors.purple),
+        backgroundColor: Colors.purple, 
+        foregroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(vertical: 14),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         textStyle: const TextStyle(fontWeight: FontWeight.bold),
       ),
-      child: Text(label),
     );
   }
 }

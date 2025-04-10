@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/component/job_card.dart';
-import 'package:flutter_application/component/tab_filter.dart';
 import 'package:flutter_application/component/job_selector.dart';
+import 'package:flutter_application/pages/job_detail.dart'; 
 
 class ProcessJobsPage extends StatelessWidget {
   const ProcessJobsPage({super.key});
@@ -13,7 +13,10 @@ class ProcessJobsPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: const Icon(Icons.arrow_back, color: Colors.black),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.pop(context),
+        ),
         centerTitle: true,
         title: const Text(
           'Pekerjaan Dalam Proses',
@@ -26,11 +29,9 @@ class ProcessJobsPage extends StatelessWidget {
           children: [
             const DateSelector(),
             const SizedBox(height: 16),
-            const TabFilter(),
-            const SizedBox(height: 16),
             Expanded(
               child: ListView(
-                children: const [
+                children: [
                   JobCard(
                     title: 'Mencuci Kendaraan',
                     description: 'Dibutuhkan tenaga untuk mencuci mobil saya...',
@@ -38,6 +39,12 @@ class ProcessJobsPage extends StatelessWidget {
                     status: 'Dalam Proses',
                     color: Colors.orange,
                     icon: Icons.directions_car,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const JobDetailPage()),
+                      );
+                    },
                   ),
                 ],
               ),

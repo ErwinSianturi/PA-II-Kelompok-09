@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/component/job_card.dart';
-import 'package:flutter_application/component/tab_filter.dart';
 import 'package:flutter_application/component/job_selector.dart';
-
+import 'package:flutter_application/pages/job_deskrip.dart'; 
+import 'package:flutter_application/pages/job_desk.dart';
 
 class AvailableJobsPage extends StatelessWidget {
   const AvailableJobsPage({super.key});
@@ -14,7 +14,10 @@ class AvailableJobsPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: const Icon(Icons.arrow_back, color: Colors.black),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.pop(context),
+        ),
         centerTitle: true,
         title: const Text(
           'Pekerjaan Tersedia',
@@ -27,11 +30,9 @@ class AvailableJobsPage extends StatelessWidget {
           children: [
             const DateSelector(),
             const SizedBox(height: 16),
-            const TabFilter(),
-            const SizedBox(height: 16),
             Expanded(
               child: ListView(
-                children: const [
+                children: [
                   JobCard(
                     title: 'Membersihkan Pekarangan Rumah',
                     description: 'Dibutuhkan tenaga untuk membersihkan pekarangan rumah...',
@@ -39,6 +40,12 @@ class AvailableJobsPage extends StatelessWidget {
                     status: 'Tersedia',
                     color: Colors.purple,
                     icon: Icons.cleaning_services,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const JobDeskripPage()),
+                      );
+                    },
                   ),
                   JobCard(
                     title: 'Membersihkan Properti Rumah',
@@ -47,6 +54,12 @@ class AvailableJobsPage extends StatelessWidget {
                     status: 'Tersedia',
                     color: Colors.purple,
                     icon: Icons.home,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const JobDeskPage()),
+                      );
+                    },
                   ),
                 ],
               ),

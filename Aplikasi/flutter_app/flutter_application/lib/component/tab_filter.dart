@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../pages/available_jobs_page.dart';
 import '../pages/process_jobs_page.dart';
 import '../pages/all_jobs_page.dart';
+import '../pages/job_list_page.dart'; 
 
 class TabFilter extends StatefulWidget {
   const TabFilter({super.key});
@@ -18,23 +19,33 @@ class _TabFilterState extends State<TabFilter> {
       selectedStatus = status;
     });
 
-    if (status == "Tersedia") {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const AvailableJobsPage()),
-      );
-    } else if (status == "Dalam Proses") {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const ProcessJobsPage()),
-      );
-    } else if (status == "Selesai") {
-      Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const AllJobsPage()),
-      );
+    // Navigasi ke halaman sesuai status
+    switch (status) {
+      case "Semua":
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const JobListPage()),
+        );
+        break;
+      case "Tersedia":
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const AvailableJobsPage()),
+        );
+        break;
+      case "Dalam Proses":
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ProcessJobsPage()),
+        );
+        break;
+      case "Selesai":
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const AllJobsPage()),
+        );
+        break;
     }
-    
   }
 
   @override
@@ -66,20 +77,6 @@ class _TabFilterState extends State<TabFilter> {
             label: const Text("Selesai"),
             selected: selectedStatus == "Selesai",
             onSelected: (_) => _onChipTap("Selesai"),
-          ),
-          const SizedBox(width: 16),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              shape: const CircleBorder(),
-              padding: const EdgeInsets.all(12),
-              backgroundColor: Theme.of(context).primaryColor,
-            ),
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Filter "$selectedStatus" dipilih')),
-              );
-            },
-            child: const Icon(Icons.check, color: Colors.white),
           ),
         ],
       ),

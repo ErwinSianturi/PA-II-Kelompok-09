@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/pages/job_register.dart'; 
+import 'package:flutter_application/pages/all_jobs_page.dart';
 
-class JobDeskripPage extends StatelessWidget {
-  const JobDeskripPage({super.key});
+class JobDonePage extends StatelessWidget {
+  const JobDonePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +25,7 @@ class JobDeskripPage extends StatelessWidget {
                 context: context,
                 label: 'Lakukan Negosiasi',
                 isPrimary: true,
-                onPressed: () {
-                },
+                onPressed: () {},
               ),
             ),
             const SizedBox(width: 10),
@@ -34,12 +33,12 @@ class JobDeskripPage extends StatelessWidget {
               child: buildButton(
                 context: context,
                 label: 'Daftar Sekarang',
-                isPrimary: true,
+                isPrimary: false, // ini akan membuat tombol pudar
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const JobRegisterPage(),
+                      builder: (context) => const AllJobsPage(),
                     ),
                   );
                 },
@@ -64,7 +63,7 @@ class JobDeskripPage extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             const Text(
-              'Kebersihan\nMembersihkan Pekarangan Rumah',
+              'Kebersihan\nSofa Cleaning',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 4),
@@ -113,7 +112,7 @@ class JobDeskripPage extends StatelessWidget {
                     ),
                   ),
                   TextSpan(
-                    text: '09.00 WIB',
+                    text: '12.00 WIB',
                     style: TextStyle(color: Colors.black),
                   ),
                 ],
@@ -121,7 +120,7 @@ class JobDeskripPage extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             const Text(
-              'Rp 100.000,00',
+              'Rp 70.000,00',
               style: TextStyle(color: Colors.green, fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const Divider(height: 24),
@@ -131,7 +130,7 @@ class JobDeskripPage extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             const Text(
-              'Membersihkan halaman rumah dari sampah, dedaunan, dan kotoran, serta merapikan taman agar lebih rapi dan nyaman. Cocok untuk yang teliti, cekatan, dan dapat bekerja di luar ruangan.',
+              'Membersihkan sofa dari debu, noda, dan kotoran menggunakan metode khusus agar kembali bersih, segar, dan bebas dari bakteri. Cocok untuk yang menginginkan perawatan maksimal pada perabot rumah tangga.',
             ),
             const SizedBox(height: 16),
             const Text(
@@ -139,12 +138,11 @@ class JobDeskripPage extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
             const SizedBox(height: 4),
-            const Text('1. Membersihkan sampah, dedaunan, dan kotoran di halaman rumah.'),
-            const Text('2. Merapikan taman, termasuk penyiraman dan pemangkasan ringan.'),
-            const Text('3. Tidak termasuk jasa penebangan pohon atau pekerjaan konstruksi.'),
-            const Text('4. Memiliki pengalaman dalam pekerjaan kebersihan (lebih disukai).'),
-            const Text('5. Mampu bekerja di luar ruangan dalam berbagai kondisi cuaca.'),
-            const Text('6. Disiplin, rajin, dan memiliki etos kerja yang baik.'),
+            const Text('1. Pembersihan dilakukan dengan metode vakum, shampooing, atau steam cleaning sesuai jenis bahan sofa.'),
+            const Text('2. Tidak termasuk perbaikan atau penggantian kain/struktur sofa.'),
+            const Text('3. Memiliki pengalaman dalam pekerjaan kebersihan (lebih disukai).'),
+            const Text('4. Mampu bekerja dengan teliti dan hati-hati untuk menjaga kualitas bahan sofa.'),
+            const Text('5. Disiplin, rajin, dan memiliki etos kerja yang baik.'),
             const SizedBox(height: 16),
             const Text(
               'Lingkup Pekerjaan',
@@ -170,8 +168,11 @@ class JobDeskripPage extends StatelessWidget {
       onPressed: onPressed,
       child: Text(label),
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.purple, // warna ungu
+        backgroundColor: isPrimary
+            ? Colors.purple.withOpacity(0.6)
+            : Colors.purple.withOpacity(0.6), 
         foregroundColor: Colors.white,
+        elevation: 0,
         padding: const EdgeInsets.symmetric(vertical: 14),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         textStyle: const TextStyle(fontWeight: FontWeight.bold),
