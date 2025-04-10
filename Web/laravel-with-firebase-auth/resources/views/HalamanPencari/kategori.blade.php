@@ -3,8 +3,8 @@
 @section('content')
     <div class="container py-4">
         @if (Auth::check())
-            <h3>Hi, {{ Auth::user()->email }}!</h3>
-            <h4>Berikut daftar pekerjaan yang kamu posting</h4>
+            <h3>Hi, {{ Auth::user()->email }}! </h3>
+            <h3>Semoga mendapat yang sesuai</h3>
         @endif
 
         <a href="{{ url('jobs/create') }}" class="btn btn-primary mb-3">Tambah Pekerjaan</a>

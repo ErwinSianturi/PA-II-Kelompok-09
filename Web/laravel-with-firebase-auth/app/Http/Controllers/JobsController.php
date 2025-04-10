@@ -28,6 +28,7 @@ class JobsController extends Controller
             'harga_pekerjaan' => 'required|numeric',
             'deskripsi' => 'required|string',
             'status_pekerjaan' => 'required',
+            'jenis_pekerjaan' => 'required|string', // Add validation for jenis_pekerjaan
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
@@ -46,11 +47,13 @@ class JobsController extends Controller
             'harga_pekerjaan' => $request->harga_pekerjaan,
             'deskripsi' => $request->deskripsi,
             'status_pekerjaan' => $request->status_pekerjaan,
+            'jenis_pekerjaan' => $request->jenis_pekerjaan, // Save jenis_pekerjaan
             'image' => $imagePath,
         ]);
 
         return redirect('jobs')->with('status', 'Job posted successfully!');
     }
+
 
     public function edit(int $id)
     {
@@ -61,25 +64,38 @@ class JobsController extends Controller
 
     public function update(Request $request, int $id)
     {
-
         $validated = $request->validate([
             'nama_pekerjaan' => 'required|string',
             'email' => 'required|email',
             'harga_pekerjaan' => 'required|numeric',
             'deskripsi' => 'required|string',
-            'status_pekerjaan' => 'required'
-
+            'status_pekerjaan' => 'required',
+            'jenis_pekerjaan' => 'required|string', // Add validation for jenis_pekerjaan
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
-        JobPosting::findOrFail($id)->update([
+
+        $job = JobPosting::findOrFail($id);
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('JobPost'), $filename);
+            $imagePath = 'JobPost/' . $filename; // Save relative path
+            $job->image = $imagePath; // Update image path
+        }
+
+        $job->update([
             'nama_pekerjaan' => $request->nama_pekerjaan,
             'email' => $request->email,
             'harga_pekerjaan' => $request->harga_pekerjaan,
             'deskripsi' => $request->deskripsi,
             'status_pekerjaan' => $request->status_pekerjaan,
-            
+            'jenis_pekerjaan' => $request->jenis_pekerjaan, // Update jenis_pekerjaan
         ]);
-        return redirect('jobs')->with('status', 'jobs update');
+
+        return redirect('jobs')->with('status', 'Job updated successfully!');
     }
+
     public function delete(int $id)
     {
         $jobs = JobPosting::findOrFail($id);

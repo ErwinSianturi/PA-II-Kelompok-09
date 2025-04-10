@@ -15,7 +15,7 @@ class ProfilController extends Controller
         $profils = Profil::where('email', Auth::user()->email)->get();
 
         // If no profile exists, redirect to add profile page
-        if (!$profils) {
+        if ($profils->isEmpty()) {
             return redirect()->route('addprofile');
         }
 

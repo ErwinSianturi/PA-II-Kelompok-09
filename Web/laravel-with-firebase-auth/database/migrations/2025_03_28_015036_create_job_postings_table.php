@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('harga_pekerjaan', 10, 2);
             $table->text('deskripsi');
             $table->enum('status_pekerjaan', ['Tersedia', 'Dalam Proses','Selesai'])->default('Tersedia');
+            $table->enum('jenis_pekerjaan', ['Kebersihan', 'Perbaikan Rumah','Perbaikan Kendaraan','Perbaikan Elektronik', 'Tutor', 'Rumah Tangga', 'Fotografi & videografi', 'Lainnya'])->default('Lainnya');
             $table->string('image')->nullable();
             $table->timestamps();
         });

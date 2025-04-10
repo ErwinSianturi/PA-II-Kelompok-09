@@ -15,6 +15,7 @@ class JobPosting extends Model
         'harga_pekerjaan',
         'deskripsi',
         'status_pekerjaan',
+        'jenis_pekerjaan',
         'image'
     ];
 }
