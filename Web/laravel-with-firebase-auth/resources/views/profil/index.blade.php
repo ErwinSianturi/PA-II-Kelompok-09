@@ -1,21 +1,27 @@
-@extends('layouts.app') {{-- assuming you're using a layout --}}
+@extends('layouts.app')
 
 @section('content')
-    <div class="container mt-4">
+<div class="container mt-4">
+
+    @php
+        $profile = $profils->firstWhere('email', Auth::user()->email);
+    @endphp
+
+    @if (!$profile)
+        <script>window.location.href = "{{ route('addprofile') }}";</script>
+    @else
         <div class="card">
             <div class="card-body d-flex align-items-center">
-                <img src="{{ asset('images/profile.jpg') }}" class="rounded-circle me-3" width="100" height="100"
+                <img src="{{ asset($profile->image) }}" class="rounded-circle me-3" width="100" height="100"
                     alt="Profile Picture">
                 <div>
-                    <h4 class="card-title mb-0"></h4>
-                    @if (Auth::check())
-                        <p class="text-muted">{{ Auth::user()->email }}</p>
-                    @endif
-
+                    <h4 class="card-title mb-0">{{ $profile->username }}</h4>
+                    <p class="text-muted">{{ $profile->email }}</p>
                 </div>
             </div>
         </div>
 
+        <!-- Tabs -->
         <ul class="nav nav-tabs mt-4" id="profileTabs" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="posts-tab" data-bs-toggle="tab" data-bs-target="#posts" type="button"
@@ -31,18 +37,23 @@
             </li>
         </ul>
 
+        <!-- Tab Contents -->
         <div class="tab-content mt-3" id="profileTabsContent">
+
+            <!-- About Me Tab -->
             <div class="tab-pane fade show active" id="posts" role="tabpanel">
                 <div class="card mb-3">
                     <div class="card-body">
-                        <p><strong>Nama:</strong> {{ $profils }} </p>
-                        <p><strong>Email:</strong></p>
-                        <p><strong>Location:</strong> </p>
-                        <p><strong>Joined:</strong></p>
+                        <p><strong>Nama:</strong> {{ $profile->username }}</p>
+                        <p><strong>Email:</strong> {{ $profile->email }}</p>
+                        <p><strong>Location:</strong> {{ $profile->provinsi }}, {{ $profile->desa }}</p>
+                        <p><strong>Alamat:</strong> {{ $profile->alamat_lengkap }}</p>
+                        <p><strong>Joined:</strong> {{ $profile->created_at->format('d M Y') }}</p>
                     </div>
                 </div>
             </div>
 
+            <!-- About Tab -->
             <div class="tab-pane fade" id="about" role="tabpanel">
                 <div class="card">
                     <div class="card-body">
@@ -53,6 +64,7 @@
                 </div>
             </div>
 
+            <!-- Friends Tab -->
             <div class="tab-pane fade" id="friends" role="tabpanel">
                 <div class="row">
                     <div class="col-md-4 mb-3">
@@ -64,9 +76,11 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Repeat friend cards as needed -->
+                    <!-- Add more friends here if needed -->
                 </div>
             </div>
+
         </div>
-    </div>
+    @endif
+</div>
 @endsection
