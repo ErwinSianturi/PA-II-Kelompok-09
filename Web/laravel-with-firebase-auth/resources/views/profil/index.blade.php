@@ -8,12 +8,13 @@
     @endphp
 
     @if (!$profile)
+        <!-- If the profile doesn't exist, Laravel handles the redirection -->
         <script>window.location.href = "{{ route('addprofile') }}";</script>
     @else
         <div class="card">
             <div class="card-body d-flex align-items-center">
-                <img src="{{ asset($profile->image) }}" class="rounded-circle me-3" width="100" height="100"
-                    alt="Profile Picture">
+                <!-- Fallback image if profile image is not set -->
+                <img src="{{ asset($profile->image ?? 'images/default-avatar.jpg') }}" class="rounded-circle me-3" width="100" height="100" alt="Profile Picture">
                 <div>
                     <h4 class="card-title mb-0">{{ $profile->username }}</h4>
                     <p class="text-muted">{{ $profile->email }}</p>
@@ -24,22 +25,18 @@
         <!-- Tabs -->
         <ul class="nav nav-tabs mt-4" id="profileTabs" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="posts-tab" data-bs-toggle="tab" data-bs-target="#posts" type="button"
-                    role="tab">About Me</button>
+                <button class="nav-link active" id="posts-tab" data-bs-toggle="tab" data-bs-target="#posts" type="button" role="tab">About Me</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="about-tab" data-bs-toggle="tab" data-bs-target="#about" type="button"
-                    role="tab">About</button>
+                <button class="nav-link" id="about-tab" data-bs-toggle="tab" data-bs-target="#about" type="button" role="tab">About</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="friends-tab" data-bs-toggle="tab" data-bs-target="#friends" type="button"
-                    role="tab">Friends</button>
+                <button class="nav-link" id="friends-tab" data-bs-toggle="tab" data-bs-target="#friends" type="button" role="tab">Friends</button>
             </li>
         </ul>
 
         <!-- Tab Contents -->
         <div class="tab-content mt-3" id="profileTabsContent">
-
             <!-- About Me Tab -->
             <div class="tab-pane fade show active" id="posts" role="tabpanel">
                 <div class="card mb-3">
@@ -49,6 +46,7 @@
                         <p><strong>Location:</strong> {{ $profile->provinsi }}, {{ $profile->desa }}</p>
                         <p><strong>Alamat:</strong> {{ $profile->alamat_lengkap }}</p>
                         <p><strong>Joined:</strong> {{ $profile->created_at->format('d M Y') }}</p>
+                        <a href="{{ url('profil/' . $profile->id . '/edit') }}" class="btn btn-sm btn-warning">Edit</a>
                     </div>
                 </div>
             </div>
@@ -70,8 +68,7 @@
                     <div class="col-md-4 mb-3">
                         <div class="card">
                             <div class="card-body text-center">
-                                <img src="{{ asset('images/friend1.jpg') }}" class="rounded-circle mb-2" width="60"
-                                    height="60" alt="Friend 1">
+                                <img src="{{ asset('images/friend1.jpg') }}" class="rounded-circle mb-2" width="60" height="60" alt="Friend 1">
                                 <h6 class="card-title">Jane Smith</h6>
                             </div>
                         </div>

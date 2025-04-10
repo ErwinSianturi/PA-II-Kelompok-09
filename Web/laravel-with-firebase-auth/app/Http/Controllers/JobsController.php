@@ -11,7 +11,7 @@ class JobsController extends Controller
 {
     public function index()
     {
-        $jobs = JobPosting::where('email', Auth::user()->email)->get(); 
+        $jobs = JobPosting::where('email', Auth::user()->email)->get();
 
         return view('jobs.index', compact('jobs'));
     }
@@ -61,6 +61,7 @@ class JobsController extends Controller
 
     public function update(Request $request, int $id)
     {
+
         $validated = $request->validate([
             'nama_pekerjaan' => 'required|string',
             'email' => 'required|email',
@@ -75,6 +76,7 @@ class JobsController extends Controller
             'harga_pekerjaan' => $request->harga_pekerjaan,
             'deskripsi' => $request->deskripsi,
             'status_pekerjaan' => $request->status_pekerjaan,
+            
         ]);
         return redirect('jobs')->with('status', 'jobs update');
     }

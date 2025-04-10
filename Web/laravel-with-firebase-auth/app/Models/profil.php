@@ -12,7 +12,7 @@ class profil extends Model
     protected $fillable = [
         'email',
         'username',
-        'foto profil',
+        'image',
         'jenis_kelamin',
         'tanggal_lahir',
         'image',
