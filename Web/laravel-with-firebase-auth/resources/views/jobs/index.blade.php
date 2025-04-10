@@ -14,24 +14,39 @@
                 <table class="table table-striped table-bordered">
                     <thead class="thead-dark">
                         <tr>
-                            <th>Gambar</th>
+                            <th>Gambar 1</th>
+                            <th>Gambar 2</th>
+                            <th>Gambar 3</th>
                             <th>Nama Pekerjaan</th>
                             <th>Deskripsi</th>
                             <th>Harga</th>
                             <th>Email</th>
                             <th>Status</th>
                             <th>Jenis Pekerjaan</th>
+                            <th>Waktu</th> <!-- New column for time -->
                             <th>Aksi</th>
-
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($jobs as $job)
                             <tr>
                                 <td>
-                                    @if ($job->image)
-                                        <img src="{{ asset($job->image) }}" width="100" height="100"
-                                        style="object-fit: cover;">
+                                    @if ($job->image1)
+                                        <img src="{{ asset($job->image1) }}" width="100" height="100" style="object-fit: cover;">
+                                    @else
+                                        <span class="text-muted">No Image</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($job->image2)
+                                        <img src="{{ asset($job->image2) }}" width="100" height="100" style="object-fit: cover;">
+                                    @else
+                                        <span class="text-muted">No Image</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($job->image3)
+                                        <img src="{{ asset($job->image3) }}" width="100" height="100" style="object-fit: cover;">
                                     @else
                                         <span class="text-muted">No Image</span>
                                     @endif
@@ -40,7 +55,7 @@
                                 <td>{{ $job->nama_pekerjaan }}</td>
                                 <td>{{ $job->deskripsi }}</td>
                                 <td>Rp{{ number_format($job->harga_pekerjaan, 0, ',', '.') }}</td>
-                                <td>{{$job->email}}</td>
+                                <td>{{ $job->email }}</td>
                                 <td>
                                     @php
                                         $status_classes = [
@@ -53,12 +68,16 @@
                                         {{ ucfirst($job->status_pekerjaan) }}
                                     </span>
                                 </td>
-                                <td>{{$job->jenis_pekerjaan}}</td>
+                                <td>{{ $job->jenis_pekerjaan }}</td>
+
+                                <!-- New Time Column -->
                                 <td>
-                                    <a href="{{ url('jobs/' . $job->id . '/edit') }}"
-                                        class="btn btn-sm btn-warning">Edit</a>
-                                    <a href="{{ url('jobs/' . $job->id . '/delete') }}"
-                                        class="btn btn-sm btn-danger">Delete</a>
+                                    {{ $job->time }}
+                                </td>
+
+                                <td>
+                                    <a href="{{ url('jobs/' . $job->id . '/edit') }}" class="btn btn-sm btn-warning">Edit</a>
+                                    <a href="{{ url('jobs/' . $job->id . '/delete') }}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this job?')">Delete</a>
                                 </td>
                             </tr>
                         @endforeach

@@ -2,7 +2,6 @@
 
 @section('content')
     <div class="container">
-
         <h2>Tambah Pekerjaan</h2>
         <form action="{{ url('jobs/create') }}" method="POST" enctype="multipart/form-data" id="jobForm">
             @csrf
@@ -10,42 +9,76 @@
                 <label>Nama Pekerjaan</label>
                 <input type="text" name="nama_pekerjaan" class="form-control" required>
             </div>
+
             <div class="mb-3" style="display: none">
                 <label>Email</label>
-                <input type="email" name="email" class="form-control" value="{{ Auth::user()->email }}" readonly required>
+                <input type="email" name="email" class="form-control" value="{{ Auth::user()->email }}" readonly
+                    required>
             </div>
+
             <div class="mb-3">
                 <label>Harga Pekerjaan</label>
-                <input type="text" id="harga_pekerjaan" name="harga_pekerjaan" class="form-control" required oninput="formatHarga(this)">
+                <input type="text" id="harga_pekerjaan" name="harga_pekerjaan" class="form-control" required
+                    oninput="formatHarga(this)" onblur="validateHarga(this)">
+                <small id="hargaErrorMessage" class="form-text text-danger" style="display: none;">Harga harus antara 20.000
+                    dan 2.000.000.</small>
             </div>
 
             <script>
-                // Fungsi untuk memformat input agar tampil seperti Rp. 100.000.000
+                // Format the number with commas and the "Rp." prefix
                 function formatHarga(input) {
-                    let value = input.value.replace(/[^0-9]/g, ''); // Hapus semua karakter non-angka
+                    let value = input.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
                     if (value) {
-                        value = parseInt(value).toLocaleString(); // Format angka dengan pemisah ribuan
-                        input.value = 'Rp. ' + value; // Tambahkan prefix "Rp."
+                        value = parseInt(value).toLocaleString(); // Format with commas
+                        input.value = 'Rp. ' + value; // Add "Rp." prefix
                     }
                 }
 
-                // Fungsi untuk menghapus simbol "Rp." dan mengembalikan angka murni saat form disubmit
-                function cleanHarga() {
-                    let input = document.getElementById('harga_pekerjaan');
-                    let value = input.value.replace(/[^0-9]/g, ''); // Hapus simbol mata uang dan format lain
-                    input.value = value; // Set nilai input menjadi angka saja
+                // Validate the price to ensure it is within the allowed range
+                function validateHarga(input) {
+                    let value = input.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+
+                    const min = 20000;
+                    const max = 2000000;
+                    const errorMessage = document.getElementById('hargaErrorMessage');
+
+                    if (value < min || value > max || value === "") {
+                        errorMessage.style.display = 'block'; // Show error message if out of range
+                        input.value = ''; // Clear the input field if the value is out of range
+                    } else {
+                        errorMessage.style.display = 'none'; // Hide the error message if within range
+                    }
                 }
 
-                // Event listener untuk memastikan nilai yang dikirim adalah angka murni
+                // Function to clean the "Rp." prefix and only keep the numeric value for form submission
+                function cleanHarga() {
+                    let input = document.getElementById('harga_pekerjaan');
+                    let value = input.value.replace(/[^0-9]/g, ''); // Remove "Rp." and any non-numeric characters
+                    input.value = value; // Set the input value to numeric only
+                }
+
+                // Event listener to clean the value when the form is submitted
                 document.getElementById('jobForm').addEventListener('submit', function(event) {
-                    cleanHarga(); // Bersihkan simbol mata uang sebelum form disubmit
+                    cleanHarga(); // Clean the value before form submission
                 });
             </script>
+
 
             <div class="mb-3">
                 <label>Deskripsi</label>
                 <textarea name="deskripsi" class="form-control" required></textarea>
             </div>
+
+            <div class="mb-3">
+                <label>Syarat dan Ketentuan</label>
+                <textarea name="syarat_ketentuan" class="form-control" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label>Lingkup Kerja</label>
+                <textarea name="lingkup_kerja" class="form-control" required></textarea>
+            </div>
+
             <div class="mb-3" style="display: none">
                 <label>Status</label>
                 <select name="status_pekerjaan" class="form-control">
@@ -66,17 +99,77 @@
                     <option value="Lainnya">Lainnya</option>
                 </select>
             </div>
-
             <div class="mb-3">
-                <label>Gambar</label>
-                <input type="file" name="image" id="imageInput">
-                <img id="previewImage" src="" alt="Preview" width="100" height="100" style="object-fit: cover;">
+                <label>Lama Pekerjaan dalam Jam</label>
+                <input type="number" name="time" id="time" class="form-control" max="8" required>
+                <small id="timeErrorMessage" class="form-text text-danger" style="display: none;">Waktu tidak bisa lebih
+                    dari 8 jam.</small>
             </div>
 
             <script>
-                document.getElementById('imageInput').addEventListener('change', function(event) {
+                document.getElementById('time').addEventListener('input', function(event) {
+                    const timeInput = event.target;
+                    const errorMessage = document.getElementById('timeErrorMessage');
+
+
+                    if (timeInput.value > 8) {
+                        timeInput.value = 8;
+                        errorMessage.style.display = 'block';
+                    } else {
+                        errorMessage.style.display = 'none';
+                    }
+                });
+            </script>
+
+            <div class="mb-3">
+                <label>Gambar 1</label>
+                <input type="file" name="image1" id="image1Input">
+                <img id="previewImage1" src="" alt="Preview" width="100" height="100"
+                    style="object-fit: cover;">
+            </div>
+
+            <div class="mb-3">
+                <label>Gambar 2</label>
+                <input type="file" name="image2" id="image2Input">
+                <img id="previewImage2" src="" alt="Preview" width="100" height="100"
+                    style="object-fit: cover;">
+            </div>
+
+            <div class="mb-3">
+                <label>Gambar 3</label>
+                <input type="file" name="image3" id="image3Input">
+                <img id="previewImage3" src="" alt="Preview" width="100" height="100"
+                    style="object-fit: cover;">
+            </div>
+
+            <script>
+                document.getElementById('image1Input').addEventListener('change', function(event) {
                     const file = event.target.files[0];
-                    const preview = document.getElementById('previewImage');
+                    const preview = document.getElementById('previewImage1');
+
+                    if (file) {
+                        preview.src = URL.createObjectURL(file);
+                        preview.onload = () => URL.revokeObjectURL(preview.src); // Free memory
+                    } else {
+                        preview.src = '';
+                    }
+                });
+
+                document.getElementById('image2Input').addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    const preview = document.getElementById('previewImage2');
+
+                    if (file) {
+                        preview.src = URL.createObjectURL(file);
+                        preview.onload = () => URL.revokeObjectURL(preview.src); // Free memory
+                    } else {
+                        preview.src = '';
+                    }
+                });
+
+                document.getElementById('image3Input').addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    const preview = document.getElementById('previewImage3');
 
                     if (file) {
                         preview.src = URL.createObjectURL(file);

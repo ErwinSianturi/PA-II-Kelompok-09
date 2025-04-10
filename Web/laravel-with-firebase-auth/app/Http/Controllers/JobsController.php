@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\JobPosting;
-use Google\Cloud\Storage\Connection\Rest;
 use Illuminate\Http\Request;
 
 class JobsController extends Controller
@@ -12,7 +11,6 @@ class JobsController extends Controller
     public function index()
     {
         $jobs = JobPosting::where('email', Auth::user()->email)->get();
-
         return view('jobs.index', compact('jobs'));
     }
 
@@ -20,6 +18,7 @@ class JobsController extends Controller
     {
         return view('jobs.create');
     }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -27,18 +26,29 @@ class JobsController extends Controller
             'email' => 'required|email',
             'harga_pekerjaan' => 'required|numeric',
             'deskripsi' => 'required|string',
-            'status_pekerjaan' => 'required',
-            'jenis_pekerjaan' => 'required|string', // Add validation for jenis_pekerjaan
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'syarat_ketentuan' => 'required|string',
+            'lingkup_kerja' => 'required|string',
+            'status_pekerjaan' => 'required|in:Tersedia,Dalam Proses,Selesai',
+            'jenis_pekerjaan' => 'required|in:Kebersihan,Perbaikan Rumah,Perbaikan Kendaraan,Perbaikan Elektronik,Tutor,Rumah Tangga,Fotografi & videografi,Lainnya',
+            'image1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image3' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'time' => 'required|numeric'
         ]);
 
-        $imagePath = null;
+        // Convert time from HH:MM format to HHMM format (integer)
 
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('JobPost'), $filename);
-            $imagePath = 'JobPost/' . $filename; // Save relative path
+
+        $imagePaths = [];
+        foreach (['image1', 'image2', 'image3'] as $imageField) {
+            if ($request->hasFile($imageField)) {
+                $file = $request->file($imageField);
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('JobPost'), $filename);
+                $imagePaths[$imageField] = 'JobPost/' . $filename;
+            } else {
+                $imagePaths[$imageField] = null;
+            }
         }
 
         JobPosting::create([
@@ -46,19 +56,24 @@ class JobsController extends Controller
             'email' => $request->email,
             'harga_pekerjaan' => $request->harga_pekerjaan,
             'deskripsi' => $request->deskripsi,
+            'syarat_ketentuan' => $request->syarat_ketentuan,
+            'lingkup_kerja' => $request->lingkup_kerja,
             'status_pekerjaan' => $request->status_pekerjaan,
-            'jenis_pekerjaan' => $request->jenis_pekerjaan, // Save jenis_pekerjaan
-            'image' => $imagePath,
+            'jenis_pekerjaan' => $request->jenis_pekerjaan,
+            'image1' => $imagePaths['image1'],
+            'image2' => $imagePaths['image2'],
+            'image3' => $imagePaths['image3'],
+            'time' => $request->time,
         ]);
 
         return redirect('jobs')->with('status', 'Job posted successfully!');
     }
 
 
+
     public function edit(int $id)
     {
         $jobs = JobPosting::findOrFail($id);
-        // return $jobs;
         return view('jobs.edit', compact('jobs'));
     }
 
@@ -69,19 +84,28 @@ class JobsController extends Controller
             'email' => 'required|email',
             'harga_pekerjaan' => 'required|numeric',
             'deskripsi' => 'required|string',
-            'status_pekerjaan' => 'required',
-            'jenis_pekerjaan' => 'required|string', // Add validation for jenis_pekerjaan
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'syarat_ketentuan' => 'required|string',
+            'lingkup_kerja' => 'required|string',
+            'status_pekerjaan' => 'required|in:Tersedia,Dalam Proses,Selesai',
+            'jenis_pekerjaan' => 'required|in:Kebersihan,Perbaikan Rumah,Perbaikan Kendaraan,Perbaikan Elektronik,Tutor,Rumah Tangga,Fotografi & videografi,Lainnya',
+            'image1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image3' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'time' => 'required|numeric', // Validation for time field
         ]);
 
-        $job = JobPosting::findOrFail($id);
 
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('JobPost'), $filename);
-            $imagePath = 'JobPost/' . $filename; // Save relative path
-            $job->image = $imagePath; // Update image path
+
+        $job = JobPosting::findOrFail($id);
+        $imagePaths = [];
+        foreach (['image1', 'image2', 'image3'] as $imageField) {
+            if ($request->hasFile($imageField)) {
+                $file = $request->file($imageField);
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('JobPost'), $filename);
+                $imagePaths[$imageField] = 'JobPost/' . $filename;
+                $job->$imageField = $imagePaths[$imageField]; // Update image path
+            }
         }
 
         $job->update([
@@ -89,8 +113,11 @@ class JobsController extends Controller
             'email' => $request->email,
             'harga_pekerjaan' => $request->harga_pekerjaan,
             'deskripsi' => $request->deskripsi,
+            'syarat_ketentuan' => $request->syarat_ketentuan,
+            'lingkup_kerja' => $request->lingkup_kerja,
             'status_pekerjaan' => $request->status_pekerjaan,
-            'jenis_pekerjaan' => $request->jenis_pekerjaan, // Update jenis_pekerjaan
+            'jenis_pekerjaan' => $request->jenis_pekerjaan,
+            'time' => $request->time,
         ]);
 
         return redirect('jobs')->with('status', 'Job updated successfully!');
@@ -98,19 +125,49 @@ class JobsController extends Controller
 
     public function delete(int $id)
     {
-        $jobs = JobPosting::findOrFail($id);
-        $jobs->delete();
+        $job = JobPosting::findOrFail($id);
+        $job->delete();
 
-        return redirect('jobs')->with('Status', 'Job Deleted');
+        return redirect('jobs')->with('status', 'Job deleted successfully!');
     }
+
     public function showCategory($jenis_pekerjaan)
     {
-
         $jobs = JobPosting::where('jenis_pekerjaan', $jenis_pekerjaan)
-            ->where('email', '!=', Auth::user()->email) // Exclude jobs uploaded by the logged-in user
+            ->where('email', '!=', Auth::user()->email)
             ->get();
 
-        // Kirim data ke view
         return view('jobs.category', compact('jobs', 'jenis_pekerjaan'));
+    }
+    public function showdetil(int $id)
+    {
+        $job = JobPosting::findOrFail($id); // Retrieve the job based on the ID
+        return view('jobs.detail', compact('job')); // Pass the job to the view
+    }
+    public function applyForm($jobId)
+    {
+        // Find the job by ID
+        $job = JobPosting::findOrFail($jobId);
+
+        // Return the view for applying to the job
+        return view('jobs.apply', compact('job'));
+    }
+    public function apply(Request $request, $jobId)
+    {
+        // Validate the request data
+        $request->validate([
+            'alasan' => 'required|string|max:1000',
+        ]);
+
+        // Find the job posting
+        $jobPosting = JobPosting::findOrFail($jobId);
+
+        // Save the application reason
+        $jobPosting->applications()->create([
+            'user_id' => auth()->id(),
+            'alasan' => $request->alasan,
+        ]);
+
+        return redirect()->route('job.show', $jobId)->with('success', 'Alasan Anda telah dikirim.');
     }
 }
