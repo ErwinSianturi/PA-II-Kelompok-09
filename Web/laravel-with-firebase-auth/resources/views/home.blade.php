@@ -118,10 +118,13 @@
                     <p class="text-gray-500 text-sm">Jasa kebersihan untuk rumah, kantor, area publik dan lainnya</p>
 
                     <!-- Tombol -->
-                    <button class="flex items-center gap-2 mt-4 text-black font-semibold">
-                        <span class="flex items-center justify-center w-8 h-8 bg-black text-white rounded-full">➤</span>
-                        Lihat Selengkapnya
-                    </button>
+                    <a href="{{ route('category.show', ['jenis_pekerjaan' => 'kebersihan']) }}">
+                        <button class="flex items-center gap-2 mt-4 bg-white text-black font-semibold px-4 py-2 rounded-lg">
+                            <span class="flex items-center justify-center w-8 h-8 bg-black text-white rounded-full">➤</span>
+                            Lihat Selengkapnya
+                        </button>
+                    </a>
+
                 </div>
 
                 <!-- Kanan: Ikon -->
@@ -144,11 +147,13 @@
                     instalasi listrik, perbaikan pipa air, hingga renovasi interior dan eksterior.</p>
 
                 <!-- Tombol -->
+                <a href="{{ route('category.show', ['jenis_pekerjaan' => 'Perbaikan Rumah']) }}">
                 <button class="flex items-center gap-2 mt-4 text-black font-semibold">
                     <span class="flex items-center justify-center w-8 h-8 bg-black text-white rounded-full">➤</span>
                     Lihat Selengkapnya
                 </button>
             </div>
+        </a>
 
             <!-- Kanan: Ikon -->
             <div class="flex items-center justify-center basis-1/2 mt-6 md:mt-0">
@@ -172,11 +177,13 @@
                     hingga perbaikan AC mobil dan motor</p>
 
                 <!-- Tombol -->
+                <a href="{{ route('category.show', ['jenis_pekerjaan' => 'Perbaikan Kendaraan']) }}">
                 <button class="flex items-center gap-2 mt-4 text-black font-semibold">
                     <span class="flex items-center justify-center w-8 h-8 bg-black text-white rounded-full">➤</span>
                     Lihat Selengkapnya
                 </button>
             </div>
+        </a>
 
             <!-- Kanan: Ikon dengan background (responsif) -->
             <div class="flex items-center justify-center basis-1/2 mt-6 md:mt-0">
@@ -198,11 +205,13 @@
                     perangkat lainnya.</p>
 
                 <!-- Tombol -->
+                <a href="{{ route('category.show', ['jenis_pekerjaan' => 'Perbaikan Elektronik']) }}">
                 <button class="flex items-center gap-2 mt-4 text-black font-semibold">
                     <span class="flex items-center justify-center w-8 h-8 bg-black text-white rounded-full">➤</span>
                     Lihat Selengkapnya
                 </button>
             </div>
+        </a>
 
             <!-- Kanan: Ikon -->
             <div class="flex items-center justify-center basis-1/2 mt-6 md:mt-0">
@@ -223,11 +232,13 @@
                     pelajaran.</p>
 
                 <!-- Tombol -->
+                <a href="{{ route('category.show', ['jenis_pekerjaan' => 'Tutor']) }}">
                 <button class="flex items-center gap-2 mt-4 text-black font-semibold">
                     <span class="flex items-center justify-center w-8 h-8 bg-black text-white rounded-full">➤</span>
                     Lihat Selengkapnya
                 </button>
             </div>
+        </a>
 
             <!-- Kanan: Ikon -->
             <div class="flex items-center justify-center basis-1/2 mt-6 md:mt-0">
@@ -250,12 +261,13 @@
                     rumah, hingga merawat anak dan lansia.</p>
 
                 <!-- Tombol -->
+                <a href="{{ route('category.show', ['jenis_pekerjaan' => 'Rumah Tangga']) }}">
                 <button class="flex items-center gap-2 mt-4 text-black font-semibold">
                     <span class="flex items-center justify-center w-8 h-8 bg-black text-white rounded-full">➤</span>
                     Lihat Selengkapnya
                 </button>
             </div>
-
+        </a>
             <!-- Kanan: Ikon -->
             <div class="flex items-center justify-center basis-1/2 mt-6 md:mt-0">
                 <div class="w-full max-w-[592px] md:max-w-[178px] aspect-square p-3 sm:p-4 md:p-5">
@@ -277,12 +289,13 @@
                     video promosi dan konten kreatif.</p>
 
                 <!-- Tombol -->
+                <a href="{{ route('category.show', ['jenis_pekerjaan' => 'Fotografi & videografi']) }}">
                 <button class="flex items-center gap-2 mt-4 text-black font-semibold">
                     <span class="flex items-center justify-center w-8 h-8 bg-black text-white rounded-full">➤</span>
                     Lihat Selengkapnya
                 </button>
             </div>
-
+        </a>
             <!-- Kanan: Ikon -->
             <div class="flex items-center justify-center basis-1/2 mt-6 md:mt-0">
                 <div class="w-full max-w-[152px] md:max-w-[178px] aspect-square p-3 sm:p-4 md:p-5">
@@ -309,11 +322,13 @@
                 </p>
 
                 <!-- Tombol -->
+                <a href="{{ route('category.show', ['jenis_pekerjaan' => 'Lainnya']) }}">
                 <button class="flex items-center gap-2 mt-4 text-black font-semibold hover:underline">
                     <span class="flex items-center justify-center w-8 h-8 bg-black text-white rounded-full">➤</span>
                     Lihat Selengkapnya
                 </button>
             </div>
+        </a>
 
             <!-- Kanan: Ikon -->
             <div class="flex items-center justify-center basis-full md:basis-1/2 mt-6 md:mt-0">
