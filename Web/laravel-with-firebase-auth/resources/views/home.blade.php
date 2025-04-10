@@ -108,7 +108,6 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-16 p-6 max-w-7xl mx-auto">
         <!-- Card Kebersihan -->
-        <a href="{{ route('category.show', ['jenis_pekerjaan' => 'kebersihan']) }}" style="text-decoration: none;">
             <div class="flex flex-col md:flex-row justify-between items-center px-8 py-3 bg-[#F8F8FB] w-full h-auto rounded-[30px] transition transform duration-300 hover:scale-105"
                 style="border: 1px solid rgba(0, 0, 0, 1); box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1), 0 8px 3px rgba(0, 0, 0, 0.85);">
 
