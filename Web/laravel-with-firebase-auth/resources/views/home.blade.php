@@ -281,38 +281,39 @@
         </div>
 
         <!-- Card Perbaikan Rumah -->
-        <div class="flex flex-col md:flex-row justify-between items-center px-8 py-3 bg-[#F2E7FF] w-full h-auto rounded-[30px] transition transform duration-300 hover:scale-105"
-            style="border: 1px solid rgba(0, 0, 0, 1); box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1), 0 8px 3px rgba(0, 0, 0, 0.85); min-width: 200px;">
+            <a href="{{ route('category.show', ['jenis_pekerjaan' => 'kebersihan']) }}" style="text-decoration: none;">
+                <div class="flex flex-col md:flex-row justify-between items-center px-8 py-3 bg-[#F2E7FF] w-full h-auto rounded-[30px] transition transform duration-300 hover:scale-105"
+                    style="border: 1px solid rgba(0, 0, 0, 1); box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1), 0 8px 3px rgba(0, 0, 0, 0.85); min-width: 200px;">
 
-            <!-- Kiri: Teks -->
-            <div class="flex flex-col basis-1/2 gap-2">
-                <h3 class="text-black bg-white px-4 py-1 rounded-lg text-3xl w-fit font-normal mb-6">Perbaikan Rumah
-                </h3>
-                <p class="text-gray-500 text-sm">Layanan perbaikan rumah profesional, mulai dari perbaikan atap bocor,
-                    instalasi listrik, perbaikan pipa air, hingga renovasi interior dan eksterior.</p>
+                    <!-- Kiri: Teks -->
+                    <div class="flex flex-col basis-1/2 gap-2">
+                        <h3 class="text-black bg-white px-4 py-1 rounded-lg text-3xl w-fit font-normal mb-6">Perbaikan Rumah</h3>
+                        <p class="text-gray-500 text-sm">Layanan perbaikan rumah profesional, mulai dari perbaikan atap bocor,
+                            instalasi listrik, perbaikan pipa air, hingga renovasi interior dan eksterior.</p>
 
-                <!-- Tombol -->
-                <button class="flex items-center gap-2 mt-4 text-black font-semibold">
-                    <span class="flex items-center justify-center w-8 h-8 bg-black text-white rounded-full">➤</span>
-                    Lihat Selengkapnya
-                </button>
-            </div>
+                        <!-- Tombol -->
+                        <button class="flex items-center gap-2 mt-4 text-black font-semibold">
+                            <span class="flex items-center justify-center w-8 h-8 bg-black text-white rounded-full">➤</span>
+                            Lihat Selengkapnya
+                        </button>
+                    </div>
 
-            <!-- Kanan: Ikon -->
-            <div class="flex items-center justify-center basis-1/2 mt-6 md:mt-0">
-                <div
-                    class="bg-gradient-to-b from-cyan-400 to-purple-600 rounded-2xl w-full max-w-[112px] md:max-w-[128px] aspect-square p-3 sm:p-4 md:p-5">
-                    <svg fill="#ffffff" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 245 256" class="w-full h-auto">
-                        <g id="SVGRepo_iconCarrier">
-                            <path
-                                d="M190,63.24V7h-31v27.73L122.97,1.82L1.94,110.15l18.4,20.74L39,114.04V254h167V115.08l18.36,16.85l18.89-20.22L190,63.24z M171.16,171.14h-51.37v7.71c3.46,0.35,6.22,3.34,6.22,6.91v33.17c0,3.8-3.11,6.91-6.91,6.91h-3.22c-3.8,0-6.91-3.11-6.91-6.91 v-33.17c0-3.57,2.76-6.56,6.22-6.91v-12.32h51.48v-28.56h-5.53v7.14c0,3.8-3.11,6.91-6.91,6.91H80.75c-3.8,0-6.91-3.11-6.91-6.91 v-16.36c0-3.8,3.11-6.91,6.91-6.91h73.36c3.81,0,6.91,3.11,6.91,6.91v4.61h10.14V171.14z">
-                            </path>
-                        </g>
-                    </svg>
+                    <!-- Kanan: Ikon -->
+                    <div class="flex items-center justify-center basis-1/2 mt-6 md:mt-0">
+                        <div class="bg-gradient-to-b from-cyan-400 to-purple-600 rounded-2xl w-full max-w-[112px] md:max-w-[128px] aspect-square p-3 sm:p-4 md:p-5">
+                            <svg fill="#ffffff" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 245 256" class="w-full h-auto">
+                                <g id="SVGRepo_iconCarrier">
+                                    <path d="M190,63.24V7h-31v27.73L122.97,1.82L1.94,110.15l18.4,20.74L39,114.04V254h167V115.08l18.36,16.85l18.89-20.22L190,63.24z M171.16,171.14h-51.37v7.71c3.46,0.35,6.22,3.34,6.22,6.91v33.17c0,3.8-3.11,6.91-6.91,6.91h-3.22c-3.8,0-6.91-3.11-6.91-6.91 v-33.17c0-3.57,2.76-6.56,6.22-6.91v-12.32h51.48v-28.56h-5.53v7.14c0,3.8-3.11,6.91-6.91,6.91H80.75c-3.8,0-6.91-3.11-6.91-6.91 v-16.36c0-3.8,3.11-6.91,6.91-6.91h73.36c3.81,0,6.91,3.11,6.91,6.91v4.61h10.14V171.14z">
+                                    </path>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </a>
+
+
 
         <!-- Card Perbaikan Kendaraan -->
         <div class="flex flex-col md:flex-row justify-between items-center px-8 py-3 bg-[#F8F8FB] w-full h-auto rounded-[30px] transition transform duration-300 hover:scale-105"

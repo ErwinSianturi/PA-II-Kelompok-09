@@ -103,4 +103,14 @@ class JobsController extends Controller
 
         return redirect('jobs')->with('Status', 'Job Deleted');
     }
+    public function showCategory($jenis_pekerjaan)
+    {
+
+        $jobs = JobPosting::where('jenis_pekerjaan', $jenis_pekerjaan)
+            ->where('email', '!=', Auth::user()->email) // Exclude jobs uploaded by the logged-in user
+            ->get();
+
+        // Kirim data ke view
+        return view('jobs.category', compact('jobs', 'jenis_pekerjaan'));
+    }
 }

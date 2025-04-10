@@ -27,6 +27,8 @@ Route::post('/jobs/create', [JobsController::class, 'store']);
 
 Route::get('/jobs/{id}/edit', [JobsController::class, 'edit']);
 Route::put('/jobs/{id}/edit', [JobsController::class, 'update']);
+Route::get('/kategori/{jenis_pekerjaan}', [JobsController::class, 'showCategory'])->name('category.show');
+
 
 Route::get('/profil/{id}/edit', [ProfilController::class, 'edit']);
 Route::put('/profil/{id}/edit', [ProfilController::class, 'update']);
