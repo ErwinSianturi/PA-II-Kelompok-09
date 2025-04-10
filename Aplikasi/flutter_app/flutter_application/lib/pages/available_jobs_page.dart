@@ -3,6 +3,7 @@ import 'package:flutter_application/component/job_card.dart';
 import 'package:flutter_application/component/tab_filter.dart';
 import 'package:flutter_application/component/job_selector.dart';
 
+
 class AvailableJobsPage extends StatelessWidget {
   const AvailableJobsPage({super.key});
 
