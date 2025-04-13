@@ -49,7 +49,7 @@ class JobDetailPage extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.asset(
-                'assets/image/sapu_pekarangan.jpg',
+                'assets/images/kendaraan.png',
                 height: 160,
                 width: double.infinity,
                 fit: BoxFit.cover,
@@ -57,7 +57,7 @@ class JobDetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             const Text(
-              'Kebersihan\nMembersihkan Pekarangan Rumah',
+              'Kebersihan\nMembersihkan Kendaraan',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 4),
@@ -106,7 +106,7 @@ class JobDetailPage extends StatelessWidget {
                     ),
                   ),
                   TextSpan(
-                    text: '09.00 WIB',
+                    text: '14.00 WIB',
                     style: TextStyle(color: Colors.black),
                   ),
                 ],
@@ -114,7 +114,7 @@ class JobDetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             const Text(
-              'Rp 100.000,00',
+              'Rp 50.000,00',
               style: TextStyle(color: Colors.green, fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const Divider(height: 24),
@@ -124,7 +124,7 @@ class JobDetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             const Text(
-              'Membersihkan halaman rumah dari sampah, dedaunan, dan kotoran, serta merapikan taman agar lebih rapi dan nyaman. Cocok untuk yang teliti, cekatan, dan dapat bekerja di luar ruangan.',
+              'Mencuci mobil dengan teliti untuk menghilangkan debu, kotoran, dan noda, serta menjaga tampilan kendaraan tetap bersih dan terawat. Cocok untuk yang detail, cekatan, dan memiliki ketelitian dalam membersihkan setiap bagian mobil.',
             ),
             const SizedBox(height: 16),
             const Text(
@@ -132,12 +132,11 @@ class JobDetailPage extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
             const SizedBox(height: 4),
-            const Text('1. Membersihkan sampah, dedaunan, dan kotoran di halaman rumah.'),
-            const Text('2. Merapikan taman, termasuk penyiraman dan pemangkasan ringan.'),
-            const Text('3. Tidak termasuk jasa penebangan pohon atau pekerjaan konstruksi.'),
-            const Text('4. Memiliki pengalaman dalam pekerjaan kebersihan (lebih disukai).'),
-            const Text('5. Mampu bekerja di luar ruangan dalam berbagai kondisi cuaca.'),
-            const Text('6. Disiplin, rajin, dan memiliki etos kerja yang baik.'),
+            const Text('1. Membersihkan mobil dari debu, lumpur, dan kotoran menggunakan sabun khusus dan peralatan yang sesuai.'),
+            const Text('2. Merawat eksterior kendaraan, termasuk pencucian bodi, kaca, velg, dan ban. Tidak termasuk perbaikan cat atau detailing mendalam.'),
+            const Text('3. Memiliki pengalaman dalam mencuci atau merawat kendaraan (lebih disukai).'),
+            const Text('4. Mampu bekerja di luar ruangan dalam berbagai kondisi cuaca.'),
+            const Text('5. Disiplin, rajin, dan memiliki etos kerja yang baik.'),
             const SizedBox(height: 16),
             const Text(
               'Lingkup Pekerjaan',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/pages/job_register.dart'; 
+import 'package:flutter_application/pages/form_chat.dart'; 
 
 class JobDeskripPage extends StatelessWidget {
   const JobDeskripPage({super.key});
@@ -26,6 +27,12 @@ class JobDeskripPage extends StatelessWidget {
                 label: 'Lakukan Negosiasi',
                 isPrimary: true,
                 onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FormChatPage(),
+                    ),
+                  );
                 },
               ),
             ),
@@ -56,7 +63,7 @@ class JobDeskripPage extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.asset(
-                'assets/image/sapu_pekarangan.jpg',
+                'assets/images/pekarangan.png',
                 height: 160,
                 width: double.infinity,
                 fit: BoxFit.cover,
@@ -170,7 +177,7 @@ class JobDeskripPage extends StatelessWidget {
       onPressed: onPressed,
       child: Text(label),
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.purple, // warna ungu
+        backgroundColor: Colors.purple, 
         foregroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(vertical: 14),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

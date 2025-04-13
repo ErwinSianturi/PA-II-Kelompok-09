@@ -55,7 +55,7 @@ class JobDonePage extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.asset(
-                'assets/image/sapu_pekarangan.jpg',
+                'assets/images/cleaning.png',
                 height: 160,
                 width: double.infinity,
                 fit: BoxFit.cover,

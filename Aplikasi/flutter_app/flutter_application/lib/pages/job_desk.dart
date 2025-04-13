@@ -56,7 +56,7 @@ class JobDeskPage extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.asset(
-                'assets/image/sapu_pekarangan.jpg',
+                'assets/images/sofa.png',
                 height: 160,
                 width: double.infinity,
                 fit: BoxFit.cover,

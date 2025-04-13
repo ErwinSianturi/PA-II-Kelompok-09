@@ -36,30 +36,39 @@ class AvailableJobsPage extends StatelessWidget {
                   JobCard(
                     title: 'Membersihkan Pekarangan Rumah',
                     description: 'Dibutuhkan tenaga untuk membersihkan pekarangan rumah...',
-                    time: '09.00 WIB',
-                    status: 'Tersedia',
+                    time: 'Pengerjaan: 09.00 WIB',
                     color: Colors.purple,
                     icon: Icons.cleaning_services,
+                    image: Image.asset('assets/images/pekarangan.png'),
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => const JobDeskripPage()),
                       );
                     },
+                    statusWidget: const Text(
+                      'Tersedia',
+                      style: TextStyle(color: Colors.purple, fontWeight: FontWeight.bold),
+                    ),
                   ),
+                  const SizedBox(height: 12),
                   JobCard(
                     title: 'Membersihkan Properti Rumah',
                     description: 'Saya membutuhkan tenaga untuk membersihkan dalam rumah saya...',
-                    time: '10.00 WIB',
-                    status: 'Tersedia',
+                    time: 'Pengerjaan: 10.00 WIB',
                     color: Colors.purple,
                     icon: Icons.home,
+                    image: Image.asset('assets/images/sofa.png'),
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => const JobDeskPage()),
                       );
                     },
+                    statusWidget: const Text(
+                      'Tersedia',
+                      style: TextStyle(color: Colors.purple, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),

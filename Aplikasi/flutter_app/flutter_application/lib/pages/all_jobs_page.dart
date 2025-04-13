@@ -35,16 +35,20 @@ class AllJobsPage extends StatelessWidget {
                   JobCard(
                     title: 'Sofa Cleaning',
                     description: 'Dibutuhkan tenaga untuk membersihkan sofa saya...',
-                    time: '12.00 WIB',
-                    status: 'Selesai',
+                    time: 'Pengerjaan: 12.00 WIB',
                     color: Colors.green,
                     icon: Icons.check_circle,
+                    image: Image.asset('assets/images/cleaning.png'),
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => const JobDonePage()),
                       );
                     },
+                    statusWidget: const Text(
+                      'Selesai',
+                      style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),

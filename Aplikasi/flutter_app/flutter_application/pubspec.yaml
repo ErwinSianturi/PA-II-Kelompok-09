@@ -22,9 +22,11 @@ flutter:
   uses-material-design: true
 
   # Tambahkan asset di sini kalau dibutuhkan nanti:
-  # assets:
-  #   - assets/images/
-  #   - assets/icons/
+  assets:
+   - assets/images/pekarangan.png
+   - assets/images/sofa.png
+   - assets/images/kendaraan.png
+   - assets/images/cleaning.png
 
   # Tambahkan font custom di sini kalau perlu:
   # fonts:

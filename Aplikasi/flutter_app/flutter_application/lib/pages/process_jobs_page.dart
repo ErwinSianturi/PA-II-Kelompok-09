@@ -35,16 +35,20 @@ class ProcessJobsPage extends StatelessWidget {
                   JobCard(
                     title: 'Mencuci Kendaraan',
                     description: 'Dibutuhkan tenaga untuk mencuci mobil saya...',
-                    time: '14.00 WIB',
-                    status: 'Dalam Proses',
+                    time: 'Pengerjaan: 14.00 WIB',
                     color: Colors.orange,
                     icon: Icons.directions_car,
+                    image:Image.asset('assets/images/kendaraan.png'),
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => const JobDetailPage()),
                       );
                     },
+                    statusWidget: const Text(
+                      'Dalam Proses',
+                      style: TextStyle(color: Colors.purple, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),

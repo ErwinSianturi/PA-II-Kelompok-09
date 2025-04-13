@@ -4,70 +4,71 @@ class JobCard extends StatelessWidget {
   final String title;
   final String description;
   final String time;
-  final String status;
+  final Widget? statusWidget; 
   final Color color;
   final IconData icon;
-  final VoidCallback? onTap; // Tambahkan ini
+  final Image image;
+  final VoidCallback onTap;
 
   const JobCard({
     super.key,
     required this.title,
     required this.description,
     required this.time,
-    required this.status,
+    this.statusWidget,
     required this.color,
     required this.icon,
-    this.onTap, // Tambahkan ini
+    required this.image,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap, // Tangani tap
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        elevation: 2,
+    return Card(
+      child: InkWell(
+        onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(12.0),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(icon, color: color, size: 40),
-              const SizedBox(width: 16),
+              SizedBox(
+                width: 60,
+                height: 60,
+                child: image,
+              ),
+              const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title,
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold)),
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
                     const SizedBox(height: 4),
-                    Text(description,
-                        style: const TextStyle(fontSize: 14, color: Colors.black54)),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(time,
-                            style: const TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.w500)),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 4, horizontal: 8),
-                          decoration: BoxDecoration(
-                            color: color.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text(
-                            status,
-                            style: TextStyle(color: color, fontSize: 12),
-                          ),
-                        ),
-                      ],
+                    Text(
+                      description,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      time,
+                      style: const TextStyle(color: Colors.grey),
+                    ),
+                    const SizedBox(height: 6),
+                    // Menampilkan status jika ada
+                    statusWidget ?? const Text(
+                      'Status tidak tersedia',
+                      style: TextStyle(color: Colors.grey),
                     ),
                   ],
                 ),
               ),
+              const Icon(Icons.chevron_right),
             ],
           ),
         ),
