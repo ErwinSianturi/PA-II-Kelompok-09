@@ -30,6 +30,6 @@ class JobPosting extends Model
     // Define the relationship with the Application model
     public function applications()
     {
-        return $this->hasMany(Application::class);
+        return $this->hasMany(Application::class, 'job_posting_id');
     }
 }

@@ -46,3 +46,14 @@ Route::get('/addprofile', [ProfilController::class, 'create'])->name('addprofile
 Route::post('/addprofile', [ProfilController::class, 'store'])->name('profile.store');
 
 
+Route::get('jobs/{jobId}/applicants', [JobsController::class, 'showApplicants'])->name('jobs.applicants');
+
+
+Route::get('jobs', [JobsController::class, 'index']);
+Route::get('jobs/create', [JobsController::class, 'create']);
+Route::post('jobs', [JobsController::class, 'store']);
+Route::get('jobs/{id}/edit', [JobsController::class, 'edit']);
+Route::put('jobs/{id}', [JobsController::class, 'update']);
+Route::get('jobs/{id}/delete', [JobsController::class, 'delete']);
+Route::get('jobs/{jobId}/applicants', [JobsController::class, 'showApplicants']);
+Route::get('jobs/{jobId}/apply', [JobsController::class, 'apply']);

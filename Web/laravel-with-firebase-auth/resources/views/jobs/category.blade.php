@@ -11,8 +11,9 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $job->nama_pekerjaan }}</h5>
                             <img src="{{ asset($job->image1) }}" width="100" height="100" style="object-fit: cover;">
-                            <p class="card-text">{{ $job->deskripsi }}</p>
+
                             <p class="card-text">{{ $job->email }}</p>
+                            <p class="card-text">Tanggal</p>
                             <p class="card-text">Lama {{ $job->time }}-jam</p>
                             <p class="card-text">Harga: Rp.{{ number_format($job->harga_pekerjaan, 0, ',', '.') }}</p>
                             <a href="{{ url('jobs/' . $job->id . '/detail') }}" class="btn btn-sm btn-warning">Detail</a>

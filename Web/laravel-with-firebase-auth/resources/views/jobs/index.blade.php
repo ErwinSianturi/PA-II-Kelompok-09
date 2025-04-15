@@ -15,15 +15,13 @@
                     <thead class="thead-dark">
                         <tr>
                             <th>Gambar 1</th>
-                            <th>Gambar 2</th>
-                            <th>Gambar 3</th>
                             <th>Nama Pekerjaan</th>
-                            <th>Deskripsi</th>
                             <th>Harga</th>
                             <th>Email</th>
                             <th>Status</th>
                             <th>Jenis Pekerjaan</th>
-                            <th>Waktu</th> <!-- New column for time -->
+                            <th>Waktu</th>
+                            <th>Jumlah Pendaftar</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -32,28 +30,13 @@
                             <tr>
                                 <td>
                                     @if ($job->image1)
-                                        <img src="{{ asset($job->image1) }}" width="100" height="100" style="object-fit: cover;">
+                                        <img src="{{ asset($job->image1) }}" width="100" height="100"
+                                            style="object-fit: cover;">
                                     @else
                                         <span class="text-muted">No Image</span>
                                     @endif
                                 </td>
-                                <td>
-                                    @if ($job->image2)
-                                        <img src="{{ asset($job->image2) }}" width="100" height="100" style="object-fit: cover;">
-                                    @else
-                                        <span class="text-muted">No Image</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if ($job->image3)
-                                        <img src="{{ asset($job->image3) }}" width="100" height="100" style="object-fit: cover;">
-                                    @else
-                                        <span class="text-muted">No Image</span>
-                                    @endif
-                                </td>
-
                                 <td>{{ $job->nama_pekerjaan }}</td>
-                                <td>{{ $job->deskripsi }}</td>
                                 <td>Rp{{ number_format($job->harga_pekerjaan, 0, ',', '.') }}</td>
                                 <td>{{ $job->email }}</td>
                                 <td>
@@ -69,15 +52,19 @@
                                     </span>
                                 </td>
                                 <td>{{ $job->jenis_pekerjaan }}</td>
-
-                                <!-- New Time Column -->
+                                <td>{{ $job->time }}</td>
                                 <td>
-                                    {{ $job->time }}
+                                    {{ $job->applications->count() }} <!-- Display the number of applicants -->
                                 </td>
 
                                 <td>
-                                    <a href="{{ url('jobs/' . $job->id . '/edit') }}" class="btn btn-sm btn-warning">Edit</a>
-                                    <a href="{{ url('jobs/' . $job->id . '/delete') }}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this job?')">Delete</a>
+                                    <a href="{{ url('jobs/' . $job->id . '/edit') }}"
+                                        class="btn btn-sm btn-warning">Edit</a>
+                                    <a href="{{ url('jobs/' . $job->id . '/delete') }}" class="btn btn-sm btn-danger"
+                                        onclick="return confirm('Are you sure you want to delete this job?')">Delete</a>
+                                    <!-- Button to view the applicants -->
+                                    <a href="{{ url('jobs/' . $job->id . '/applicants') }}"
+                                        class="btn btn-sm btn-info">View Applicants</a>
                                 </td>
                             </tr>
                         @endforeach

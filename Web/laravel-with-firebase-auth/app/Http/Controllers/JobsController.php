@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\JobPosting;
+use App\Models\Application; // Ensure Application model is included
 use Illuminate\Http\Request;
 
 class JobsController extends Controller
 {
+
     public function index()
     {
         $jobs = JobPosting::where('email', Auth::user()->email)->get();
@@ -37,7 +39,6 @@ class JobsController extends Controller
         ]);
 
         // Convert time from HH:MM format to HHMM format (integer)
-
 
         $imagePaths = [];
         foreach (['image1', 'image2', 'image3'] as $imageField) {
@@ -69,8 +70,6 @@ class JobsController extends Controller
         return redirect('jobs')->with('status', 'Job posted successfully!');
     }
 
-
-
     public function edit(int $id)
     {
         $jobs = JobPosting::findOrFail($id);
@@ -93,8 +92,6 @@ class JobsController extends Controller
             'image3' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'time' => 'required|numeric', // Validation for time field
         ]);
-
-
 
         $job = JobPosting::findOrFail($id);
         $imagePaths = [];
@@ -139,11 +136,13 @@ class JobsController extends Controller
 
         return view('jobs.category', compact('jobs', 'jenis_pekerjaan'));
     }
+
     public function showdetil(int $id)
     {
         $job = JobPosting::findOrFail($id); // Retrieve the job based on the ID
         return view('jobs.detail', compact('job')); // Pass the job to the view
     }
+
     public function applyForm($jobId)
     {
         // Find the job by ID
@@ -152,6 +151,7 @@ class JobsController extends Controller
         // Return the view for applying to the job
         return view('jobs.apply', compact('job'));
     }
+
     public function apply(Request $request, $jobId)
     {
         // Validate the request data
@@ -162,12 +162,42 @@ class JobsController extends Controller
         // Find the job posting
         $jobPosting = JobPosting::findOrFail($jobId);
 
-        // Save the application reason
+        // Get the authenticated user's email
+        $userEmail = Auth::user()->email;
+
+        // Check if the user has already applied for the job
+        $existingApplication = Application::where('job_posting_id', $jobId)
+            ->where('user_email', $userEmail)
+            ->first();
+
+        if ($existingApplication) {
+            // Redirect back to the job detail page with an error message
+            return redirect('jobs/' . $jobId . '/detail')
+                ->with('error', 'You have already applied for this job.');
+        }
+
+        // Save the application with user_email
         $jobPosting->applications()->create([
-            'user_id' => auth()->id(),
+            'user_email' => $userEmail, // Store the user's email
             'alasan' => $request->alasan,
         ]);
 
-        return redirect()->route('job.show', $jobId)->with('success', 'Alasan Anda telah dikirim.');
+        // Increment the applicants_count by 1
+        $jobPosting->increment('applicants_count');
+
+        // Redirect back to the job detail page with a success message
+        return redirect('jobs/' . $jobId . '/detail')
+            ->with('success', 'Alasan Anda telah dikirim.');
+    }
+    public function showApplicants(int $id)
+    {
+        // Retrieve the job posting based on the provided job ID
+        $job = JobPosting::findOrFail($id);
+
+        // Retrieve all the applications for the job
+        $applications = $job->applications()->get();
+
+        // Return a view and pass the job and applications to it
+        return view('jobs.applicants', compact('job', 'applications'));
     }
 }

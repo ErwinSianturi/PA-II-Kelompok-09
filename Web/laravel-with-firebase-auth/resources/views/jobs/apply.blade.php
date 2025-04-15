@@ -3,8 +3,8 @@
 @section('content')
     <div class="container my-5">
         <h2>Alasan Mengambil Pekerjaan: {{ $job->nama_pekerjaan }}</h2>
-        <h2>Harga Jasa: {{ 'Rp.' .number_format($job->harga_pekerjaan) }}</h2>
-        <h2>Waktu Jasa: {{$job->time }} jam</h2>
+        <h2>Harga Jasa: {{ 'Rp.' . number_format($job->harga_pekerjaan) }}</h2>
+        <h2>Waktu Jasa: {{ $job->time }} jam</h2>
 
         <form action="{{ route('job.apply', $job->id) }}" method="POST">
             @csrf
@@ -20,6 +20,11 @@
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary">Kirim Alasan</button>
             </div>
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
 
 
         </form>

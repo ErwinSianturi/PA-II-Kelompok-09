@@ -4,6 +4,19 @@
     <div class="container my-5">
         <h2 class="mb-4">Detail Pekerjaan</h2>
 
+        <!-- Flash messages for success or error -->
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
         <!-- Carousel for Images -->
         <div id="jobImagesCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
             <div class="carousel-inner">
@@ -21,7 +34,7 @@
 
                 @if($job->image2)
                     <div class="carousel-item">
-                        <img src="{{ asset($job->image2) }}" class="d-block w-100" alt="Image 2" style="object-fit: cover; height: 400px;">
+                        <img src="{{ asset($job->image2) }}" class="d-block w-100" alt="Image 2" style="object-fit: contain; height: 400px;">
                     </div>
                 @else
                     <div class="carousel-item">
@@ -33,7 +46,7 @@
 
                 @if($job->image3)
                     <div class="carousel-item">
-                        <img src="{{ asset($job->image3) }}" class="d-block w-100" alt="Image 3" style="object-fit: cover; height: 400px;">
+                        <img src="{{ asset($job->image3) }}" class="d-block w-100" alt="Image 3" style="object-fit: contain; height: 400px;">
                     </div>
                 @else
                     <div class="carousel-item">

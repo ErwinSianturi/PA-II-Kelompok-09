@@ -12,7 +12,7 @@ class Application extends Model
     protected $table = 'applications';
 
     protected $fillable = [
-        'user_id',
+        'user_email',
         'job_posting_id',
         'alasan',
     ];
