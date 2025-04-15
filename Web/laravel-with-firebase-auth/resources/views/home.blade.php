@@ -487,8 +487,8 @@
 
             <ul class="text-m leading-relaxed space-y-1">
                 <li>Email: Gignego@gmail.com</li>
-                <li>Phone: 0822-9431-1975</li>
-                <li>Address: Sitoluama,<br>Laguboti, Sumatera Utara</li>
+                <li>No.HP: 0822-9431-1975</li>
+                <li>Alamat: Sitoluama,<br>Laguboti, Sumatera Utara</li>
             </ul>
         </div>
 

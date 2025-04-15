@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfilController;
 
 
 
+
 Route::get('/', function () {
     return redirect('/login');
 });

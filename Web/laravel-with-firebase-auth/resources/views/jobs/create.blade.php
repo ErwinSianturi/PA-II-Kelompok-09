@@ -46,6 +46,12 @@
                 <label>Deskripsi</label>
                 <textarea name="deskripsi" class="form-control" required></textarea>
             </div>
+
+            <div class="mb-3">
+                <label>Waktu Pekerjaan</label>
+                <input type="time" name="waktu_pekerjaan" class="form-control" required>
+            </div>
+            
             <div class="mb-3" style="display: none">
                 <label>Status</label>
                 <select name="status_pekerjaan" class="form-control">
