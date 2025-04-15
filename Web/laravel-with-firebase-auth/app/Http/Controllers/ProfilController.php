@@ -133,4 +133,10 @@ class ProfilController extends Controller
         // Redirect to profile index page after updating
         return redirect()->route('profil.index');
     }
+    public function show($email)
+    {
+        $user = Profil::where('email', $email)->firstOrFail(); // Retrieve the user by email
+
+        return view('users.show', compact('user'));
+    }
 }

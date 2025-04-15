@@ -5,8 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserItemController;
 use App\Http\Controllers\JobsController;
 use App\Http\Controllers\ProfilController;
-
-
+use App\Models\profil;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -57,3 +56,5 @@ Route::put('jobs/{id}', [JobsController::class, 'update']);
 Route::get('jobs/{id}/delete', [JobsController::class, 'delete']);
 Route::get('jobs/{jobId}/applicants', [JobsController::class, 'showApplicants']);
 Route::get('jobs/{jobId}/apply', [JobsController::class, 'apply']);
+
+Route::get('users/{email}', [profilController::class, 'show'])->name('users.show');

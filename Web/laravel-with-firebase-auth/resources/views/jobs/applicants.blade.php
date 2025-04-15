@@ -12,6 +12,7 @@
                     <tr>
                         <th>User Email</th>
                         <th>Alasan</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -19,12 +20,17 @@
                         <tr>
                             <td>{{ $application->user_email }}</td>
                             <td>{{ $application->alasan }}</td>
+                            <td>
+                                <!-- View User Data Button -->
+                                <a href="{{ route('users.show', ['email' => $application->user_email]) }}" class="btn btn-info btn-sm">View User</a>
+
+                                <!-- Accept User Button -->
+
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         @endif
-
-
     </div>
 @endsection

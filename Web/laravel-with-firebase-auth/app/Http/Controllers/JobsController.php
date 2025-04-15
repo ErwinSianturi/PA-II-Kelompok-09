@@ -38,7 +38,6 @@ class JobsController extends Controller
             'time' => 'required|numeric'
         ]);
 
-        // Convert time from HH:MM format to HHMM format (integer)
 
         $imagePaths = [];
         foreach (['image1', 'image2', 'image3'] as $imageField) {
@@ -90,7 +89,7 @@ class JobsController extends Controller
             'image1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'image2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'image3' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'time' => 'required|numeric', // Validation for time field
+            'time' => 'required|numeric',
         ]);
 
         $job = JobPosting::findOrFail($id);
@@ -122,9 +121,21 @@ class JobsController extends Controller
 
     public function delete(int $id)
     {
+        // Retrieve the job by ID
         $job = JobPosting::findOrFail($id);
+
+        // Delete images from the file system if they exist
+        $imageFields = ['image1', 'image2', 'image3'];
+        foreach ($imageFields as $imageField) {
+            if ($job->$imageField && file_exists(public_path($job->$imageField))) {
+                unlink(public_path($job->$imageField)); // Delete the file from the public directory
+            }
+        }
+
+        // Delete the job from the database
         $job->delete();
 
+        // Redirect with a success message
         return redirect('jobs')->with('status', 'Job deleted successfully!');
     }
 
@@ -199,5 +210,20 @@ class JobsController extends Controller
 
         // Return a view and pass the job and applications to it
         return view('jobs.applicants', compact('job', 'applications'));
+    }
+    public function acceptUser(Request $request, $jobId, $userEmail)
+    {
+        // Find the job posting
+        $job = JobPosting::findOrFail($jobId);
+
+        // Update the job's status and the email_pekerja field
+        $job->update([
+            'status_pekerjaan' => 'Dalam Proses',
+            'email_pekerja' => $userEmail,
+        ]);
+
+        // Redirect back with a success message
+        return redirect()->route('jobs.applicants', ['id' => $jobId])
+            ->with('status', 'User accepted and job status updated to "Dalam Proses".');
     }
 }
