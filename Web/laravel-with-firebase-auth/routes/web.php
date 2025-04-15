@@ -7,6 +7,7 @@ use App\Http\Controllers\JobsController;
 use App\Http\Controllers\ProfilController;
 use App\Models\profil;
 
+
 Route::get('/', function () {
     return redirect('/login');
 });
