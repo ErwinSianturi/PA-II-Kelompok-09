@@ -82,8 +82,8 @@
                             // 8px adalah setengah lebar panah (border-r-8)
                             const arrowLeft = elOffset + (elWidth / 2) - 8;
 
-                            this.arrowStyleTop = `left: ${arrowLeft}px;`;
-                            this.arrowStyleBottom = `left: ${arrowLeft}px;`;
+                            this.arrowStyleTop = left: ${arrowLeft}px;;
+                            this.arrowStyleBottom = left: ${arrowLeft}px;;
                         }
                     }
                 }
