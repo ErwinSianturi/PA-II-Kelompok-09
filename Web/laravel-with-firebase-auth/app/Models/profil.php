@@ -16,9 +16,10 @@ class profil extends Model
         'jenis_kelamin',
         'tanggal_lahir',
         'image',
-        'provinsi',
+        'kecamatan',
         'desa',
         'alamat_lengkap',
         'pekerjaan',
+        'WA',
     ];
 }

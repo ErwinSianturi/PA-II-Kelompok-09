@@ -45,7 +45,9 @@
                         <p><strong>Email:</strong> {{ $profile->email }}</p>
                         <p><strong>Location:</strong> {{ $profile->provinsi }}, {{ $profile->desa }}</p>
                         <p><strong>Alamat:</strong> {{ $profile->alamat_lengkap }}</p>
+                        <p><strong>Nomor WA:</strong> {{$profile->WA}}</p>
                         <p><strong>Joined:</strong> {{ $profile->created_at->format('d M Y') }}</p>
+
                         <a href="{{ url('profil/' . $profile->id . '/edit') }}" class="btn btn-sm btn-warning">Edit</a>
                     </div>
                 </div>

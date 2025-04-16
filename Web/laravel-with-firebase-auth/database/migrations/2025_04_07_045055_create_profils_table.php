@@ -17,7 +17,25 @@ return new class extends Migration
             $table->string('username');
             $table->enum('jenis_kelamin',['Laki-laki', 'Perempuan']);
             $table->date('tanggal_lahir');
-            $table->string('provinsi');
+            $table->enum('kecamatan', [
+                'Ajibata',
+                'Balige',
+                'Bonatua Lunasi',
+                'Borbor',
+                'Habinsaran',
+                'Laguboti',
+                'Lumban Julu',
+                'Nassau',
+                'Parmaksian',
+                'Pintu Pohan Meranti',
+                'Porsea',
+                'Siantar Narumonda',
+                'Sigumpar',
+                'Silaen',
+                'Tampahan',
+                'Uluan'
+            ]);
+            $table->string('WA');
             $table->string('desa');
             $table->string('alamat_lengkap');
             $table->string('pekerjaan');

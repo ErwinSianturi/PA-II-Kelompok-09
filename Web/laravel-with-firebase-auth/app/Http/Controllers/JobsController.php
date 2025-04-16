@@ -35,7 +35,8 @@ class JobsController extends Controller
             'image1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'image2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'image3' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'time' => 'required|numeric'
+            'time' => 'required|numeric',
+            'tanggaldanwaktu' => 'required|date'
         ]);
 
 
@@ -64,6 +65,7 @@ class JobsController extends Controller
             'image2' => $imagePaths['image2'],
             'image3' => $imagePaths['image3'],
             'time' => $request->time,
+            'tanggaldanwaktu' => $request->tanggaldanwaktu
         ]);
 
         return redirect('jobs')->with('status', 'Job posted successfully!');

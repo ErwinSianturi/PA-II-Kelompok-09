@@ -18,6 +18,7 @@ class JobPosting extends Model
         'harga_pekerjaan',
         'deskripsi',
         'time',
+        'tanggaldanwaktu',
         'syarat_ketentuan',
         'lingkup_kerja',
         'status_pekerjaan',
@@ -25,6 +26,10 @@ class JobPosting extends Model
         'image1',
         'image2',
         'image3',
+    ];
+
+    protected $casts = [
+        'tanggaldanwaktu' => 'datetime',
     ];
 
     // Define the relationship with the Application model
