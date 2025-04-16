@@ -10,7 +10,8 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+   
 </head>
 <body class="pt-20">
 <nav id="home" class="fixed top-0 left-0 w-full bg-white z-50 shadow">
@@ -58,5 +59,6 @@
 </nav><main class="container mx-auto mt-10">
     @yield('content')
 </main>
+@stack('scripts')
 </body>
 </html>

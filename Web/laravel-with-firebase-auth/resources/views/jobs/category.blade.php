@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mx-auto px-4 py-8">
 
-        {{-- Bagian Header, Quote, dan Tanggal --}}
+        {{-- Bagian Header, Quote --}}
         <div
             class="flex flex-col md:flex-row justify-between items-center md:items-start mb-32 md:space-x-10 space-y-10 md:space-y-6">
             {{-- Kiri: Teks & Tanggal --}}
@@ -17,20 +17,44 @@
                     </p>
                 </div>
 
-                {{-- Tanggal --}}
-                <div x-data="datePicker()" x-init="init()"
-                    class="flex justify-center md:justify-start items-center space-x-4" x-ref="dateWrapper">
-                    <template x-for="(day, index) in dates" :key="index">
-                        <div :ref="'date' + index" @click="selectDate(index)"
-                            class="rounded-xl p-4 text-center cursor-pointer transition-all"
-                            :class="selected === index ?
-                                'bg-gradient-to-r from-purple-500 to-purple-700 text-white scale-105 shadow-md w-28' :
-                                'bg-purple-200 text-black w-24'">
-                            <div class="text-lg font-semibold" x-text="day.bulan"></div>
-                            <div class="text-2xl font-bold" x-text="day.tanggal"></div>
-                            <div class="text-sm" x-text="day.hari"></div>
+                <div x-data="dateSelector()" x-init="init()" class="relative flex justify-center space-x-4 mt-10">
+
+
+                    <!-- Panah Atas (mengarah ke bawah 🔻) -->
+                    <div class="absolute top-full mt-2 transition-all duration-300 ease-in-out"
+                        :style="`left: ${arrowX}px; transform: translateX(-50%)`">
+                        <!-- bentuk 🔻 -->
+                        <div
+                            class="w-0 h-0 border-l-8 border-r-8 border-b-[12px] border-l-transparent border-r-transparent border-b-red-500">
                         </div>
+                    </div>
+
+                    <!-- Panah Bawah (sekarang benar-benar di atas dan mengarah ke atas 🔺) -->
+                    <div class="absolute bottom-full mb-2 transition-all duration-300 ease-in-out"
+                        :style="`left: ${arrowX}px; transform: translateX(-145%)`">
+                        <!-- bentuk 🔺 -->
+                        <div
+                            class="w-0 h-0 border-l-8 border-r-8 border-t-[12px] border-l-transparent border-r-transparent border-t-red-500">
+                        </div>
+                    </div>
+
+
+                    <template x-for="(date, index) in dates" :key="index">
+                        <div @click="selectedDate = index; $nextTick(() => updateArrow($el))" x-init="$nextTick(() => { if (selectedDate === index) updateArrow($el) })"
+                            :class="selectedDate === index ?
+                                'scale-110 bg-purple-500 text-white shadow-lg' :
+                                'bg-purple-100 text-black shadow-md'"
+                            class="relative px-6 py-4 rounded-xl text-center transform transition-transform duration-300 cursor-pointer">
+                            <p class="text-lg font-semibold" x-text="date.bulan"></p>
+                            <p class="text-3xl font-bold" x-text="date.tanggal"></p>
+                            <p class="text-md" x-text="date.hari"></p>
+
+                        </div>
+
                     </template>
+
+
+
                 </div>
             </div>
             {{-- Kanan: Gambar SVG --}}
@@ -39,56 +63,6 @@
             </div>
         </div>
 
-        <script>
-            function datePicker() {
-                return {
-                    selected: 1,
-                    dates: [{
-                            bulan: 'Maret',
-                            tanggal: 7,
-                            hari: 'Jumat'
-                        },
-                        {
-                            bulan: 'Maret',
-                            tanggal: 8,
-                            hari: 'Sabtu'
-                        },
-                        {
-                            bulan: 'Maret',
-                            tanggal: 9,
-                            hari: 'Minggu'
-                        },
-                    ],
-                    arrowStyleTop: '',
-                    arrowStyleBottom: '',
-
-                    init() {
-                        this.$nextTick(() => this.updateArrow());
-                    },
-
-                    selectDate(index) {
-                        this.selected = index;
-                        this.$nextTick(() => this.updateArrow());
-                    },
-
-                    updateArrow() {
-                        const wrapper = this.$refs.dateWrapper;
-                        const el = this.$refs['date' + this.selected];
-
-                        if (el && wrapper) {
-                            const elOffset = el.offsetLeft;
-                            const elWidth = el.offsetWidth;
-
-                            // 8px adalah setengah lebar panah (border-r-8)
-                            const arrowLeft = elOffset + (elWidth / 2) - 8;
-
-                            this.arrowStyleTop = left: ${arrowLeft}px;;
-                            this.arrowStyleBottom = left: ${arrowLeft}px;;
-                        }
-                    }
-                }
-            }
-        </script>
     </div>
 
     <div class="max-w-screen-2xl mx-auto px-4 md:px-1">
@@ -146,9 +120,11 @@
         <h2 class="text-2xl font-semibold mb-6">Jenis Pekerjaan: {{ ucfirst($jenis_pekerjaan) }}</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach ($jobs as $job)
-                <a href="{{ url('/jobs/' . $job->id) }}" class="transform transition-transform duration-300 hover:scale-105 block">
-                    <div class="bg-white rounded-2xl shadow-lg p-6 flex items-start justify-between relative min-h-[180px] hover:shadow-xl cursor-pointer">
-        
+                <a href="{{ url('/jobs/' . $job->id . '/detail') }}"
+                    class="transform transition-transform duration-300 hover:scale-105 block">
+                    <div
+                        class="bg-white rounded-2xl shadow-lg p-6 flex items-start justify-between relative min-h-[180px] hover:shadow-xl cursor-pointer">
+
                         {{-- Ikon atas kanan --}}
                         <div class="absolute top-3 right-3 p-1">
                             @if ($job->status == 'tersedia')
@@ -161,18 +137,20 @@
                                 @include('items.tersedia')
                             @endif
                         </div>
-        
+
                         {{-- Gambar --}}
-                        <img src="{{ asset($job->image) }}" alt="Job Image" class="w-16 h-16 rounded-full object-cover mr-5">
-        
+                        <img src="{{ asset($job->image) }}" alt="Job Image"
+                            class="w-16 h-16 rounded-full object-cover mr-5">
+
                         {{-- Info pekerjaan --}}
                         <div class="flex-1">
                             <h5 class="text-lg font-semibold text-gray-800 mb-1">{{ $job->nama_pekerjaan }}</h5>
                             <p class="text-base text-gray-600 line-clamp-2">{{ $job->deskripsi }}</p>
-        
+
                             {{-- Waktu --}}
                             <div class="mt-3 flex items-center text-purple-600 text-sm font-medium">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20"
+                                    fill="currentColor">
                                     <path fill-rule="evenodd"
                                         d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-12.75a.75.75 0 00-1.5 0v4.25a.75.75 0 00.44.68l3.25 1.5a.75.75 0 10.62-1.36l-2.81-1.29V5.25z"
                                         clip-rule="evenodd" />
@@ -180,23 +158,79 @@
                                 {{ \Carbon\Carbon::parse($job->waktu_pekerjaan)->format('H.i') }} WIB
                             </div>
                         </div>
-        
+
                         {{-- Status --}}
                         <div class="absolute bottom-3 right-3">
                             @php
                                 $statusLabel = $job->status ?? 'tersedia';
                                 $statusConfig = [
-                                    'tersedia' => ['bg' => 'bg-purple-100', 'text' => 'text-purple-800', 'label' => 'Tersedia'],
-                                    'proses' => ['bg' => 'bg-yellow-100', 'text' => 'text-yellow-800', 'label' => 'Dalam Proses'],
-                                    'selesai' => ['bg' => 'bg-green-100', 'text' => 'text-green-800', 'label' => 'Selesai'],
+                                    'tersedia' => [
+                                        'bg' => 'bg-purple-100',
+                                        'text' => 'text-purple-800',
+                                        'label' => 'Tersedia',
+                                    ],
+                                    'proses' => [
+                                        'bg' => 'bg-yellow-100',
+                                        'text' => 'text-yellow-800',
+                                        'label' => 'Dalam Proses',
+                                    ],
+                                    'selesai' => [
+                                        'bg' => 'bg-green-100',
+                                        'text' => 'text-green-800',
+                                        'label' => 'Selesai',
+                                    ],
                                 ];
                                 $config = $statusConfig[$statusLabel] ?? $statusConfig['tersedia'];
                             @endphp
-                            <span class="{{ $config['bg'] }} {{ $config['text'] }} text-sm px-4 py-1.5 rounded-full font-semibold">
+                            <span
+                                class="{{ $config['bg'] }} {{ $config['text'] }} text-sm px-4 py-1.5 rounded-full font-semibold">
                                 {{ $config['label'] }}
                             </span>
                         </div>
                     </div>
                 </a>
             @endforeach
+        </div>
+    </div>
+            @include('layouts.footer')
+
+            @endsection
+
+            @push('scripts')
+                <script>
+                    function dateSelector() {
+                        return {
+                            selectedDate: 0,
+                            arrowX: 0,
+                            dates: [],
+                            updateArrow(el) {
+                                const rect = el.getBoundingClientRect();
+                                const parentRect = el.parentElement.getBoundingClientRect();
+                                this.arrowX = rect.left - parentRect.left + rect.width / 2;
+                            },
+                            init() {
+                                // Reset array dates
+                                this.dates = [];
+                                const hariList = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+                                const bulanList = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus',
+                                    'September', 'Oktober', 'November', 'Desember'
+                                ];
+                                const now = new Date();
+
+                                for (let i = 0; i < 3; i++) {
+                                    const date = new Date(now);
+                                    date.setDate(now.getDate() + i);
+                                    this.dates.push({
+                                        hari: hariList[date.getDay()],
+                                        tanggal: date.getDate(),
+                                        bulan: bulanList[date.getMonth()]
+                                    });
+                                }
+                            }
+
+                        }
+                    }
+                </script>
+
+            @endpush
         </div>
