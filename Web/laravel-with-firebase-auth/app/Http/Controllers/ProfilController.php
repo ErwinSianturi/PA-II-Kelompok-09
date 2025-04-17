@@ -86,6 +86,7 @@ class ProfilController extends Controller
 
         $profil = Profil::findOrFail($id);
 
+        // Validate the form data
         $validated = $request->validate([
             'email' => 'required|email',
             'username' => 'required|string|max:255',

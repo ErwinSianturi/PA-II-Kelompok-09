@@ -21,6 +21,7 @@ class JobPosting extends Model
         'tanggaldanwaktu',
         'syarat_ketentuan',
         'lingkup_kerja',
+        'email_pengambil',
         'status_pekerjaan',
         'jenis_pekerjaan',
         'image1',

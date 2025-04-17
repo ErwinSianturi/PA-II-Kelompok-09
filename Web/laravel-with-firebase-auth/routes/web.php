@@ -53,10 +53,17 @@ Route::get('jobs', [JobsController::class, 'index']);
 Route::get('jobs/create', [JobsController::class, 'create']);
 Route::post('jobs', [JobsController::class, 'store']);
 Route::get('jobs/{id}/edit', [JobsController::class, 'edit']);
-Route::put('jobs/{id}', [JobsController::class, 'update']);
+Route::put('jobs/{id}', [JobsController::class, 'update'])->name('job.update');
 Route::get('jobs/{id}/delete', [JobsController::class, 'delete']);
 Route::get('jobs/{jobId}/applicants', [JobsController::class, 'showApplicants']);
 Route::get('jobs/{jobId}/apply', [JobsController::class, 'apply']);
 
+Route::put('jobs/{id}', [JobsController::class, 'update'])->name('jobs.update');
+
 Route::get('users/{email}', [profilController::class, 'show'])->name('users.show');
 
+Route::post('jobs/{jobId}/accept-user/{userEmail}', [JobsController::class, 'acceptUser'])->name('assign.user.job');
+
+Route::post('/jobs/{jobId}/accept/{userEmail}', [JobsController::class, 'acceptUser'])->name('jobs.acceptUser');
+
+Route::put('jobs/{id}/assign', [JobsController::class, 'assignUser'])->name('jobs.assign');

@@ -162,19 +162,19 @@
                         {{-- Status --}}
                         <div class="absolute bottom-3 right-3">
                             @php
-                                $statusLabel = $job->status ?? 'tersedia';
+                                $statusLabel = $job->status_pekerjaan ?? 'tersedia';
                                 $statusConfig = [
-                                    'tersedia' => [
+                                    'Tersedia' => [
                                         'bg' => 'bg-purple-100',
                                         'text' => 'text-purple-800',
                                         'label' => 'Tersedia',
                                     ],
-                                    'proses' => [
+                                    'Dalam Proses' => [
                                         'bg' => 'bg-yellow-100',
                                         'text' => 'text-yellow-800',
                                         'label' => 'Dalam Proses',
                                     ],
-                                    'selesai' => [
+                                    'Selesai' => [
                                         'bg' => 'bg-green-100',
                                         'text' => 'text-green-800',
                                         'label' => 'Selesai',

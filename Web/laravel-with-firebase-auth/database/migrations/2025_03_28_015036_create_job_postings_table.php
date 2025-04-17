@@ -23,6 +23,7 @@ return new class extends Migration
             $table->enum('jenis_pekerjaan', ['Kebersihan', 'Perbaikan Rumah','Perbaikan Kendaraan','Perbaikan Elektronik', 'Tutor', 'Rumah Tangga', 'Fotografi & videografi', 'Lainnya'])->default('Lainnya');
             $table->integer('time');
             $table->timestamp('tanggaldanwaktu');
+            $table->string('email_pengambil')->nullable();
             $table->string('image1')->nullable();
             $table->string('image2')->nullable();
             $table->string('image3')->nullable();

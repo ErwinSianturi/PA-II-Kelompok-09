@@ -13,49 +13,61 @@
             <div class="card-body">
                 <table class="table table-striped table-bordered">
                     <thead class="thead-dark">
-                        <tr>
-                            <th>Gambar 1</th>
-                            <th>Nama Pekerjaan</th>
-                            <th>Harga</th>
-                            <th>Status</th>
-                            <th>Jenis Pekerjaan</th>
-                            <th>Waktu</th>
-                            <th>Jumlah Pendaftar</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
                         @foreach ($jobs as $job)
                             <tr>
-                                <td>
-                                    @if ($job->image1)
-                                        <img src="{{ asset($job->image1) }}" width="100" height="100"
-                                            style="object-fit: cover;">
-                                    @else
-                                        <span class="text-muted">No Image</span>
-                                    @endif
-                                </td>
-                                <td>{{ $job->nama_pekerjaan }}</td>
-                                <td>Rp{{ number_format($job->harga_pekerjaan, 0, ',', '.') }}</td>
-                                <td>
-                                    @php
-                                        $status_classes = [
-                                            'tersedia' => 'badge-primary',
-                                            'dalam proses' => 'badge-warning',
-                                            'selesai' => 'badge-success',
-                                        ];
-                                    @endphp
-                                    <span class="badge {{ $status_classes[$job->status_pekerjaan] ?? 'badge-secondary' }}">
-                                        {{ ucfirst($job->status_pekerjaan) }}
-                                    </span>
-                                </td>
-                                <td>{{ $job->jenis_pekerjaan }}</td>
-                                <td>{{ $job->time }}</td>
-                                <td>
-                                    {{ $job->applications->count() }} <!-- Display the number of applicants -->
-                                </td>
+                                <th>Gambar 1</th>
+                                <th>Nama Pekerjaan</th>
+                                <th>Harga</th>
+                                <th>Status</th>
+                                <th>Jenis Pekerjaan</th>
+                                <th>Waktu</th>
+                                <th>Jumlah Pendaftar</th>
+                                @if ($job->status_pekerjaan == 'Tersedia')
+                                    <th>Aksi</th>
+                                @elseif ($job->status_pekerjaan == 'Dalam Proses')
+                                    <th>Email Pengambil</th>
+                                    <th>Action</th>
+                                @endif
 
-                                <td>
+                            </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>
+                                @if ($job->image1)
+                                    <img src="{{ asset($job->image1) }}" width="100" height="100"
+                                        style="object-fit: cover;">
+                                @else
+                                    <span class="text-muted">No Image</span>
+                                @endif
+                            </td>
+                            <td>{{ $job->nama_pekerjaan }}</td>
+                            <td>Rp{{ number_format($job->harga_pekerjaan, 0, ',', '.') }}</td>
+                            <td>
+                                @php
+                                    $status_classes = [
+                                        'tersedia' => 'badge-primary',
+                                        'dalam proses' => 'badge-warning',
+                                        'selesai' => 'badge-success',
+                                    ];
+                                @endphp
+                                <span class="badge {{ $status_classes[$job->status_pekerjaan] ?? 'badge-secondary' }}">
+                                    {{ ucfirst($job->status_pekerjaan) }}
+                                </span>
+                            </td>
+                            <td>{{ $job->jenis_pekerjaan }}</td>
+                            <td>{{ $job->time }}</td>
+                            <td>
+                                {{ $job->applications->count() }} <!-- Display the number of applicants -->
+                            </td>
+                            @if ($job->status_pekerjaan == 'Dalam Proses')
+                                <td>{{ $job->email_pengambil }}</td>
+                            @endif
+
+                            <td>
+                                @if ($job->status_pekerjaan == 'Tersedia')
+                                    <!-- Only show buttons if the status is 'Tersedia' -->
                                     <a href="{{ url('jobs/' . $job->id . '/edit') }}"
                                         class="btn btn-sm btn-warning">Edit</a>
                                     <a href="{{ url('jobs/' . $job->id . '/delete') }}" class="btn btn-sm btn-danger"
@@ -63,8 +75,9 @@
                                     <!-- Button to view the applicants -->
                                     <a href="{{ url('jobs/' . $job->id . '/applicants') }}"
                                         class="btn btn-sm btn-info">View Applicants</a>
-                                </td>
-                            </tr>
+                                @endif
+                            </td>x
+                        </tr>
                         @endforeach
                     </tbody>
                 </table>
