@@ -139,7 +139,7 @@
                         </div>
 
                         {{-- Gambar --}}
-                        <img src="{{ asset($job->image) }}" alt="Job Image"
+                        <img src="{{ asset($job->image1) }}" alt="Job Image"
                             class="w-16 h-16 rounded-full object-cover mr-5">
 
                         {{-- Info pekerjaan --}}
@@ -155,7 +155,7 @@
                                         d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-12.75a.75.75 0 00-1.5 0v4.25a.75.75 0 00.44.68l3.25 1.5a.75.75 0 10.62-1.36l-2.81-1.29V5.25z"
                                         clip-rule="evenodd" />
                                 </svg>
-                                {{ \Carbon\Carbon::parse($job->waktu_pekerjaan)->format('H.i') }} WIB
+                                {{ \Carbon\Carbon::parse($job->tanggaldanwaktu)->format('H.i') }} WIB
                             </div>
                         </div>
 

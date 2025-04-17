@@ -17,7 +17,6 @@
                             <th>Gambar 1</th>
                             <th>Nama Pekerjaan</th>
                             <th>Harga</th>
-                            <th>Email</th>
                             <th>Status</th>
                             <th>Jenis Pekerjaan</th>
                             <th>Waktu</th>
@@ -38,7 +37,6 @@
                                 </td>
                                 <td>{{ $job->nama_pekerjaan }}</td>
                                 <td>Rp{{ number_format($job->harga_pekerjaan, 0, ',', '.') }}</td>
-                                <td>{{ $job->email }}</td>
                                 <td>
                                     @php
                                         $status_classes = [

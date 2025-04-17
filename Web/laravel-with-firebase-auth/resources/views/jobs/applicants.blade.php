@@ -23,9 +23,6 @@
                             <td>
                                 <!-- View User Data Button -->
                                 <a href="{{ route('users.show', ['email' => $application->user_email]) }}" class="btn btn-info btn-sm">View User</a>
-
-                                <!-- Accept User Button -->
-
                             </td>
                         </tr>
                     @endforeach

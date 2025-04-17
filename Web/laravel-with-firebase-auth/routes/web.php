@@ -59,3 +59,4 @@ Route::get('jobs/{jobId}/applicants', [JobsController::class, 'showApplicants'])
 Route::get('jobs/{jobId}/apply', [JobsController::class, 'apply']);
 
 Route::get('users/{email}', [profilController::class, 'show'])->name('users.show');
+

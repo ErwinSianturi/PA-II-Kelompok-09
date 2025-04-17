@@ -3,12 +3,13 @@
 @section('content')
     <div class="container">
         <h2>Edit Pekerjaan</h2>
-        <form action="{{url('jobs/' . $jobs->id . '/edit') }}" method="POST" enctype="multipart/form-data" id="jobForm">
+        <form action="{{ url('jobs/' . $jobs->id . '/edit') }}" method="POST" enctype="multipart/form-data" id="jobForm">
             @csrf
             @method('PUT')
             <div class="mb-3">
                 <label>Nama Pekerjaan</label>
-                <input type="text" name="nama_pekerjaan" class="form-control" value="{{ old('nama_pekerjaan', $jobs->nama_pekerjaan) }}" required>
+                <input type="text" name="nama_pekerjaan" class="form-control"
+                    value="{{ old('nama_pekerjaan', $jobs->nama_pekerjaan) }}" required>
             </div>
 
             <div class="mb-3" style="display: none">
@@ -18,8 +19,11 @@
 
             <div class="mb-3">
                 <label>Harga Pekerjaan</label>
-                <input type="text" id="harga_pekerjaan" name="harga_pekerjaan" class="form-control" value="{{ old('harga_pekerjaan', 'Rp. ' . number_format($jobs->harga_pekerjaan)) }}" required oninput="formatHarga(this)" onblur="validateHarga(this)">
-                <small id="hargaErrorMessage" class="form-text text-danger" style="display: none;">Harga harus antara 20.000 dan 2.000.000.</small>
+                <input type="text" id="harga_pekerjaan" name="harga_pekerjaan" class="form-control"
+                    value="{{ old('harga_pekerjaan', 'Rp. ' . number_format($jobs->harga_pekerjaan)) }}" required
+                    oninput="formatHarga(this)" onblur="validateHarga(this)">
+                <small id="hargaErrorMessage" class="form-text text-danger" style="display: none;">Harga harus antara 20.000
+                    dan 2.000.000.</small>
             </div>
 
             <script>
@@ -80,21 +84,32 @@
             <div class="mb-3">
                 <label>Jenis Pekerjaan</label>
                 <select name="jenis_pekerjaan" class="form-control" required>
-                    <option value="Kebersihan" {{ $jobs->jenis_pekerjaan == 'Kebersihan' ? 'selected' : '' }}>Kebersihan</option>
-                    <option value="Perbaikan Rumah" {{ $jobs->jenis_pekerjaan == 'Perbaikan Rumah' ? 'selected' : '' }}>Perbaikan Rumah</option>
-                    <option value="Perbaikan Kendaraan" {{ $jobs->jenis_pekerjaan == 'Perbaikan Kendaraan' ? 'selected' : '' }}>Perbaikan Kendaraan</option>
-                    <option value="Perbaikan Elektronik" {{ $jobs->jenis_pekerjaan == 'Perbaikan Elektronik' ? 'selected' : '' }}>Perbaikan Elektronik</option>
+                    <option value="Kebersihan" {{ $jobs->jenis_pekerjaan == 'Kebersihan' ? 'selected' : '' }}>Kebersihan
+                    </option>
+                    <option value="Perbaikan Rumah" {{ $jobs->jenis_pekerjaan == 'Perbaikan Rumah' ? 'selected' : '' }}>
+                        Perbaikan Rumah</option>
+                    <option value="Perbaikan Kendaraan"
+                        {{ $jobs->jenis_pekerjaan == 'Perbaikan Kendaraan' ? 'selected' : '' }}>Perbaikan Kendaraan
+                    </option>
+                    <option value="Perbaikan Elektronik"
+                        {{ $jobs->jenis_pekerjaan == 'Perbaikan Elektronik' ? 'selected' : '' }}>Perbaikan Elektronik
+                    </option>
                     <option value="Tutor" {{ $jobs->jenis_pekerjaan == 'Tutor' ? 'selected' : '' }}>Tutor</option>
-                    <option value="Rumah Tangga" {{ $jobs->jenis_pekerjaan == 'Rumah Tangga' ? 'selected' : '' }}>Rumah Tangga</option>
-                    <option value="Fotografi & videografi" {{ $jobs->jenis_pekerjaan == 'Fotografi & videografi' ? 'selected' : '' }}>Fotografi & videografi</option>
+                    <option value="Rumah Tangga" {{ $jobs->jenis_pekerjaan == 'Rumah Tangga' ? 'selected' : '' }}>Rumah
+                        Tangga</option>
+                    <option value="Fotografi & videografi"
+                        {{ $jobs->jenis_pekerjaan == 'Fotografi & videografi' ? 'selected' : '' }}>Fotografi & videografi
+                    </option>
                     <option value="Lainnya" {{ $jobs->jenis_pekerjaan == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
                 </select>
             </div>
 
             <div class="mb-3">
                 <label>Lama Pekerjaan dalam Jam</label>
-                <input type="number" name="time" id="time" class="form-control" value="{{ old('time', $jobs->time) }}" max="8" required>
-                <small id="timeErrorMessage" class="form-text text-danger" style="display: none;">Waktu tidak bisa lebih dari 8 jam.</small>
+                <input type="number" name="time" id="time" class="form-control"
+                    value="{{ old('time', $jobs->time) }}" max="8" required>
+                <small id="timeErrorMessage" class="form-text text-danger" style="display: none;">Waktu tidak bisa lebih
+                    dari 8 jam.</small>
             </div>
 
             <script>
@@ -110,22 +125,29 @@
                 });
             </script>
 
+            <label for="tanggaldanwaktu">Date and Time</label>
+            <input type="datetime-local" name="tanggaldanwaktu" id="tanggaldanwaktu" required
+                value="{{ old('tanggaldanwaktu', \Carbon\Carbon::parse($jobs->tanggaldanwaktu)->format('Y-m-d\TH:i')) }}">
+
             <div class="mb-3">
                 <label>Gambar 1</label>
                 <input type="file" name="image1" id="image1Input">
-                <img id="previewImage1" src="{{ asset($jobs->image1) }}" alt="Preview" width="100" height="100" style="object-fit: cover;">
+                <img id="previewImage1" src="{{ asset($jobs->image1) }}" alt="Preview" width="100" height="100"
+                    style="object-fit: cover;">
             </div>
 
             <div class="mb-3">
                 <label>Gambar 2</label>
                 <input type="file" name="image2" id="image2Input">
-                <img id="previewImage2" src="{{ asset($jobs->image2) }}" alt="Preview" width="100" height="100" style="object-fit: cover;">
+                <img id="previewImage2" src="{{ asset($jobs->image2) }}" alt="Preview" width="100" height="100"
+                    style="object-fit: cover;">
             </div>
 
             <div class="mb-3">
                 <label>Gambar 3</label>
                 <input type="file" name="image3" id="image3Input">
-                <img id="previewImage3" src="{{ asset($jobs->image3) }}" alt="Preview" width="100" height="100" style="object-fit: cover;">
+                <img id="previewImage3" src="{{ asset($jobs->image3) }}" alt="Preview" width="100" height="100"
+                    style="object-fit: cover;">
             </div>
 
             <script>

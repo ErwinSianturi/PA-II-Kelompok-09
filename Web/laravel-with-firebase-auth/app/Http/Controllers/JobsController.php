@@ -79,6 +79,7 @@ class JobsController extends Controller
 
     public function update(Request $request, int $id)
     {
+        // Validate the updated request data
         $validated = $request->validate([
             'nama_pekerjaan' => 'required|string',
             'email' => 'required|email',
@@ -92,20 +93,31 @@ class JobsController extends Controller
             'image2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'image3' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'time' => 'required|numeric',
+            'tanggaldanwaktu' => 'required|date', // Added tanggaldanwaktu validation
         ]);
 
+        // Retrieve the job posting
         $job = JobPosting::findOrFail($id);
         $imagePaths = [];
+
+        // Handle image uploads if they are present in the request
         foreach (['image1', 'image2', 'image3'] as $imageField) {
             if ($request->hasFile($imageField)) {
+                // Delete old images if they exist
+                if ($job->$imageField && file_exists(public_path($job->$imageField))) {
+                    unlink(public_path($job->$imageField)); // Delete the old image
+                }
+
+                // Upload the new image
                 $file = $request->file($imageField);
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->move(public_path('JobPost'), $filename);
                 $imagePaths[$imageField] = 'JobPost/' . $filename;
-                $job->$imageField = $imagePaths[$imageField]; // Update image path
+                $job->$imageField = $imagePaths[$imageField]; // Update image path for the job
             }
         }
 
+        // Update the job posting with new details
         $job->update([
             'nama_pekerjaan' => $request->nama_pekerjaan,
             'email' => $request->email,
@@ -116,10 +128,13 @@ class JobsController extends Controller
             'status_pekerjaan' => $request->status_pekerjaan,
             'jenis_pekerjaan' => $request->jenis_pekerjaan,
             'time' => $request->time,
+            'tanggaldanwaktu' => $request->tanggaldanwaktu, // Added tanggaldanwaktu field update
         ]);
 
+        // Redirect with success message
         return redirect('jobs')->with('status', 'Job updated successfully!');
     }
+
 
     public function delete(int $id)
     {
@@ -149,6 +164,7 @@ class JobsController extends Controller
 
         return view('jobs.category', compact('jobs', 'jenis_pekerjaan'));
     }
+    
 
     public function showdetil(int $id)
     {
