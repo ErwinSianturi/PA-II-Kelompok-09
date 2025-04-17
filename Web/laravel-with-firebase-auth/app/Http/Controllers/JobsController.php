@@ -195,11 +195,20 @@ class JobsController extends Controller
             'alasan' => 'required|string|max:1000',
         ]);
 
+        // Get the authenticated user
+        $user = Auth::user();
+
+        // Check if the user's profile is complete (assuming profile fields like 'name' and 'phone' are required)
+        if (empty($user->name) || empty($user->phone)) {
+            // If profile is incomplete, redirect to the profile page with a message
+            return redirect('profil')->with('error', 'Please complete your profile before applying for a job.');
+        }
+
         // Find the job posting by ID
         $jobPosting = JobPosting::findOrFail($jobId);
 
         // Get the authenticated user's email
-        $userEmail = Auth::user()->email;
+        $userEmail = $user->email;
 
         // Check if the user has already applied for the job
         $existingApplication = Application::where('job_posting_id', $jobId)
@@ -225,6 +234,7 @@ class JobsController extends Controller
         return redirect('jobs/' . $jobId . '/detail')
             ->with('success', 'Your application has been submitted.');
     }
+
 
     public function showApplicants(int $id)
     {
