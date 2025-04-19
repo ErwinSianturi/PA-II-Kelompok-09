@@ -12,9 +12,10 @@ class JobsController extends Controller
 {
     public function index()
     {
-        // Retrieve jobs posted by the authenticated user
-        $jobs = JobPosting::where('email', Auth::user()->email)->get();
-        return view('jobs.index', compact('jobs'));
+        $postedJobs = JobPosting::where('email', Auth::user()->email)->get();
+        $takenJobs = JobPosting::where('email_pengambil', Auth::user()->email)->get();
+
+        return view('jobs.index', compact('postedJobs', 'takenJobs'));
     }
 
     public function create()
