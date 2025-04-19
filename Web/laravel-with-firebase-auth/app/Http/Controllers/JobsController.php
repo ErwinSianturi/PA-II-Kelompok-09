@@ -79,8 +79,8 @@ class JobsController extends Controller
     public function edit(int $id)
     {
         // Retrieve the job posting by ID
-        $job = JobPosting::findOrFail($id);
-        return view('jobs.edit', compact('job'));
+        $jobs = JobPosting::findOrFail($id);
+        return view('jobs.edit', compact('jobs'));
     }
 
     public function update(Request $request, int $id)
@@ -195,28 +195,22 @@ class JobsController extends Controller
             'alasan' => 'required|string|max:1000',
         ]);
 
-        // Get the authenticated user
-        $user = Auth::user();
 
-        // Check if the user's profile is complete (assuming profile fields like 'name' and 'phone' are required)
-        if (empty($user->name) || empty($user->phone)) {
-            // If profile is incomplete, redirect to the profile page with a message
+        $profils = Profil::where('email', Auth::user()->email)->first();
+        if (!$profils || empty($profils->username)) {
             return redirect('profil')->with('error', 'Please complete your profile before applying for a job.');
         }
 
         // Find the job posting by ID
         $jobPosting = JobPosting::findOrFail($jobId);
 
-        // Get the authenticated user's email
-        $userEmail = $user->email;
+        $userEmail = $profils->email;
 
-        // Check if the user has already applied for the job
         $existingApplication = Application::where('job_posting_id', $jobId)
             ->where('user_email', $userEmail)
             ->first();
 
         if ($existingApplication) {
-            // Redirect back to the job detail page with an error message
             return redirect('jobs/' . $jobId . '/detail')
                 ->with('error', 'You have already applied for this job.');
         }

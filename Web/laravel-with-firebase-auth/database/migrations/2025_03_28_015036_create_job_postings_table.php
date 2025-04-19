@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('lingkup_kerja');
             $table->enum('status_pekerjaan', ['Tersedia', 'Dalam Proses','Selesai'])->default('Tersedia');
             $table->enum('jenis_pekerjaan', ['Kebersihan', 'Perbaikan Rumah','Perbaikan Kendaraan','Perbaikan Elektronik', 'Tutor', 'Rumah Tangga', 'Fotografi & videografi', 'Lainnya'])->default('Lainnya');
+            $table->enum('status_pekerja',['Menunggu', 'Bekerja', 'Selesai']);
             $table->integer('time');
             $table->timestamp('tanggaldanwaktu');
             $table->string('email_pengambil')->nullable();

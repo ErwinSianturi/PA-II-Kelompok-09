@@ -21,5 +21,8 @@ class profil extends Model
         'alamat_lengkap',
         'pekerjaan',
         'WA',
+        'Status',
+        'Pembayaran',
+        'Ratings',
     ];
 }

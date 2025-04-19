@@ -37,8 +37,10 @@ return new class extends Migration
             ]);
             $table->string('WA');
             $table->string('desa');
-            $table->string('alamat_lengkap');
+            $table->string('alamat_lengkap')->nullable();
             $table->string('pekerjaan');
+            $table->string('Pembayaran')->nullable();
+            $table->enum('status_pekerja',['Menunggu', 'Bekerja', 'Selesai'])->nullable();
             $table->string('image')->nullable();
             $table->timestamps();
         });
