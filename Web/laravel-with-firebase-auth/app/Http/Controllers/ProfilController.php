@@ -8,23 +8,85 @@ use Illuminate\Http\Request;
 
 class ProfilController extends Controller
 {
+    // Show the profile page
     public function index()
     {
+        // Get the profile of the authenticated user
         $profils = Profil::where('email', Auth::user()->email)->get();
-        if (!$profils) {
+
+        // If no profile exists, redirect to add profile page
+        if ($profils->isEmpty()) {
             return redirect()->route('addprofile');
         }
 
         return view('profil.index', compact('profils'));
     }
 
+    // Show the form for creating a new profile
     public function create()
     {
         return view('profil.addprofil');
     }
 
+    // Store a newly created profile
     public function store(Request $request)
     {
+        // Validate the form data
+        $validated = $request->validate([
+            'email' => 'required|email',
+            'username' => 'required|string|max:255',
+            'harga_pekerjaan' => 'required|in:Laki-laki,Perempuan',
+            'tanggal_lahir' => 'required|date',
+            'kecamatan' => 'required|in:Ajibata,Balige,Bonatua Lunasi,Borbor,Habinsaran,Laguboti,Lumban Julu,Nassau,Parmaksian,Pintu Pohan Meranti,Porsea,Siantar Narumonda,Sigumpar,Silaen,Tampahan,Uluan',
+            'desa' => 'required|string',
+            'WA' => 'required|string',
+            'alamat_lengkap' => 'required|string',
+            'pekerjaan' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Handle the image upload if available
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('profile_images'), $filename);
+            $imagePath = 'profile_images/' . $filename; // Store relative path
+        }
+
+        // Create a new profile record in the database
+        Profil::create([
+            'email' => $request->email,
+            'username' => $request->username,
+            'harga_pekerjaan' => $request->harga_pekerjaan,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'kecamatan' => $request->kecamatan,
+            'WA' => $request->WA,
+            'desa' => $request->desa,
+            'alamat_lengkap' => $request->alamat_lengkap,
+            'pekerjaan' => $request->pekerjaan,
+            'image' => $imagePath,
+        ]);
+
+        // Redirect to profile page after storing
+        return redirect('/profil');
+    }
+
+    // Show the form for editing an existing profile
+    public function edit($id)
+    {
+        // Find the profile by ID
+        $profil = Profil::findOrFail($id);
+
+        return view('profil.editprofil', compact('profil'));
+    }
+
+    public function update(Request $request, $id)
+    {
+
+        $profil = Profil::findOrFail($id);
+
+        // Validate the form data
         $validated = $request->validate([
             'email' => 'required|email',
             'username' => 'required|string|max:255',
@@ -37,27 +99,41 @@ class ProfilController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $imagePath = null;
 
         if ($request->hasFile('image')) {
+            if ($profil->image && file_exists(public_path($profil->image))) {
+                unlink(public_path($profil->image));
+            }
+
+
             $file = $request->file('image');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('profile_images'), $filename);
-            $imagePath = 'profile_images/' . $filename; // Relative path to be stored
+            $imagePath = 'profile_images/' . $filename;
+
+
+            $profil->image = $imagePath;
         }
 
-        Profil::create([
-            'email' => $request->email,
-            'username' => $request->username,
-            'harga_pekerjaan' => $request->harga_pekerjaan,
-            'tanggal_lahir' => $request->tanggal_lahir,
-            'provinsi' => $request->provinsi,
-            'desa' => $request->desa,
-            'alamat_lengkap' => $request->alamat_lengkap,
-            'pekerjaan' => $request->pekerjaan,
-            'image' => $imagePath,
+        $profil->update([
+            'email' => $validated['email'],
+            'username' => $validated['username'],
+            'harga_pekerjaan' => $validated['harga_pekerjaan'],
+            'tanggal_lahir' => $validated['tanggal_lahir'],
+            'provinsi' => $validated['provinsi'],
+            'desa' => $validated['desa'],
+            'alamat_lengkap' => $validated['alamat_lengkap'],
+            'pekerjaan' => $validated['pekerjaan'],
+            'image' => isset($imagePath) ? $imagePath : $profil->image,
         ]);
 
-        return redirect('/profil')->with('status', 'Profil berhasil disimpan!');
+        // Redirect to profile index page after updating
+        return redirect()->route('profil.index');
+    }
+    public function show($email)
+    {
+        $user = Profil::where('email', $email)->firstOrFail();
+
+        return view('users.show', compact('user'));
     }
 }
