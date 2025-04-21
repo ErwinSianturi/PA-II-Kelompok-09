@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart'; //apalagi ini Tuhaan
+import 'package:image_picker/image_picker.dart'; 
 import 'package:flutter_application/pages/login-register/form_page.dart';
 import 'package:flutter_application/pages/login-register/models/job.dart';
 import 'package:flutter_application/pages/login-register/job_list_page.dart';
