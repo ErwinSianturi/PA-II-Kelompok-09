@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-//import 'image_picker.dart'; // gada file namanya ini
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_application/pages/login-register/models/job.dart';
 import 'validasi.dart';

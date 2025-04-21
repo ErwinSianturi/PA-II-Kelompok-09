@@ -7,6 +7,7 @@ import 'package:flutter_application/pages/login-register/job_list_page.dart';
 import 'package:flutter_application/pages/profil/profil.dart';
 
 
+
 void main() {
   runApp(MyApp());
 }
@@ -451,7 +452,7 @@ class BottomNavBar extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ProfilePage()),
+                MaterialPageRoute(builder: (context) => ProfilPage()),
                 );
               },
             ),
