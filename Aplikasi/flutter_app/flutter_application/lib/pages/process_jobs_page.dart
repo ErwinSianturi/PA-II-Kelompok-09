@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/component/job_card.dart';
 import 'package:flutter_application/component/job_selector.dart';
-import 'package:flutter_application/pages/job_detail.dart'; 
+import 'package:flutter_application/component/tab_filter.dart';
+import 'package:flutter_application/pages/job_detail.dart';
+import 'package:flutter_application/pages/edit_status.dart'; 
 
 class ProcessJobsPage extends StatelessWidget {
   const ProcessJobsPage({super.key});
@@ -28,6 +30,7 @@ class ProcessJobsPage extends StatelessWidget {
         child: Column(
           children: [
             const DateSelector(),
+            const TabFilter(),
             const SizedBox(height: 16),
             Expanded(
               child: ListView(
@@ -38,16 +41,34 @@ class ProcessJobsPage extends StatelessWidget {
                     time: 'Pengerjaan: 14.00 WIB',
                     color: Colors.orange,
                     icon: Icons.directions_car,
-                    image:Image.asset('assets/images/kendaraan.png'),
+                    image: Image.asset('assets/images/kendaraan.png'),
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => const JobDetailPage()),
                       );
                     },
-                    statusWidget: const Text(
-                      'Dalam Proses',
-                      style: TextStyle(color: Colors.purple, fontWeight: FontWeight.bold),
+                    statusWidget: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          'Dalam Proses',
+                          style: TextStyle(
+                              color: Colors.purple,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(width: 8),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const EditStatus()),
+                            );
+                          },
+                          child: const Icon(Icons.edit, color: Colors.grey, size: 18),
+                        ),
+                      ],
                     ),
                   ),
                 ],

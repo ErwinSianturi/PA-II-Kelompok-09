@@ -140,7 +140,7 @@ class JobDeskripPage extends StatelessWidget {
             const Text(
               'Membersihkan halaman rumah dari sampah, dedaunan, dan kotoran, serta merapikan taman agar lebih rapi dan nyaman. Cocok untuk yang teliti, cekatan, dan dapat bekerja di luar ruangan.',
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 16), 
             const Text(
               'Syarat & Ketentuan',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),

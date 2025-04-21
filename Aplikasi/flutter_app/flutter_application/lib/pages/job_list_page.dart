@@ -59,10 +59,6 @@ class JobListPage extends StatelessWidget {
                       image: AssetImage('assets/images/pekarangan.png'),
                       fit: BoxFit.cover,
                     ),
-                    statusWidget: Text(
-                      'Tersedia',
-                      style: TextStyle(color: Colors.purple, fontWeight: FontWeight.bold),
-                    ),
                     onTap: _onJobTap,
                   ),
                   SizedBox(height: 12),
@@ -75,10 +71,6 @@ class JobListPage extends StatelessWidget {
                     image: Image(
                       image: AssetImage('assets/images/kendaraan.png'),
                       fit: BoxFit.cover,
-                    ),
-                    statusWidget: Text(
-                      'Dalam Proses',
-                      style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold),
                     ),
                     onTap: _onJobTap,
                   ),
@@ -93,12 +85,8 @@ class JobListPage extends StatelessWidget {
                       image: AssetImage('assets/images/sofa.png'),
                       fit: BoxFit.cover,
                     ),
-                    statusWidget: Text(
-                      'Tersedia',
-                      style: TextStyle(color: Colors.purple, fontWeight: FontWeight.bold),
-                    ),
                     onTap: _onJobTap,
-                  ),
+                  ), 
                   SizedBox(height: 12),
                   JobCard(
                     title: 'Sofa Cleaning',
@@ -109,10 +97,6 @@ class JobListPage extends StatelessWidget {
                     image: Image(
                       image: AssetImage('assets/images/cleaning.png'),
                       fit: BoxFit.cover,
-                    ),
-                    statusWidget: Text(
-                      'Selesai',
-                      style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
                     ),
                     onTap: _onJobTap,
                   ),
@@ -141,7 +125,6 @@ class JobListPage extends StatelessWidget {
   }
 
   static void _onJobTap() {
-    // Di sini nanti bisa kamu isi untuk pindah halaman
     debugPrint("Job tapped");
   }
 }

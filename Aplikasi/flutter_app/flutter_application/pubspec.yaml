@@ -21,7 +21,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # Tambahkan asset di sini kalau dibutuhkan nanti:
   assets:
    - assets/images/pekarangan.png
    - assets/images/sofa.png

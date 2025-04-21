@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/component/job_card.dart';
+import 'package:flutter_application/component/tab_filter.dart'; 
 import 'package:flutter_application/component/job_selector.dart';
 import 'package:flutter_application/pages/job_done.dart';
+import 'package:flutter_application/pages/edit_status.dart';
 
 class AllJobsPage extends StatelessWidget {
   const AllJobsPage({super.key});
@@ -28,6 +30,8 @@ class AllJobsPage extends StatelessWidget {
         child: Column(
           children: [
             const DateSelector(),
+            const SizedBox(height: 12),
+            const TabFilter(), 
             const SizedBox(height: 16),
             Expanded(
               child: ListView(
@@ -45,9 +49,29 @@ class AllJobsPage extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => const JobDonePage()),
                       );
                     },
-                    statusWidget: const Text(
-                      'Selesai',
-                      style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                    statusWidget: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          'Selesai',
+                          style: TextStyle(
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const EditStatus(),
+                              ),
+                            );
+                          },
+                          child: const Icon(Icons.edit, size: 18, color: Colors.grey),
+                        ),
+                      ],
                     ),
                   ),
                 ],

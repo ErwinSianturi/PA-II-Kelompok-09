@@ -58,7 +58,7 @@ class _TabFilterState extends State<TabFilter> {
               ),
               selected: isSelected,
               onSelected: (_) => _onChipTap(status),
-              selectedColor: Colors.purple,
+              selectedColor: const Color.fromARGB(255, 194, 51, 219),
               backgroundColor: Colors.grey.shade200,
               elevation: isSelected ? 4 : 0,
               pressElevation: 6,

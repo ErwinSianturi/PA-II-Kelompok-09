@@ -11,10 +11,29 @@ class JobRegisterPage extends StatefulWidget {
 class _JobRegisterPageState extends State<JobRegisterPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _locationController = TextEditingController();
   final TextEditingController _experienceController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
 
+  final List<String> _kecamatanList = [
+    'Ajibata',
+    'Balige',
+    'Bonatua Lunasi',
+    'Borbor',
+    'Habinsaran',
+    'Laguboti',
+    'Lumban Julu',
+    'Nassau',
+    'Parmaksian',
+    'Pintu Pohan Meranti',
+    'Porsea',
+    'Siantar Narumonda',
+    'Sigumpar',
+    'Silaen',
+    'Tampahan',
+    'Uluan',
+  ];
+
+  String? _selectedKecamatan;
   TimeOfDay selectedTime = const TimeOfDay(hour: 9, minute: 0);
   bool isAgreed = false;
 
@@ -33,7 +52,7 @@ class _JobRegisterPageState extends State<JobRegisterPage> {
   void _handleSubmit() {
     if (_nameController.text.isEmpty ||
         _phoneController.text.isEmpty ||
-        _locationController.text.isEmpty ||
+        _selectedKecamatan == null ||
         _experienceController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -54,7 +73,6 @@ class _JobRegisterPageState extends State<JobRegisterPage> {
       return;
     }
 
-    // Tampilkan notifikasi berhasil
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text("Form disubmit!..."),
@@ -62,7 +80,6 @@ class _JobRegisterPageState extends State<JobRegisterPage> {
       ),
     );
 
-    // Pindah ke halaman validasi
     Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => const FormValidasiPage()),
@@ -83,7 +100,32 @@ class _JobRegisterPageState extends State<JobRegisterPage> {
           children: [
             _buildTextField(_nameController, "Nama"),
             _buildTextField(_phoneController, "No HP/WhatsApp", keyboardType: TextInputType.phone),
-            _buildTextField(_locationController, "Lokasi"),
+            
+            // Dropdown lokasi
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: DropdownButtonFormField<String>(
+                decoration: InputDecoration(
+                  labelText: 'Pilih Lokasi (Kecamatan)',
+                  labelStyle: const TextStyle(color: Colors.deepPurple),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                ),
+                value: _selectedKecamatan,
+                items: _kecamatanList.map((String kecamatan) {
+                  return DropdownMenuItem<String>(
+                    value: kecamatan,
+                    child: Text(kecamatan),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedKecamatan = value;
+                  });
+                },
+              ),
+            ),
+
             const SizedBox(height: 16),
             Row(
               children: [

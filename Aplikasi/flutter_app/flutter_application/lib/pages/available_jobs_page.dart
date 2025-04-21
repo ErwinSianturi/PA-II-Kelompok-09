@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/component/job_card.dart';
+import 'package:flutter_application/component/tab_filter.dart';
 import 'package:flutter_application/component/job_selector.dart';
-import 'package:flutter_application/pages/job_deskrip.dart'; 
+import 'package:flutter_application/pages/job_deskrip.dart';
 import 'package:flutter_application/pages/job_desk.dart';
+import 'package:flutter_application/pages/edit_status.dart'; 
 
 class AvailableJobsPage extends StatelessWidget {
   const AvailableJobsPage({super.key});
@@ -29,6 +31,7 @@ class AvailableJobsPage extends StatelessWidget {
         child: Column(
           children: [
             const DateSelector(),
+            const TabFilter(),
             const SizedBox(height: 16),
             Expanded(
               child: ListView(
@@ -46,9 +49,27 @@ class AvailableJobsPage extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => const JobDeskripPage()),
                       );
                     },
-                    statusWidget: const Text(
-                      'Tersedia',
-                      style: TextStyle(color: Colors.purple, fontWeight: FontWeight.bold),
+                    statusWidget: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          'Tersedia',
+                          style: TextStyle(
+                              color: Colors.purple,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(width: 8),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const EditStatus()),
+                            );
+                          },
+                          child: const Icon(Icons.edit, color: Colors.grey, size: 18),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -65,9 +86,27 @@ class AvailableJobsPage extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => const JobDeskPage()),
                       );
                     },
-                    statusWidget: const Text(
-                      'Tersedia',
-                      style: TextStyle(color: Colors.purple, fontWeight: FontWeight.bold),
+                    statusWidget: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          'Tersedia',
+                          style: TextStyle(
+                              color: Colors.purple,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(width: 8),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const EditStatus()),
+                            );
+                          },
+                          child: const Icon(Icons.edit, color: Colors.grey, size: 18),
+                        ),
+                      ],
                     ),
                   ),
                 ],
