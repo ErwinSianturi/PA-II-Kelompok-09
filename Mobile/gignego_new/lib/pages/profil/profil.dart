@@ -12,12 +12,18 @@ class ProfilPage extends StatefulWidget {
   @override
   _ProfilPageState createState() => _ProfilPageState();
 }
+
 class _ProfilPageState extends State<ProfilPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
-      floatingActionButton: CustomFAB(),
+      backgroundColor: Colors.white,
+      floatingActionButton: CustomFAB(
+        onPressed: () {
+          // Aksi ketika FAB ditekan, misalnya ke halaman tambah kerja
+          print("FAB ditekan");
+        },
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavBar(),
       body: SingleChildScrollView(
@@ -32,16 +38,11 @@ class _ProfilPageState extends State<ProfilPage> {
                   padding: EdgeInsets.only(top: 10),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [
-                        Color(0xFFAB74F1),
-                        Color(0xFF7C4CB8),
-                        Color(0xFF593785)
-                      ],
+                      colors: [Color(0xFFAB74F1), Color(0xFF7C4CB8), Color(0xFF593785)],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                     ),
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(30)),
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(20),
@@ -49,34 +50,23 @@ class _ProfilPageState extends State<ProfilPage> {
                       children: [
                         SizedBox(height: 40),
                         Text("Yenny Angelita Gurning",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold)),
+                            style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
                         Text("Profil Belum Lengkap",
-                            style:
-                                TextStyle(color: Colors.white70, fontSize: 14)),
+                            style: TextStyle(color: Colors.white70, fontSize: 14)),
                         Text("Last Update: 20 Maret 2025",
-                            style:
-                                TextStyle(color: Colors.white70, fontSize: 12)),
+                            style: TextStyle(color: Colors.white70, fontSize: 12)),
                         SizedBox(height: 10),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => EditProfilPage()),
-                            );
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => EditProfilPage()));
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.transparent,
                             side: BorderSide(color: Colors.white),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                           ),
-                          child: Text("Edit Profil",
-                              style: TextStyle(color: Colors.white)),
+                          child: Text("Edit Profil", style: TextStyle(color: Colors.white)),
                         ),
                         SizedBox(height: 20),
                         Container(
@@ -84,37 +74,26 @@ class _ProfilPageState extends State<ProfilPage> {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(15),
-                            boxShadow: [
-                              BoxShadow(color: Colors.black12, blurRadius: 5)
-                            ],
+                            boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5)],
                           ),
                           child: Column(
                             children: [
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
                                   Column(
                                     children: [
-                                      Text(
-                                          "Penghasilan Belum \nJatuh Tempo (Rp)",
-                                          textAlign: TextAlign.center),
+                                      Text("Penghasilan Belum \nJatuh Tempo (Rp)", textAlign: TextAlign.center),
                                       SizedBox(height: 5),
-                                      Text("50.000,00",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold)),
+                                      Text("50.000,00", style: TextStyle(fontWeight: FontWeight.bold)),
                                     ],
                                   ),
-                                  Container(
-                                      width: 1, height: 40, color: Colors.grey),
+                                  Container(width: 1, height: 40, color: Colors.grey),
                                   Column(
                                     children: [
-                                      Text("Aset Penghasilan (Rp)",
-                                          textAlign: TextAlign.center),
+                                      Text("Aset Penghasilan (Rp)", textAlign: TextAlign.center),
                                       SizedBox(height: 5),
-                                      Text("2.000.000,00",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold)),
+                                      Text("2.000.000,00", style: TextStyle(fontWeight: FontWeight.bold)),
                                     ],
                                   ),
                                 ],
@@ -123,8 +102,7 @@ class _ProfilPageState extends State<ProfilPage> {
                               Divider(color: Colors.grey),
                               Row(
                                 children: [
-                                  Icon(Icons.info_outline,
-                                      color: Colors.grey, size: 16),
+                                  Icon(Icons.info_outline, color: Colors.grey, size: 16),
                                   SizedBox(width: 5),
                                   Expanded(
                                       child: Text(
@@ -136,62 +114,60 @@ class _ProfilPageState extends State<ProfilPage> {
                         ),
                         SizedBox(height: 20),
                         ProfileSection(
-                            icon: Icons.business_center,
-                            title: "Pengalaman Kerja",
-                            buttonText: "Tambah Pengalaman Kerja",
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        TambahPengalamanPage()),
-                              );
-                            }),
+                          icon: Icons.business_center,
+                          title: "Pengalaman Kerja",
+                          buttonText: "Tambah Pengalaman Kerja",
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => TambahPengalamanPage()),
+                            );
+                          },
+                        ),
                         ProfileSection(
-                            icon: Icons.school,
-                            title: "Pendidikan",
-                            buttonText: "Tambah Pendidikan",
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => TambahPendidikanPage()),
-                              );
-                            }),
+                          icon: Icons.school,
+                          title: "Pendidikan",
+                          buttonText: "Tambah Pendidikan",
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => TambahPendidikanPage()),
+                            );
+                          },
+                        ),
                         ProfileSection(
-                            icon: Icons.build,
-                            title: "Skill",
-                            buttonText: "Tambah Skill",
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => TambahSkillPage()),
-                              );
-                            }),
+                          icon: Icons.build,
+                          title: "Skill",
+                          buttonText: "Tambah Skill",
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => TambahSkillPage()),
+                            );
+                          },
+                        ),
                         ProfileSection(
-                            icon: Icons.description,
-                            title: "CV",
-                            buttonText: "Tambah CV",
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => TambahCVPage()),
-                              );
-                            }),
+                          icon: Icons.description,
+                          title: "CV",
+                          buttonText: "Tambah CV",
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => TambahCVPage()),
+                            );
+                          },
+                        ),
                         ProfileSection(
-                            icon: Icons.help_outline,
-                            title: "Butuh Bantuan",
-                            buttonText: "Tambah Pertanyaan",
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        TambahPertanyaanPage()),
-                              );
-                            }),
+                          icon: Icons.help_outline,
+                          title: "Butuh Bantuan",
+                          buttonText: "Tambah Pertanyaan",
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => TambahPertanyaanPage()),
+                            );
+                          },
+                        ),
                         SizedBox(height: 20),
                       ],
                     ),
@@ -211,22 +187,15 @@ class _ProfilPageState extends State<ProfilPage> {
                 Positioned(
                   top: -20,
                   left: 20,
-                  child: Image.asset(
-                    "assets/gignego.png",
-                    width: 150,
-                    height: 150,
-                  ),
+                  child: Image.asset("assets/gignego.png", width: 150, height: 150),
                 ),
                 Positioned(
                   top: 30,
                   right: 20,
                   child: IconButton(
-                    icon: Icon(Icons.settings, color: const Color(0xFF054DC0)),
+                    icon: Icon(Icons.settings, color: Color(0xFF054DC0)),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SettingPage()),
-                      );
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => SettingPage()));
                     },
                   ),
                 ),
@@ -269,9 +238,7 @@ class ProfileSection extends StatelessWidget {
             children: [
               Icon(icon, color: Color(0xFF054DC0)),
               SizedBox(width: 10),
-              Expanded(
-                  child: Text(title,
-                      style: TextStyle(fontWeight: FontWeight.bold))),
+              Expanded(child: Text(title, style: TextStyle(fontWeight: FontWeight.bold))),
               Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
             ],
           ),
@@ -280,8 +247,7 @@ class ProfileSection extends StatelessWidget {
             onPressed: onPressed,
             icon: Icon(Icons.add, color: Color(0xFF054DC0)),
             label: Text(buttonText,
-                style: TextStyle(
-                    color: Color(0xFF054DC0), fontWeight: FontWeight.bold)),
+                style: TextStyle(color: Color(0xFF054DC0), fontWeight: FontWeight.bold)),
           ),
         ],
       ),
@@ -304,10 +270,7 @@ class BottomNavBar extends StatelessWidget {
             IconButton(
               icon: Image.asset("assets/home.png", width: 35, height: 35),
               onPressed: () {
-                Navigator.push(
-                  context,
-                MaterialPageRoute(builder: (context) => HomePage()),
-                );
+                Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
               },
             ),
             IconButton(
@@ -320,8 +283,7 @@ class BottomNavBar extends StatelessWidget {
             ),
             IconButton(
               icon: Image.asset("assets/profil.png", width: 35, height: 35),
-              onPressed: () {
-              },
+              onPressed: () {},
             ),
           ],
         ),
@@ -331,35 +293,33 @@ class BottomNavBar extends StatelessWidget {
 }
 
 class CustomFAB extends StatelessWidget {
+  final VoidCallback? onPressed;
+
+  const CustomFAB({this.onPressed});
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 70,
-      height: 70,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: SweepGradient(
-          colors: [
-            Color(0xFF2979FF),
-            Color(0xFF80BF80),
-            Color(0xFF15AFFF),
-            Color(0xFF00E5FF),
-            Color(0xFFFF9800),
-            Color(0xFF2979FF),
-          ],
+    return FloatingActionButton(
+      onPressed: onPressed ?? () {},
+      shape: CircleBorder(),
+      elevation: 6,
+      backgroundColor: Colors.white,
+      child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: SweepGradient(
+            colors: [
+              Color(0xFF2979FF),
+              Color(0xFF80BF80),
+              Color(0xFF15AFFF),
+              Color(0xFF00E5FF),
+              Color(0xFFFF9800),
+              Color(0xFF2979FF),
+            ],
+          ),
         ),
-      ),
-      child: Center(
-        child: Container(
-          width: 60,
-          height: 60,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.circle,
-          ),
-          child: Center(
-            child: Icon(Icons.add, color: Colors.black, size: 30),
-          ),
+        child: Center(
+          child: Icon(Icons.add, color: Colors.black, size: 30),
         ),
       ),
     );

@@ -66,48 +66,48 @@
 
 
 
-import 'package:flutter/material.dart';
-import 'pages/auth/login.dart'; 
-
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Gignego App',
-      theme: ThemeData(
-        useMaterial3: true,
-      ),
-      home: const LoginPage(), 
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
-
-
 // import 'package:flutter/material.dart';
-// import 'pages/auth/register_page.dart'; 
+// import 'pages/auth/login.dart'; 
+
 
 // void main() {
-//   runApp(MyApp());
+//   runApp(const MyApp());
 // }
 
 // class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
+
 //   @override
 //   Widget build(BuildContext context) {
 //     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'GigNego',
+//       title: 'Gignego App',
 //       theme: ThemeData(
-//         primarySwatch: Colors.blue,
+//         useMaterial3: true,
 //       ),
-//       home: RegisterPage(),
+//       home: const LoginPage(), 
+//       debugShowCheckedModeBanner: false,
 //     );
 //   }
 // }
+
+
+import 'package:flutter/material.dart';
+import 'pages/auth/register_page.dart'; 
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'GigNego',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: RegisterPage(),
+    );
+  }
+}
