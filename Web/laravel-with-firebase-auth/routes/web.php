@@ -6,6 +6,7 @@ use App\Http\Controllers\UserItemController;
 use App\Http\Controllers\JobsController;
 use App\Http\Controllers\ProfilController;
 use App\Models\profil;
+use App\Http\Controllers\ChatController;
 
 
 Route::get('/', function () {
@@ -67,3 +68,9 @@ Route::post('jobs/{jobId}/accept-user/{userEmail}', [JobsController::class, 'acc
 Route::post('/jobs/{jobId}/accept/{userEmail}', [JobsController::class, 'acceptUser'])->name('jobs.acceptUser');
 
 Route::put('jobs/{id}/assign', [JobsController::class, 'assignUser'])->name('jobs.assign');
+
+
+
+use App\Http\Controllers\UserController;
+
+Route::get('/users', [UserController::class, 'showUsers']);

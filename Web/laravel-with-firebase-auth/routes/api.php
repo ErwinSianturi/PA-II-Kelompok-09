@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\JobPostingController;
+use App\Http\Controllers\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,12 +20,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::middleware('auth:api')->group(function () {
-    Route::get('/jobs', [JobPostingController::class, 'index']);
-    Route::post('/jobs', [JobPostingController::class, 'store']);
-    Route::get('/jobs/{id}', [JobPostingController::class, 'show']);
-    Route::put('/jobs/{id}', [JobPostingController::class, 'update']);
-    Route::delete('/jobs/{id}', [JobPostingController::class, 'destroy']);
-});
+
+Route::post('/send-message', [ChatController::class, 'sendMessage']);
+Route::get('/get-messages/{senderID}/{receiverID}', [ChatController::class, 'getMessages']);
 
 
