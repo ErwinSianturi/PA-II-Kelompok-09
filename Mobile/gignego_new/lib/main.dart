@@ -1,22 +1,22 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_application/pages/profil/profil.dart'; 
+// import 'package:flutter/material.dart';
+// import 'package:flutter_application/pages/profil/profil.dart'; 
 
-void main() {
-  runApp(MyApp());
-}
+// void main() {
+//   runApp(MyApp());
+// }
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Profil App',
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
-      ),
-      home: ProfilPage(), 
-    ); 
-  }
-}
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Profil App',
+//       theme: ThemeData(
+//         primarySwatch: Colors.purple,
+//       ),
+//       home: ProfilPage(), 
+//     ); 
+//   }
+// }
 
 
 // import 'package:flutter/material.dart';
@@ -66,26 +66,29 @@ class MyApp extends StatelessWidget {
 
 
 
-// import 'package:flutter/material.dart';
-// import 'package:flutter_application/pages/profil/login.dart';
+import 'package:flutter/material.dart';
+import 'pages/auth/login.dart'; 
 
-// void main() {
-//   runApp(MyApp());
-// }
 
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'Flutter Application',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: LoginPage(),
-//     ); 
-//   } 
-// }
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Gignego App',
+      theme: ThemeData(
+        useMaterial3: true,
+      ),
+      home: const LoginPage(), 
+      debugShowCheckedModeBanner: false,
+    );
+  }
+}
 
 
 // import 'package:flutter/material.dart';

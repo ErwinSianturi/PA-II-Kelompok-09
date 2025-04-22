@@ -1,10 +1,8 @@
-// Samuel Rizki Sinambela - 11423003 - 42TRPL1
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:flutter_application/pages/login-register/home_page.dart';
+import 'package:flutter_application/pages/homepage/home_page.dart';
 
 
 

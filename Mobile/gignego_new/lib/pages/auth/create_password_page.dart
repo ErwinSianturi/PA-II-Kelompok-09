@@ -78,7 +78,7 @@ class _CreatePasswordPageState extends State<CreatePasswordPage> {
         _passwordController.text == _confirmPasswordController.text;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.white, 
       appBar: AppBar(
         automaticallyImplyLeading: true,
         backgroundColor: Colors.white,
@@ -89,7 +89,16 @@ class _CreatePasswordPageState extends State<CreatePasswordPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(child: Image.asset("assets/images/Gignego.png", height: 40)),
+        Center(
+         child: Text(
+         "Gignego", 
+           style: TextStyle(
+        fontSize: 40, 
+        fontWeight: FontWeight.bold, 
+        color: Color(0xFF003366), 
+      ),
+    ),
+  ),
             const SizedBox(height: 12),
             const Text("Buat Akun", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 4),
@@ -108,7 +117,7 @@ class _CreatePasswordPageState extends State<CreatePasswordPage> {
             obscureText: _obscureConfirm,
             onChanged: (_) => setState(() {}),
             decoration: InputDecoration(
-            labelText: "Konfirmasi Password",
+            labelText: "Password",
             errorText: _confirmPasswordController.text.isNotEmpty && !isPasswordConfirmed
             ? "Password baru tidak sama"
             : null,

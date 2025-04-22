@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_application/pages/login-register/models/job.dart';
+import 'package:flutter_application/pages/homepage/models/job.dart';
 import 'form_daftar_kerja.dart'; // Import halaman FormDaftarKerja
 
 class JobDetailPage extends StatelessWidget {
