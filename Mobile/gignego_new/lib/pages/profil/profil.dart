@@ -6,7 +6,7 @@ import 'package:flutter_application/pages/profil/tambah_pendidikan.dart';
 import 'package:flutter_application/pages/profil/tambah_skill.dart';
 import 'package:flutter_application/pages/profil/tambah_cv.dart';
 import 'package:flutter_application/pages/profil/tambah_pertanyaan.dart';
-import 'package:flutter_application/pages/login-register/home_page.dart';
+import 'package:flutter_application/pages/homepage/home_page.dart';
 
 class ProfilPage extends StatefulWidget {
   @override
@@ -306,7 +306,7 @@ class BottomNavBar extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                MaterialPageRoute(builder: (context) => MyApp()),
+                MaterialPageRoute(builder: (context) => HomePage()),
                 );
               },
             ),
