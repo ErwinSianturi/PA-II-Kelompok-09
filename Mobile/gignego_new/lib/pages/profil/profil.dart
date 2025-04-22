@@ -6,6 +6,7 @@ import 'package:flutter_application/pages/profil/tambah_pendidikan.dart';
 import 'package:flutter_application/pages/profil/tambah_skill.dart';
 import 'package:flutter_application/pages/profil/tambah_cv.dart';
 import 'package:flutter_application/pages/profil/tambah_pertanyaan.dart';
+import 'package:flutter_application/pages/login-register/home_page.dart';
 
 class ProfilPage extends StatefulWidget {
   @override
@@ -295,25 +296,33 @@ class BottomNavBar extends StatelessWidget {
       shape: CircularNotchedRectangle(),
       notchMargin: 8,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 10),
-        height: 70,
+        padding: EdgeInsets.symmetric(horizontal: 3, vertical: 0.5),
+        height: 50,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
-                icon: Image.asset("assets/home.png", width: 30, height: 30),
-                onPressed: () {}),
+              icon: Image.asset("assets/home.png", width: 35, height: 35),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                MaterialPageRoute(builder: (context) => MyApp()),
+                );
+              },
+            ),
             IconButton(
-                icon: Image.asset("assets/obrolan.png", width: 30, height: 30),
-                onPressed: () {}),
-            SizedBox(width: 40),
+              icon: Image.asset("assets/obrolan.png", width: 35, height: 35),
+              onPressed: () {},
+            ),
             IconButton(
-                icon:
-                    Image.asset("assets/aktivitas.png", width: 30, height: 30),
-                onPressed: () {}),
+              icon: Image.asset("assets/aktivitas.png", width: 35, height: 35),
+              onPressed: () {},
+            ),
             IconButton(
-                icon: Image.asset("assets/profil.png", width: 30, height: 30),
-                onPressed: () {}),
+              icon: Image.asset("assets/profil.png", width: 35, height: 35),
+              onPressed: () {
+              },
+            ),
           ],
         ),
       ),

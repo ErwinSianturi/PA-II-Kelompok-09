@@ -91,23 +91,23 @@ class MyApp extends StatelessWidget {
 }
 
 
-// import 'package:flutter/material.dart';
-// import 'pages/auth/register_page.dart'; 
+import 'package:flutter/material.dart';
+import 'pages/auth/register_page.dart'; 
 
-// void main() {
-//   runApp(MyApp());
-// }
+void main() {
+  runApp(MyApp());
+}
 
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'GigNego',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: RegisterPage(),
-//     );
-//   }
-// }
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'GigNego',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: RegisterPage(),
+    );
+  }
+}
