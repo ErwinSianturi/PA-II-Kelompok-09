@@ -1,22 +1,22 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_application/pages/profil/profil.dart'; 
+// import 'package:flutter/material.dart';
+// import 'package:flutter_application/pages/profil/profil.dart'; 
 
-void main() {
-  runApp(MyApp());
-}
+// void main() {
+//   runApp(MyApp());
+// }
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Profil App',
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
-      ),
-      home: ProfilPage(), 
-    ); 
-  }
-}
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Profil App',
+//       theme: ThemeData(
+//         primarySwatch: Colors.purple,
+//       ),
+//       home: ProfilPage(), 
+//     ); 
+//   }
+// }
 
 
 // import 'package:flutter/material.dart';
@@ -88,23 +88,23 @@ class MyApp extends StatelessWidget {
 // }
 
 
-// import 'package:flutter/material.dart';
-// import 'pages/auth/register_page.dart'; 
+import 'package:flutter/material.dart';
+import 'pages/auth/register_page.dart'; 
 
-// void main() {
-//   runApp(MyApp());
-// }
+void main() {
+  runApp(MyApp());
+}
 
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'GigNego',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: RegisterPage(),
-//     );
-//   }
-// }
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'GigNego',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: RegisterPage(),
+    );
+  }
+}

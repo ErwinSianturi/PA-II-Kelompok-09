@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase/Services/auth/auth_service.dart';
 import 'package:flutter_firebase/Services/chat/chat_services.dart';
 import 'package:flutter_firebase/components/user_tile.dart';
-import 'package:flutter_firebase/pages/chat_page.dart';
+import 'package:flutter_firebase/pages/chat/chat_page.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
