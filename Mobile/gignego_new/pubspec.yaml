@@ -80,7 +80,7 @@ flutter:
   - assets/Chat.png
   - assets/Elektronik.png
   - assets/His.png
-  - assets/Kebersihan.png
+  - assets/Rmh.png
   - assets/Lain.png
   - assets/profil.png
   - assets/Rumah.png
@@ -88,6 +88,12 @@ flutter:
   - assets/Perbaikan.png
   - assets/Piala.png
   - assets/Fotografi.png
+  - assets/Mobil.png
+  - assets/Properti.png
+  - assets/Kebersihan.png
+  - assets/got.png
+  - assets/imel.png
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 

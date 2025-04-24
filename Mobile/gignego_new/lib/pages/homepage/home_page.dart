@@ -4,6 +4,7 @@ import 'package:flutter_application/pages/homepage/form_page.dart';
 import 'package:flutter_application/pages/homepage/models/job.dart';
 import 'package:flutter_application/pages/homepage/job_list_page.dart';
 import 'package:flutter_application/pages/profil/profil.dart';
+import 'package:flutter_application/pages/activity/tampilan.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
@@ -446,7 +447,12 @@ class BottomNavBar extends StatelessWidget {
             ),
             IconButton(
               icon: Image.asset("assets/aktivitas.png", width: 35, height: 35),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                MaterialPageRoute(builder: (context) => AktivitasPekerjaanPage()),
+                );
+              },
             ),
             IconButton(
               icon: Image.asset("assets/profil.png", width: 35, height: 35),

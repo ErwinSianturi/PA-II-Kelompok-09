@@ -91,8 +91,29 @@
 // }
 
 
+// import 'package:flutter/material.dart';
+// import 'pages/auth/register_page.dart'; 
+
+// void main() {
+//   runApp(MyApp());
+// }
+
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       title: 'GigNego',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: RegisterPage(),
+//     );
+//   }
+// }
+
 import 'package:flutter/material.dart';
-import 'pages/auth/register_page.dart'; 
+import 'package:flutter_application/pages/activity/tampilan.dart'; 
 
 void main() {
   runApp(MyApp());
@@ -102,12 +123,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'GigNego',
+      title: 'Aktivitas App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
       ),
-      home: RegisterPage(),
+      home: AktivitasPekerjaanPage(),
     );
   }
 }

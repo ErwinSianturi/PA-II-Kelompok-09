@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/pages/activity/tampilan.dart';
 import 'package:flutter_application/pages/profil/edit_profil.dart';
 import 'package:flutter_application/pages/profil/setingan.dart';
 import 'package:flutter_application/pages/profil/tambah_pengalaman.dart';
@@ -20,7 +21,6 @@ class _ProfilPageState extends State<ProfilPage> {
       backgroundColor: Colors.white,
       floatingActionButton: CustomFAB(
         onPressed: () {
-          // Aksi ketika FAB ditekan, misalnya ke halaman tambah kerja
           print("FAB ditekan");
         },
       ),
@@ -279,7 +279,9 @@ class BottomNavBar extends StatelessWidget {
             ),
             IconButton(
               icon: Image.asset("assets/aktivitas.png", width: 35, height: 35),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AktivitasPekerjaanPage()));
+              },
             ),
             IconButton(
               icon: Image.asset("assets/profil.png", width: 35, height: 35),
@@ -295,20 +297,23 @@ class BottomNavBar extends StatelessWidget {
 class CustomFAB extends StatelessWidget {
   final VoidCallback? onPressed;
 
-  const CustomFAB({this.onPressed});
+  const CustomFAB({super.key, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      onPressed: onPressed ?? () {},
-      shape: CircleBorder(),
+      onPressed: onPressed ?? () {
+        print("FAB ditekan");
+      },
+      shape: const CircleBorder(),
       elevation: 6,
       backgroundColor: Colors.white,
       child: Container(
+        padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           gradient: SweepGradient(
-            colors: [
+            colors: const [
               Color(0xFF2979FF),
               Color(0xFF80BF80),
               Color(0xFF15AFFF),
@@ -318,8 +323,14 @@ class CustomFAB extends StatelessWidget {
             ],
           ),
         ),
-        child: Center(
-          child: Icon(Icons.add, color: Colors.black, size: 30),
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+          ),
+          child: const Center(
+            child: Icon(Icons.add, color: Colors.black, size: 30),
+          ),
         ),
       ),
     );
