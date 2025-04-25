@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/pages/homepage/home_page.dart';
 import 'package:flutter_application/pages/profil/profil.dart';
-import 'package:flutter_application/pages/activity/lihat_aktivitas.dart';
+import 'package:flutter_application/pages/activity/daftar_pekerjaan.dart';  // Pastikan Anda sudah memiliki halaman ini
 
-class AktivitasPekerjaanPage extends StatelessWidget {
+class AktivitasPekerjaanPage extends StatefulWidget {
   const AktivitasPekerjaanPage({Key? key}) : super(key: key);
+
+  @override
+  _AktivitasPekerjaanPageState createState() => _AktivitasPekerjaanPageState();
+}
+
+class _AktivitasPekerjaanPageState extends State<AktivitasPekerjaanPage> {
+  String? _selectedCategory;
+  List<String> _categories = [
+    'Semua',
+    'Kebersihan Pekarangan',
+    'Mencuci Kendaraan',
+    'Kebersihan Rumah',
+    'Sofa Cleaning',
+    'Perbaikan Rumah'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -12,49 +27,72 @@ class AktivitasPekerjaanPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Aktivitas Pekerjaan"),
         elevation: 0,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        backgroundColor: Colors.deepPurple,
+        foregroundColor: Colors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            DropdownButtonFormField<String>(
+              decoration: const InputDecoration(
+                labelText: 'Filter Jenis Pekerjaan',
+                border: OutlineInputBorder(),
+              ),
+              value: _selectedCategory,
+              items: _categories.map((category) {
+                return DropdownMenuItem(
+                  value: category,
+                  child: Text(category),
+                );
+              }).toList(),
+              onChanged: (value) {
+                setState(() {
+                  _selectedCategory = value;
+                });
+              },
+            ),
+            const SizedBox(height: 24),
             Expanded(
               child: ListView(
                 children: [
-                  const SizedBox(height: 24),
-                  TaskItem(
-                    title: "Membersihkan Pekarangan Rumah",
-                    subtitle: "Hari ini",
-                    subtitleColor: Colors.red,
-                    dateText: "25 Apr",
-                    dateColor: Colors.purple,
-                    leadingImage: 'assets/Rmh.png',
-                  ),
-                  TaskItem(
-                    title: "Mencuci Kendaraan",
-                    subtitle: "Hari ini",
-                    subtitleColor: Colors.red,
-                    dateText: "25 Apr",
-                    dateColor: Colors.purple,
-                    leadingImage: 'assets/Mobil.png',
-                  ),
-                  TaskItem(
-                    title: "Membersihkan Properti Rumah",
-                    subtitle: "Hari ini",
-                    subtitleColor: Colors.red,
-                    dateText: "25 Apr",
-                    dateColor: Colors.purple,
-                    leadingImage: 'assets/Properti.png',
-                  ),
-                  TaskItem(
-                    title: "Sofa Cleaning",
-                    subtitle: "Hari ini",
-                    subtitleColor: Colors.red,
-                    dateText: "25 Apr",
-                    dateColor: Colors.purple,
-                    leadingImage: 'assets/sofa.png',
-                  ),
+                  // Menampilkan TaskItem berdasarkan kategori yang dipilih
+                  if (_selectedCategory == null || _selectedCategory == 'Semua' || _selectedCategory == 'Kebersihan Pekarangan')
+                    TaskItem(
+                      title: "Membersihkan Pekarangan Rumah",
+                      subtitle: "Tersedia",
+                      subtitleColor: Colors.red,
+                      dateText: "25 Apr",
+                      dateColor: Colors.deepPurple,
+                      leadingImage: 'assets/Rmh.png',
+                    ),
+                  if (_selectedCategory == null || _selectedCategory == 'Semua' || _selectedCategory == 'Mencuci Kendaraan')
+                    TaskItem(
+                      title: "Mencuci Kendaraan",
+                      subtitle: "Tersedia",
+                      subtitleColor: Colors.red,
+                      dateText: "25 Apr",
+                      dateColor: Colors.deepPurple,
+                      leadingImage: 'assets/Mobil.png',
+                    ),
+                  if (_selectedCategory == null || _selectedCategory == 'Semua' || _selectedCategory == 'Kebersihan Rumah')
+                    TaskItem(
+                      title: "Membersihkan Properti Rumah",
+                      subtitle: "Tersedia",
+                      subtitleColor: Colors.red,
+                      dateText: "25 Apr",
+                      dateColor: Colors.deepPurple,
+                      leadingImage: 'assets/Properti.png',
+                    ),
+                  if (_selectedCategory == null || _selectedCategory == 'Semua' || _selectedCategory == 'Sofa Cleaning')
+                    TaskItem(
+                      title: "Sofa Cleaning",
+                      subtitle: "Tersedia",
+                      subtitleColor: Colors.red,
+                      dateText: "25 Apr",
+                      dateColor: Colors.deepPurple,
+                      leadingImage: 'assets/sofa.png',
+                    ),
                 ],
               ),
             ),
@@ -64,7 +102,11 @@ class AktivitasPekerjaanPage extends StatelessWidget {
       bottomNavigationBar: const BottomNavBar(),
       floatingActionButton: CustomFAB(
         onPressed: () {
-          print("FAB ditekan");
+          // Navigasi ke form pendaftaran kerja
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => EditPekerjaanPage()), 
+          );
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -97,92 +139,82 @@ class TaskItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 4,
       margin: const EdgeInsets.only(bottom: 16),
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
-              children: [
-                Image.asset(
-                  leadingImage,
-                  width: 40,
-                  height: 40,
-                  fit: BoxFit.cover,
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        subtitle,
-                        style: TextStyle(
-                          color: subtitleColor ?? Colors.grey[600],
-                          fontSize: 13,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                if (dateText != null)
-                  Text(
-                    dateText!,
-                    style: TextStyle(color: dateColor ?? Colors.black),
-                  ),
-                if (trailingIcon != null)
-                  Icon(trailingIcon, color: Colors.purple),
-                if (trailingNumber != null)
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Colors.purple[100],
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      trailingNumber.toString(),
-                      style: const TextStyle(color: Colors.purple),
-                    ),
-                  ),
-              ],
+            Image.asset(
+              leadingImage,
+              width: 50,
+              height: 50,
+              fit: BoxFit.cover,
             ),
-            const SizedBox(height: 12),
-            Align(
-              alignment: Alignment.centerRight,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const LihatAktivitasPage()),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 213, 57, 241),
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20, vertical: 10),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
+                  const SizedBox(height: 4),
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      color: subtitleColor ?? Colors.grey[600],
+                      fontSize: 13,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (dateText != null)
+              Text(
+                dateText!,
+                style: TextStyle(color: dateColor ?? Colors.black),
+              ),
+            if (trailingIcon != null)
+              Icon(trailingIcon, color: Colors.deepPurple),
+            if (trailingNumber != null)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.deepPurple.shade100,
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Text(
-                  "Lihat Detail",
-                  style: TextStyle(color: Colors.white),
+                child: Text(
+                  trailingNumber.toString(),
+                  style: const TextStyle(color: Colors.deepPurple),
                 ),
               ),
-            )
+            const SizedBox(width: 8),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => EditPekerjaanPage()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.deepPurple,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Text(
+                "Tambahkan",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
           ],
         ),
       ),

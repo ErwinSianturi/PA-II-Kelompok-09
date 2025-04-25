@@ -8,7 +8,13 @@ class DeletePekerjaanPage extends StatefulWidget {
 }
 
 class _DeletePekerjaanPageState extends State<DeletePekerjaanPage> {
-  List<String> _daftarPekerjaan = ['Kebersihan Pekarangan', 'Mencuci Kendaraan', 'Kebersihan Rumah', 'Sofa Cleaning', 'Perbaikan Rumah'];
+  List<String> _daftarPekerjaan = [
+    'Kebersihan Pekarangan',
+    'Mencuci Kendaraan',
+    'Kebersihan Rumah',
+    'Sofa Cleaning',
+    'Perbaikan Rumah'
+  ];
 
   void _hapusPekerjaan(int index) {
     showDialog(
@@ -31,6 +37,7 @@ class _DeletePekerjaanPageState extends State<DeletePekerjaanPage> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             ),
             onPressed: () {
               setState(() {
@@ -60,33 +67,35 @@ class _DeletePekerjaanPageState extends State<DeletePekerjaanPage> {
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
       ),
-      body: ListView.builder(
+      body: Padding(
         padding: const EdgeInsets.all(16),
-        itemCount: _daftarPekerjaan.length,
-        itemBuilder: (context, index) {
-          final pekerjaan = _daftarPekerjaan[index];
-          return Card(
-            margin: const EdgeInsets.only(bottom: 12),
-            elevation: 3,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            child: ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              leading: CircleAvatar(
-                backgroundColor: Colors.deepPurple.shade100,
-                child: const Icon(Icons.work, color: Colors.deepPurple),
+        child: ListView.builder(
+          itemCount: _daftarPekerjaan.length,
+          itemBuilder: (context, index) {
+            final pekerjaan = _daftarPekerjaan[index];
+            return Card(
+              margin: const EdgeInsets.only(bottom: 16),
+              elevation: 5,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              child: ListTile(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                leading: CircleAvatar(
+                  backgroundColor: Colors.deepPurple.shade100,
+                  child: const Icon(Icons.work, color: Colors.deepPurple),
+                ),
+                title: Text(
+                  pekerjaan,
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
+                  onPressed: () => _hapusPekerjaan(index),
+                  tooltip: 'Hapus pekerjaan',
+                ),
               ),
-              title: Text(
-                pekerjaan,
-                style: const TextStyle(fontWeight: FontWeight.w600),
-              ),
-              trailing: IconButton(
-                icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
-                onPressed: () => _hapusPekerjaan(index),
-                tooltip: 'Hapus pekerjaan',
-              ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

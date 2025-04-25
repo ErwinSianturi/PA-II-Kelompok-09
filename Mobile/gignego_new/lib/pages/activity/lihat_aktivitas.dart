@@ -92,7 +92,7 @@ class JobCard extends StatelessWidget {
                   Text(jobName, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                   const SizedBox(height: 4),
                   Text(price, style: const TextStyle(color: Colors.green, fontSize: 16)),
-                  // JARAK DI SINI DIHAPUS
+
                   Container(
                     width: 100,
                     height: 8,
