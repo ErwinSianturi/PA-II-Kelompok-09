@@ -24,9 +24,29 @@
 // }
 
 
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
-import 'package:flutter_firebase/pages/profil/profil.dart';
+// import 'package:flutter_firebase/pages/profil/profil.dart';
+
+// void main() {
+//   runApp(MyApp());
+// }
+
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Profil App',
+//       theme: ThemeData(
+//         primarySwatch: Colors.purple,
+//       ),
+//       home: ProfilPage(), 
+//     ); 
+//   }
+// }
+
+import 'package:flutter/material.dart';
+import 'package:flutter_firebase/pages/activity/tampilan.dart'; 
 
 void main() {
   runApp(MyApp());
@@ -36,11 +56,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Profil App',
+      title: 'Aktivitas App',
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: ProfilPage(), 
-    ); 
+      home: AktivitasPekerjaanPage(), 
+    );
   }
 }

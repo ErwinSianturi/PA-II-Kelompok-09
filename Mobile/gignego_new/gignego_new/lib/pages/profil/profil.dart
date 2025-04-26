@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/pages/activity/tampilan.dart';
 import 'package:flutter_application/pages/profil/edit_profil.dart';
 import 'package:flutter_application/pages/profil/setingan.dart';
 import 'package:flutter_application/pages/profil/tambah_pengalaman.dart';
@@ -15,8 +16,17 @@ class _ProfilPageState extends State<ProfilPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< HEAD:Mobile/gignego_new/gignego_new/lib/pages/profil/profil.dart
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       floatingActionButton: CustomFAB(),
+=======
+      backgroundColor: Colors.white,
+      floatingActionButton: CustomFAB(
+        onPressed: () {
+          print("FAB ditekan");
+        },
+      ),
+>>>>>>> 7811c4cb8554265da3b35ab86c8b9bf62d1a06ad:Mobile/gignego_new/lib/pages/profil/profil.dart
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavBar(),
       body: SingleChildScrollView(
@@ -308,9 +318,17 @@ class BottomNavBar extends StatelessWidget {
                 onPressed: () {}),
             SizedBox(width: 40),
             IconButton(
+<<<<<<< HEAD:Mobile/gignego_new/gignego_new/lib/pages/profil/profil.dart
                 icon:
                     Image.asset("assets/aktivitas.png", width: 30, height: 30),
                 onPressed: () {}),
+=======
+              icon: Image.asset("assets/aktivitas.png", width: 35, height: 35),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AktivitasPekerjaanPage()));
+              },
+            ),
+>>>>>>> 7811c4cb8554265da3b35ab86c8b9bf62d1a06ad:Mobile/gignego_new/lib/pages/profil/profil.dart
             IconButton(
                 icon: Image.asset("assets/profil.png", width: 30, height: 30),
                 onPressed: () {}),
@@ -322,6 +340,7 @@ class BottomNavBar extends StatelessWidget {
 }
 
 class CustomFAB extends StatelessWidget {
+<<<<<<< HEAD:Mobile/gignego_new/gignego_new/lib/pages/profil/profil.dart
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -349,6 +368,42 @@ class CustomFAB extends StatelessWidget {
             shape: BoxShape.circle,
           ),
           child: Center(
+=======
+  final VoidCallback? onPressed;
+
+  const CustomFAB({super.key, this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: onPressed ?? () {
+        print("FAB ditekan");
+      },
+      shape: const CircleBorder(),
+      elevation: 6,
+      backgroundColor: Colors.white,
+      child: Container(
+        padding: const EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: SweepGradient(
+            colors: const [
+              Color(0xFF2979FF),
+              Color(0xFF80BF80),
+              Color(0xFF15AFFF),
+              Color(0xFF00E5FF),
+              Color(0xFFFF9800),
+              Color(0xFF2979FF),
+            ],
+          ),
+        ),
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+          ),
+          child: const Center(
+>>>>>>> 7811c4cb8554265da3b35ab86c8b9bf62d1a06ad:Mobile/gignego_new/lib/pages/profil/profil.dart
             child: Icon(Icons.add, color: Colors.black, size: 30),
           ),
         ),
