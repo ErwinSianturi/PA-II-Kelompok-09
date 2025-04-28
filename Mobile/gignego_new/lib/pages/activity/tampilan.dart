@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/pages/homepage/home_page.dart';
+import 'package:flutter_application/pages/home/home_page.dart';
 import 'package:flutter_application/pages/profil/profil.dart';
-import 'package:flutter_application/pages/activity/daftar_pekerjaan.dart';  // Pastikan Anda sudah memiliki halaman ini
+import 'package:flutter_application/pages/activity/daftar_pekerjaan.dart';
+import 'package:flutter_application/pages/home/form_page.dart';
+
 
 class AktivitasPekerjaanPage extends StatefulWidget {
   const AktivitasPekerjaanPage({Key? key}) : super(key: key);
@@ -36,7 +38,7 @@ class _AktivitasPekerjaanPageState extends State<AktivitasPekerjaanPage> {
           children: [
             DropdownButtonFormField<String>(
               decoration: const InputDecoration(
-                labelText: 'Filter Jenis Pekerjaan',
+                labelText: 'Jenis Pekerjaan',
                 border: OutlineInputBorder(),
               ),
               value: _selectedCategory,
@@ -56,41 +58,40 @@ class _AktivitasPekerjaanPageState extends State<AktivitasPekerjaanPage> {
             Expanded(
               child: ListView(
                 children: [
-                  // Menampilkan TaskItem berdasarkan kategori yang dipilih
                   if (_selectedCategory == null || _selectedCategory == 'Semua' || _selectedCategory == 'Kebersihan Pekarangan')
                     TaskItem(
                       title: "Membersihkan Pekarangan Rumah",
                       subtitle: "Tersedia",
-                      subtitleColor: Colors.red,
+                      subtitleColor: Colors.blue,
                       dateText: "25 Apr",
-                      dateColor: Colors.deepPurple,
+                      dateColor: Colors.red,
                       leadingImage: 'assets/Rmh.png',
                     ),
                   if (_selectedCategory == null || _selectedCategory == 'Semua' || _selectedCategory == 'Mencuci Kendaraan')
                     TaskItem(
                       title: "Mencuci Kendaraan",
                       subtitle: "Tersedia",
-                      subtitleColor: Colors.red,
+                      subtitleColor: Colors.blue,
                       dateText: "25 Apr",
-                      dateColor: Colors.deepPurple,
+                      dateColor: Colors.red,
                       leadingImage: 'assets/Mobil.png',
                     ),
                   if (_selectedCategory == null || _selectedCategory == 'Semua' || _selectedCategory == 'Kebersihan Rumah')
                     TaskItem(
                       title: "Membersihkan Properti Rumah",
                       subtitle: "Tersedia",
-                      subtitleColor: Colors.red,
+                      subtitleColor: Colors.blue,
                       dateText: "25 Apr",
-                      dateColor: Colors.deepPurple,
+                      dateColor: Colors.red,
                       leadingImage: 'assets/Properti.png',
                     ),
                   if (_selectedCategory == null || _selectedCategory == 'Semua' || _selectedCategory == 'Sofa Cleaning')
                     TaskItem(
                       title: "Sofa Cleaning",
                       subtitle: "Tersedia",
-                      subtitleColor: Colors.red,
+                      subtitleColor: Colors.blue,
                       dateText: "25 Apr",
-                      dateColor: Colors.deepPurple,
+                      dateColor: Colors.red,
                       leadingImage: 'assets/sofa.png',
                     ),
                 ],
@@ -102,10 +103,18 @@ class _AktivitasPekerjaanPageState extends State<AktivitasPekerjaanPage> {
       bottomNavigationBar: const BottomNavBar(),
       floatingActionButton: CustomFAB(
         onPressed: () {
-          // Navigasi ke form pendaftaran kerja
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => EditPekerjaanPage()), 
+            MaterialPageRoute(
+              builder: (_) => FormPage(
+                onJobAdded: (newJob) {
+                  // Misal nanti kamu mau refresh daftar kerjaan di sini
+                  setState(() {
+                    // daftarPekerjaan.add(newJob);
+                  });
+                },
+              ),
+            ),
           );
         },
       ),
@@ -196,23 +205,27 @@ class TaskItem extends StatelessWidget {
                 ),
               ),
             const SizedBox(width: 8),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => EditPekerjaanPage()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+            // Tombol Tambahkan yang sudah diperbaiki posisinya
+            Align(
+              alignment: Alignment.centerRight, // Mengatur agar tombol rata kanan
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => EditPekerjaanPage()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurple,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
-              ),
-              child: const Text(
-                "Tambahkan",
-                style: TextStyle(color: Colors.white),
+                child: const Text(
+                  "Tambahkan",
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
           ],

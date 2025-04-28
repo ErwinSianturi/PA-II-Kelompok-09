@@ -21,18 +21,18 @@ class _DeletePekerjaanPageState extends State<DeletePekerjaanPage> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        title: const Text('Konfirmasi'),
+        title: const Text('Konfirmasi Penghapusan'),
         content: const Text('Yakin ingin menghapus pekerjaan ini?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Batal'),
+            child: const Text('Batal', style: TextStyle(color: Colors.deepPurple)),
           ),
           ElevatedButton.icon(
             icon: const Icon(Icons.delete_forever),
             label: const Text('Hapus'),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
+              backgroundColor: Colors.redAccent,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
@@ -75,7 +75,7 @@ class _DeletePekerjaanPageState extends State<DeletePekerjaanPage> {
             final pekerjaan = _daftarPekerjaan[index];
             return Card(
               margin: const EdgeInsets.only(bottom: 16),
-              elevation: 5,
+              elevation: 8,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
               child: ListTile(
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
