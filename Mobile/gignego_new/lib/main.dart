@@ -137,31 +137,32 @@
 //   }
 // }
 
-<<<<<<< HEAD:Mobile/gignego_new/gignego_new/lib/main.dart
-=======
+// <<<<<<< HEAD:Mobile/gignego_new/gignego_new/lib/main.dart
+// =======
 
-// import 'package:flutter/material.dart';
-// import 'pages/auth/register_page.dart'; 
+// // import 'package:flutter/material.dart';
+// // import 'pages/auth/register_page.dart'; 
 
-// void main() {
-//   runApp(MyApp());
-// }
+// // void main() {
+// //   runApp(MyApp());
+// // }
 
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'GigNego',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: RegisterPage(),
-//     );
-//   }
-// }
+// // class MyApp extends StatelessWidget {
+// //   @override
+// //   Widget build(BuildContext context) {
+// //     return MaterialApp(
+// //       debugShowCheckedModeBanner: false,
+// //       title: 'GigNego',
+// //       theme: ThemeData(
+// //         primarySwatch: Colors.blue,
+// //       ),
+// //       home: RegisterPage(),
+// //     );
+// //   }
+// // }
 
->>>>>>> 7811c4cb8554265da3b35ab86c8b9bf62d1a06ad:Mobile/gignego_new/lib/main.dart
+// >>>>>>> 7811c4cb8554265da3b35ab86c8b9bf62d1a06ad:Mobile/gignego_new/lib/main.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application/pages/activity/tampilan.dart'; 
 
