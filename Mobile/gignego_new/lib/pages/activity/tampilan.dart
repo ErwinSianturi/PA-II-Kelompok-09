@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/pages/homepage/home_page.dart';
 import 'package:flutter_application/pages/profil/profil.dart';
-import 'package:flutter_application/pages/activity/daftar_pekerjaan.dart';  // Pastikan Anda sudah memiliki halaman ini
+import 'package:flutter_application/pages/activity/daftar_pekerjaan.dart';  
 
 class AktivitasPekerjaanPage extends StatefulWidget {
   const AktivitasPekerjaanPage({Key? key}) : super(key: key);
@@ -36,7 +36,7 @@ class _AktivitasPekerjaanPageState extends State<AktivitasPekerjaanPage> {
           children: [
             DropdownButtonFormField<String>(
               decoration: const InputDecoration(
-                labelText: 'Filter Jenis Pekerjaan',
+                labelText: 'Jenis Pekerjaan',
                 border: OutlineInputBorder(),
               ),
               value: _selectedCategory,
@@ -56,41 +56,40 @@ class _AktivitasPekerjaanPageState extends State<AktivitasPekerjaanPage> {
             Expanded(
               child: ListView(
                 children: [
-                  // Menampilkan TaskItem berdasarkan kategori yang dipilih
                   if (_selectedCategory == null || _selectedCategory == 'Semua' || _selectedCategory == 'Kebersihan Pekarangan')
                     TaskItem(
                       title: "Membersihkan Pekarangan Rumah",
                       subtitle: "Tersedia",
-                      subtitleColor: Colors.red,
+                      subtitleColor: Colors.blue,
                       dateText: "25 Apr",
-                      dateColor: Colors.deepPurple,
+                      dateColor: Colors.red,
                       leadingImage: 'assets/Rmh.png',
                     ),
                   if (_selectedCategory == null || _selectedCategory == 'Semua' || _selectedCategory == 'Mencuci Kendaraan')
                     TaskItem(
                       title: "Mencuci Kendaraan",
                       subtitle: "Tersedia",
-                      subtitleColor: Colors.red,
+                      subtitleColor: Colors.blue,
                       dateText: "25 Apr",
-                      dateColor: Colors.deepPurple,
+                      dateColor: Colors.red,
                       leadingImage: 'assets/Mobil.png',
                     ),
                   if (_selectedCategory == null || _selectedCategory == 'Semua' || _selectedCategory == 'Kebersihan Rumah')
                     TaskItem(
                       title: "Membersihkan Properti Rumah",
                       subtitle: "Tersedia",
-                      subtitleColor: Colors.red,
+                      subtitleColor: Colors.blue,
                       dateText: "25 Apr",
-                      dateColor: Colors.deepPurple,
+                      dateColor: Colors.red,
                       leadingImage: 'assets/Properti.png',
                     ),
                   if (_selectedCategory == null || _selectedCategory == 'Semua' || _selectedCategory == 'Sofa Cleaning')
                     TaskItem(
                       title: "Sofa Cleaning",
                       subtitle: "Tersedia",
-                      subtitleColor: Colors.red,
+                      subtitleColor: Colors.blue,
                       dateText: "25 Apr",
-                      dateColor: Colors.deepPurple,
+                      dateColor: Colors.red,
                       leadingImage: 'assets/sofa.png',
                     ),
                 ],
