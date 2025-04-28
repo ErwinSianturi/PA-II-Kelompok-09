@@ -2,6 +2,7 @@ package db
 
 import (
 	"fmt"
+    "time"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -9,7 +10,7 @@ import (
 var DB *gorm.DB
 
 func InitDB() {
-    dsn := "root:@tcp(127.0.0.1:3306)/laravel"
+    dsn := "root:@tcp(127.0.0.1:3306)/laravel?parseTime=true&charset=utf8mb4&loc=Local"
 	var err error
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
@@ -20,14 +21,13 @@ func InitDB() {
 }
 
 type User struct {
-    ID        uint   `json:"id" gorm:"primaryKey"`
-    Name      string `json:"name"`
-    Email     string `json:"email" gorm:"unique"`
-    Password  string `json:"password"`
-    CreatedAt string `json:"created_at"`
-    UpdatedAt string `json:"updated_at"`
+    ID        uint      `json:"id" gorm:"primaryKey"`
+    Name      string    `json:"name"`
+    Email     string    `json:"email" gorm:"unique"`
+    Password  string    `json:"password"`
+    CreatedAt time.Time `json:"created_at"`
+    UpdatedAt time.Time `json:"updated_at"`
 }
-
 func RegisterUser(name, email, password string) error {
     user := User{Name: name, Email: email, Password: password}
     result := DB.Create(&user)

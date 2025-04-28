@@ -22,7 +22,7 @@ func Login(c *gin.Context) {
 
 	var user models.User
 	if err := db.DB.Where("email = ?", loginData.Email).First(&user).Error; err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"status": "error", "message": "Email tidak ditemukan"})
+		c.JSON(http.StatusNotFound, gin.H{"status": "error", "message": "Akun dengan email ini belum terdaftar"})
 		return
 	}
 
