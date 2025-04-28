@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/pages/home/home_page.dart';
 import 'package:flutter_application/pages/profil/profil.dart';
-import 'package:flutter_application/pages/activity/daftar_pekerjaan.dart';  
+import 'package:flutter_application/pages/activity/daftar_pekerjaan.dart';
 import 'package:flutter_application/pages/home/form_page.dart';
+
 
 class AktivitasPekerjaanPage extends StatefulWidget {
   const AktivitasPekerjaanPage({Key? key}) : super(key: key);
@@ -13,7 +14,7 @@ class AktivitasPekerjaanPage extends StatefulWidget {
 
 class _AktivitasPekerjaanPageState extends State<AktivitasPekerjaanPage> {
   String? _selectedCategory;
-  final List<String> _categories = [
+  List<String> _categories = [
     'Semua',
     'Kebersihan Pekarangan',
     'Mencuci Kendaraan',
@@ -104,7 +105,16 @@ class _AktivitasPekerjaanPageState extends State<AktivitasPekerjaanPage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => EditPekerjaanPage()), 
+            MaterialPageRoute(
+              builder: (_) => FormPage(
+                onJobAdded: (newJob) {
+                  // Misal nanti kamu mau refresh daftar kerjaan di sini
+                  setState(() {
+                    // daftarPekerjaan.add(newJob);
+                  });
+                },
+              ),
+            ),
           );
         },
       ),
@@ -119,6 +129,8 @@ class TaskItem extends StatelessWidget {
   final Color? subtitleColor;
   final String? dateText;
   final Color? dateColor;
+  final IconData? trailingIcon;
+  final int? trailingNumber;
   final String leadingImage;
 
   const TaskItem({
@@ -128,6 +140,8 @@ class TaskItem extends StatelessWidget {
     this.subtitleColor,
     this.dateText,
     this.dateColor,
+    this.trailingIcon,
+    this.trailingNumber,
     required this.leadingImage,
   });
 
@@ -171,47 +185,48 @@ class TaskItem extends StatelessWidget {
                 ],
               ),
             ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (dateText != null)
-                  Text(
-                    dateText!,
-                    style: TextStyle(color: dateColor ?? Colors.black),
-                  ),
-                const SizedBox(height: 8),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => FormPage(
-                          onJobAdded: (newJob) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Pekerjaan berhasil ditambahkan!')),
-                            );
-                          },
-                        ),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple,
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: const Text(
-                    "Tambahkan",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
+            if (dateText != null)
+              Text(
+                dateText!,
+                style: TextStyle(color: dateColor ?? Colors.black),
+              ),
+            if (trailingIcon != null)
+              Icon(trailingIcon, color: Colors.deepPurple),
+            if (trailingNumber != null)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.deepPurple.shade100,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  trailingNumber.toString(),
+                  style: const TextStyle(color: Colors.deepPurple),
+                ),
+              ),
+            const SizedBox(width: 8),
+            // Tombol Tambahkan yang sudah diperbaiki posisinya
+            Align(
+              alignment: Alignment.centerRight, // Mengatur agar tombol rata kanan
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => EditPekerjaanPage()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurple,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-              ],
+                child: const Text(
+                  "Tambahkan",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
             ),
           ],
         ),
