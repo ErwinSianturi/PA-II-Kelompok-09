@@ -36,7 +36,7 @@
                 function validateHarga(input) {
                     let value = input.value.replace(/[^0-9]/g, '');
                     const min = 20000;
-                    const max = 2000000;
+                    const max = 1000000000;
                     const errorMessage = document.getElementById('hargaErrorMessage');
                     if (value < min || value > max || value === "") {
                         errorMessage.style.display = 'block';

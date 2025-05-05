@@ -25,4 +25,9 @@ class profil extends Model
         'Pembayaran',
         'Ratings',
     ];
+
+    public function jobPosting()
+    {
+        return $this->belongsTo(JobPosting::class, 'user_id');
+    }
 }

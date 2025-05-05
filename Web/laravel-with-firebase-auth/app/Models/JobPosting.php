@@ -23,6 +23,7 @@ class JobPosting extends Model
         'lingkup_kerja',
         'email_pengambil',
         'status_pekerja',
+        'status_pembayaran',
         'status_pekerjaan',
         'jenis_pekerjaan',
         'image1',
@@ -38,5 +39,10 @@ class JobPosting extends Model
     public function applications()
     {
         return $this->hasMany(Application::class, 'job_posting_id');
+    }
+
+    public function profil()
+    {
+        return $this->hasOne(Profil::class, 'user_id');
     }
 }

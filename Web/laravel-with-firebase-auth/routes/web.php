@@ -7,7 +7,8 @@ use App\Http\Controllers\JobsController;
 use App\Http\Controllers\ProfilController;
 use App\Models\profil;
 use App\Http\Controllers\ChatController;
-
+use App\Http\Controllers\TransactionController;
+use App\Models\Transaction;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -69,8 +70,17 @@ Route::post('/jobs/{jobId}/accept/{userEmail}', [JobsController::class, 'acceptU
 
 Route::put('jobs/{id}/assign', [JobsController::class, 'assignUser'])->name('jobs.assign');
 
+Route::put('jobs/{job}/start', [JobsController::class, 'start'])->name('jobs.start');
+Route::put('jobs/{job}/finish', [JobsController::class, 'finish'])->name('jobs.finish');
 
 
-use App\Http\Controllers\UserController;
 
-Route::get('/users', [UserController::class, 'showUsers']);
+Route::post('/checkout', [TransactionController::class, 'process'])->name("checkout-process");
+
+Route::get('/checkout/{transaction}', [TransactionController::class, 'checkout'])->name('checkout');
+
+Route::get('/checkout/success/{transaction}', [TransactionController::class, 'success']) ->name("chekcout-success");
+
+Route::get('jobs/{job}/bayar', [TransactionController::class, 'show'])->name("show.bayar");
+
+

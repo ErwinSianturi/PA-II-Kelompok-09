@@ -12,16 +12,38 @@ class JobsController extends Controller
 {
     public function index()
     {
-        $postedJobs = JobPosting::where('email', Auth::user()->email)->get();
+        $postedJobs = JobPosting::where('email', Auth::user()->email)
+            ->where('status_pekerjaan', 'Tersedia')
+            ->get();
+
         $takenJobs = JobPosting::where('email_pengambil', Auth::user()->email)->get();
 
-        return view('jobs.index', compact('postedJobs', 'takenJobs'));
+        $ongoingJobs = JobPosting::where('email', Auth::user()->email)
+            ->where('status_pekerjaan', 'Dalam Proses')
+            ->get();
+
+        $doneJobs = JobPosting::where('email', Auth::user()->email)
+            ->where('status_pekerjaan', 'Selesai')
+            ->get();
+
+        return view('jobs.index', compact('postedJobs', 'takenJobs', 'ongoingJobs', 'doneJobs'));
     }
 
     public function create()
     {
+        // Get the profile based on the logged-in user's email
+        $profils = Profil::where('email', Auth::user()->email)->first();
+
+        // Check if the profile is not complete (i.e., missing username or other required fields)
+        if (!$profils || empty($profils->username)) {
+            // Redirect the user to the profile page with an error message
+            return redirect('profil')->with('error', 'Please complete your profile before creating a job posting.');
+        }
+
+        // If the profile is complete, allow the user to access the job creation page
         return view('jobs.create');
     }
+
 
     public function store(Request $request)
     {
@@ -136,7 +158,7 @@ class JobsController extends Controller
             'status_pekerjaan' => $request->status_pekerjaan,
             'jenis_pekerjaan' => $request->jenis_pekerjaan,
             'time' => $request->time,
-            'email_pengambil' => $request->email_pengambil,  // Update the email_pengambil field
+            'email_pengambil' => $request->email_pengambil,
             'tanggaldanwaktu' => $request->tanggaldanwaktu
         ]);
 
@@ -196,8 +218,10 @@ class JobsController extends Controller
             'alasan' => 'required|string|max:1000',
         ]);
 
-
+        // Get the user's profile
         $profils = Profil::where('email', Auth::user()->email)->first();
+
+        // Check if profile is incomplete
         if (!$profils || empty($profils->username)) {
             return redirect('profil')->with('error', 'Please complete your profile before applying for a job.');
         }
@@ -205,18 +229,21 @@ class JobsController extends Controller
         // Find the job posting by ID
         $jobPosting = JobPosting::findOrFail($jobId);
 
+        // Get the user's email
         $userEmail = $profils->email;
 
+        // Check if the user has already applied for the same job posting
         $existingApplication = Application::where('job_posting_id', $jobId)
             ->where('user_email', $userEmail)
             ->first();
 
         if ($existingApplication) {
+            // If the application already exists, redirect with an error message
             return redirect('jobs/' . $jobId . '/detail')
                 ->with('error', 'You have already applied for this job.');
         }
 
-        // Save the new application with the user's email and the provided reason
+        // Save the new application with the user's email and the reason
         $jobPosting->applications()->create([
             'user_email' => $userEmail,
             'alasan' => $request->alasan,
@@ -259,5 +286,38 @@ class JobsController extends Controller
 
         // Redirect with success message
         return redirect('jobs')->with('status', 'User successfully assigned to the job!');
+    }
+    public function start(JobPosting $job)
+    {
+        // Mengubah status pekerja menjadi "Bekerja" di tabel 'profils'
+        $profil = Profil::where('email', $job->email_pengambil)->first(); // Menyesuaikan dengan relasi yang ada
+        if ($profil) {
+            $profil->status_pekerja = 'Bekerja';
+            $profil->save();
+        }
+
+        // Mengubah status pekerja menjadi "Bekerja" di tabel 'job_postings'
+        $job->status_pekerja = 'Bekerja';
+        $job->save();
+
+        return redirect()->back()->with('success', 'Pekerjaan telah dimulai.');
+    }
+
+    // Method untuk menyelesaikan pekerjaan
+    public function finish(JobPosting $job)
+    {
+        // Mengubah status pekerja menjadi "Selesai" di tabel 'profils'
+        $profil = Profil::where('email', $job->email_pengambil)->first(); // Menyesuaikan dengan relasi yang ada
+        if ($profil) {
+            $profil->status_pekerja = 'Selesai';
+            $profil->save();
+        }
+
+        // Mengubah status pekerjaan menjadi "Selesai" di tabel 'job_postings'
+        $job->status_pekerja = 'Selesai';
+        $job->status_pekerjaan = 'Selesai';
+        $job->save();
+
+        return redirect()->back()->with('success', 'Pekerjaan telah selesai.');
     }
 }

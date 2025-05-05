@@ -114,7 +114,13 @@
                     <strong>Lama Pekerjaan (Jam):</strong>
                     <p class="text-muted">{{ $job->time }} Jam</p>
                 </div>
-                <a href="{{ url('jobs/' . $job->id . '/apply') }}">daftar ke pekerjaan ini</a>
+
+                <!-- Check if the status_pekerjaan is available before showing the apply link -->
+                @if($job->status_pekerjaan == 'Tersedia')
+                    <a href="{{ url('jobs/' . $job->id . '/apply') }}">Daftar ke pekerjaan ini</a>
+                @else
+                    <p class="text-muted">Pekerjaan ini tidak tersedia untuk dilamar.</p>
+                @endif
             </div>
         </div>
     </div>
