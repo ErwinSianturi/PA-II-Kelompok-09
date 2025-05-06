@@ -4,23 +4,29 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Profil;
+use App\Models\PengalamanKerja;
 use Illuminate\Http\Request;
 
 class ProfilController extends Controller
 {
     // Show the profile page
     public function index()
-    {
-        // Get the profile of the authenticated user
-        $profils = Profil::where('email', Auth::user()->email)->get();
+{
+    // Get the profile of the authenticated user
+    $profils = Profil::where('email', Auth::user()->email)->first();  // Use first() to get a single profile
 
-        // If no profile exists, redirect to add profile page
-        if ($profils->isEmpty()) {
-            return redirect()->route('addprofile');
-        }
-
-        return view('profil.index', compact('profils'));
+    // If no profile exists, redirect to the add profile page
+    if (!$profils) {
+        return redirect()->route('addprofile');
     }
+
+    // Get the Pengalaman Kerja for the user based on the user_id
+    $pengalamanKerja = PengalamanKerja::where('user_id', $profils->id)->get();
+
+    // Pass the profile and Pengalaman Kerja to the view
+    return view('profil.index', compact('profils', 'pengalamanKerja'));
+}
+
 
     // Show the form for creating a new profile
     public function create()

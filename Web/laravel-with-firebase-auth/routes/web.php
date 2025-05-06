@@ -9,6 +9,7 @@ use App\Models\profil;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\TransactionController;
 use App\Models\Transaction;
+use App\Http\Controllers\PengalamanKerjaController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -84,3 +85,4 @@ Route::get('/checkout/success/{transaction}', [TransactionController::class, 'su
 Route::get('jobs/{job}/bayar', [TransactionController::class, 'show'])->name("show.bayar");
 
 
+Route::resource('pengalaman_kerja', PengalamanKerjaController::class);
