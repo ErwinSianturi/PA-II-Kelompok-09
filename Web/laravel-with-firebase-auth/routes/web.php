@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserItemController;
@@ -86,3 +86,6 @@ Route::get('jobs/{job}/bayar', [TransactionController::class, 'show'])->name("sh
 
 
 Route::resource('pengalaman_kerja', PengalamanKerjaController::class);
+
+
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');

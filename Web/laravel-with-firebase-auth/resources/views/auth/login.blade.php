@@ -5,7 +5,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('GigNego', 'Laravel') }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -21,7 +21,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
- <div class="container">
+<body class="d-flex justify-content-center align-items-center" style="height: 100vh; background-color: #f7f7f7;">
+
+    <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
@@ -33,7 +35,7 @@
 
                             <div class="row mb-3">
                                 <label for="email"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+                                    class="col-md-4 col-form-label text-md-end">{{ __('Email') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="email" type="email"
@@ -64,28 +66,15 @@
                                     @enderror
                                 </div>
                             </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-6 offset-md-4">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="remember" id="remember"
-                                            {{ old('remember') ? 'checked' : '' }}>
-
-                                        <label class="form-check-label" for="remember">
-                                            {{ __('Remember Me') }}
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
                             <div class="row mb-0">
                                 <div class="col-md-8 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
                                         {{ __('Login') }}
                                     </button>
 
-                                    <a class="btn btn-link" href="/password/reset" style="text-decoration: none;">
-                                        Forgot Your Password?
+                                    <!-- Register Button -->
+                                    <a class="btn btn-secondary" href="{{ route('register') }}" style="margin-left: 10px;">
+                                        {{ __('Register') }}
                                     </a>
                                 </div>
                             </div>
@@ -96,13 +85,10 @@
         </div>
     </div>
 
-
-
     <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-auth.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-
         var firebaseConfig = {
             apiKey: "AIzaSyCTUhRTkuOZnhD5ObWrKrbRk5L2GIH0MjE",
             authDomain: "chatapptest-42824.firebaseapp.com",
@@ -111,11 +97,12 @@
             messagingSenderId: "320062069119",
             appId: "1:320062069119:web:299f929ce78274c26e624a"
         };
-        firebase.initializeApp(config);
+        firebase.initializeApp(firebaseConfig);
         var facebookProvider = new firebase.auth.FacebookAuthProvider();
         var googleProvider = new firebase.auth.GoogleAuthProvider();
         var facebookCallbackLink = '/login/facebook/callback';
         var googleCallbackLink = '/login/google/callback';
+
         async function socialSignin(provider) {
             var socialProvider = null;
             if (provider == "facebook") {
@@ -138,3 +125,4 @@
             });
         }
     </script>
+</body>
