@@ -37,7 +37,7 @@
                                 <i class="fas fa-envelope me-2"></i>{{ $profile->email }}
                             </p>
                             <p class="text-muted mb-2">
-                                <i class="fas fa-map-marker-alt me-2"></i>{{ $profile->provinsi }}, {{ $profile->desa }}
+                                <i class="fas fa-map-marker-alt me-2"></i>{{ $profile->provinsi }} {{ $profile->desa }}
                             </p>
                             <p class="text-muted mb-0">
                                 <i class="fas fa-calendar-alt me-2"></i>Bergabung sejak {{ $profile->created_at->format('d M Y') }}
@@ -237,4 +237,4 @@
 <!-- Font Awesome if not already included in layout -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 @endsection
-```
+

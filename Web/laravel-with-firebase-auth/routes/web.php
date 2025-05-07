@@ -65,7 +65,7 @@ Route::get('jobs/{jobId}/applicants', [JobsController::class, 'showApplicants'])
 
 // Profile Management Routes
 Route::get('/profil/{id}/edit', [ProfilController::class, 'edit']);
-Route::put('/profil/{id}/edit', [ProfilController::class, 'update']);
+Route::put('/profil/{id}/edit', [ProfilController::class, 'update'])->name('profil.update');
 Route::get('/profil', [ProfilController::class, 'index'])->name('profil.index');
 Route::get('/addprofile', [ProfilController::class, 'create'])->name('addprofile');
 Route::post('/addprofile', [ProfilController::class, 'store'])->name('profile.store');

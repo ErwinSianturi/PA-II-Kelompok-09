@@ -11,21 +11,21 @@ class ProfilController extends Controller
 {
     // Show the profile page
     public function index()
-{
-    // Get the profile of the authenticated user
-    $profils = Profil::where('email', Auth::user()->email)->first();  // Use first() to get a single profile
+    {
+        // Get the profile of the authenticated user
+        $profils = Profil::where('email', Auth::user()->email)->first();  // Use first() to get a single profile
 
-    // If no profile exists, redirect to the add profile page
-    if (!$profils) {
-        return redirect()->route('addprofile');
+        // If no profile exists, redirect to the add profile page
+        if (!$profils) {
+            return redirect()->route('addprofile');
+        }
+
+        // Get the Pengalaman Kerja for the user based on the user_id
+        $pengalamanKerja = PengalamanKerja::where('user_id', $profils->id)->get();
+
+        // Pass the profile and Pengalaman Kerja to the view
+        return view('profil.index', compact('profils', 'pengalamanKerja'));
     }
-
-    // Get the Pengalaman Kerja for the user based on the user_id
-    $pengalamanKerja = PengalamanKerja::where('user_id', $profils->id)->get();
-
-    // Pass the profile and Pengalaman Kerja to the view
-    return view('profil.index', compact('profils', 'pengalamanKerja'));
-}
 
 
     // Show the form for creating a new profile
@@ -89,53 +89,51 @@ class ProfilController extends Controller
 
     public function update(Request $request, $id)
     {
-
+        // Find the profile by ID
         $profil = Profil::findOrFail($id);
 
         // Validate the form data
         $validated = $request->validate([
-            'email' => 'required|email',
             'username' => 'required|string|max:255',
             'harga_pekerjaan' => 'required|in:Laki-laki,Perempuan',
             'tanggal_lahir' => 'required|date',
-            'provinsi' => 'required|string',
+            'kecamatan' => 'required|string',
             'desa' => 'required|string',
             'alamat_lengkap' => 'required|string',
             'pekerjaan' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-
+        // Handle the image upload if a new one is provided
         if ($request->hasFile('image')) {
             if ($profil->image && file_exists(public_path($profil->image))) {
-                unlink(public_path($profil->image));
+                unlink(public_path($profil->image)); // Delete the old image
             }
-
 
             $file = $request->file('image');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('profile_images'), $filename);
             $imagePath = 'profile_images/' . $filename;
-
-
-            $profil->image = $imagePath;
+        } else {
+            $imagePath = $profil->image; // Keep the existing image if no new one is uploaded
         }
 
+        // Update the profile with validated data
         $profil->update([
-            'email' => $validated['email'],
             'username' => $validated['username'],
             'harga_pekerjaan' => $validated['harga_pekerjaan'],
             'tanggal_lahir' => $validated['tanggal_lahir'],
-            'provinsi' => $validated['provinsi'],
+            'kecamatan' => $validated['kecamatan'],
             'desa' => $validated['desa'],
             'alamat_lengkap' => $validated['alamat_lengkap'],
             'pekerjaan' => $validated['pekerjaan'],
-            'image' => isset($imagePath) ? $imagePath : $profil->image,
+            'image' => $imagePath,  // Update the image field
         ]);
 
-        // Redirect to profile index page after updating
-        return redirect()->route('profil.index');
+        // Redirect to profile index page
+        return redirect()->route('profil.index')->with('success', 'Profile updated successfully!');
     }
+
     public function show($email)
     {
         $user = Profil::where('email', $email)->firstOrFail();
