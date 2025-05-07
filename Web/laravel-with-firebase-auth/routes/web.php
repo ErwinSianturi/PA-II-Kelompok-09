@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfilController;
 use App\Models\Profil;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\PengalamanKerjaController;
 use App\Models\Transaction;
 use App\Http\Middleware\AdminRedirect;
 use App\Http\Controllers\AdminController;
@@ -86,3 +87,15 @@ Route::get('jobs/{job}/bayar', [TransactionController::class, 'show'])->name("sh
 
 //Admin
 Route::get('{id}/delete', [AdminController::class, 'delete']);
+
+
+//Pengalaman Kerja
+
+
+Route::get('/pengalaman/create', [PengalamanKerjaController::class, 'create'])->name('pengalaman.create');
+Route::post('/pengalaman/store', [PengalamanKerjaController::class, 'store'])->name('pengalaman.store');
+Route::get('/pengalaman/{id}/edit', [PengalamanKerjaController::class, 'edit'])->name('pengalaman.edit');
+Route::put('/pengalaman/{id}', [PengalamanKerjaController::class, 'update'])->name('pengalaman.update');
+Route::delete('/pengalaman/{id}', [PengalamanKerjaController::class, 'destroy'])->name('pengalaman.destroy');
+Route::get('/pengalaman/{id}', [PengalamanKerjaController::class, 'show'])->name('pengalaman.show');
+

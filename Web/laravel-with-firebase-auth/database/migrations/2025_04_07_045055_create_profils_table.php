@@ -36,6 +36,7 @@ return new class extends Migration
                 'Uluan'
             ]);
             $table->string('WA');
+            $table->enum('status_akun', ['Aktif', 'Non-Aktif'])->default('Aktif');
             $table->string('desa');
             $table->string('alamat_lengkap')->nullable();
             $table->string('pekerjaan');

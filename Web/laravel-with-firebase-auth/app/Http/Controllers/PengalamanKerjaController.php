@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
 use App\Models\PengalamanKerja;
 use App\Models\Profil;
@@ -26,28 +27,28 @@ class PengalamanKerjaController extends Controller
 
     // Store a newly created Pengalaman Kerja
     public function store(Request $request)
-{
-    // Back-end validation
-    $request->validate([
-        'position' => 'required|string|max:255',
-        'company_name' => 'required|string|max:255',
-        'country' => 'required|string|max:255',
-        'city' => 'required|string|max:255',
-        'start_date' => 'required|date|before:end_date', // Ensure start date is before end date
-        'end_date' => 'nullable|date|after:start_date', // Ensure end date is after start date
-        'is_current' => 'required|in:0,1',
-        'job_function' => 'required|string|max:255',
-        'industry' => 'required|string|max:255',
-        'job_level' => 'required|string|max:255',
-        'job_type' => 'required|string|max:255',
-        'description' => 'nullable|string',
-    ]);
+    {
+        // Back-end validation
+        $request->validate([
+            'position' => 'required|string|max:255',
+            'company_name' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'start_date' => 'required|date|before:end_date', // Ensure start date is before end date
+            'end_date' => 'nullable|date|after:start_date', // Ensure end date is after start date
+            'is_current' => 'required|in:0,1',
+            'job_function' => 'required|string|max:255',
+            'industry' => 'required|string|max:255',
+            'job_level' => 'required|string|max:255',
+            'job_type' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
 
-    // If validation passes, save the Pengalaman Kerja
-    PengalamanKerja::create($request->all());
+        // If validation passes, save the Pengalaman Kerja
+        PengalamanKerja::create($request->all());
 
-    return redirect()->route('profil.index')->with('success', 'Pengalaman Kerja created successfully.');
-}
+        return redirect()->route('profil.index')->with('success', 'Pengalaman Kerja created successfully.');
+    }
 
 
     // Show the form for editing an existing Pengalaman Kerja
@@ -90,5 +91,15 @@ class PengalamanKerjaController extends Controller
         $pengalamanKerja->delete();
 
         return redirect()->route('profil.index')->with('success', 'Pengalaman Kerja deleted successfully!');
+    }
+
+    // In your PengalamanKerjaController.php
+    public function show($id)
+    {
+        // Retrieve the specific experience record by ID
+        $pengalamanKerja = PengalamanKerja::findOrFail($id);
+
+        // Pass the data to the view
+        return view('profil.pengalaman.detail', compact('pengalamanKerja'));
     }
 }

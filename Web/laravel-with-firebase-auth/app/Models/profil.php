@@ -23,7 +23,7 @@ class profil extends Model
         'WA',
         'Status',
         'Pembayaran',
-        'Ratings',
+        'status_akun',
     ];
 
     public function jobPosting()

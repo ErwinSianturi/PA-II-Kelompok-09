@@ -33,16 +33,20 @@
                         <td>{{ $kerja->start_date }}</td>
                         <td>{{ $kerja->end_date ?? 'Current' }}</td>
                         <td>
-                            <!-- Edit and Delete buttons -->
-                            <a href="{{ route('pengalaman_kerja.edit', $kerja->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <!-- Edit Button -->
+                            <a href="{{ route('pengalaman.edit', $kerja->id) }}" class="btn btn-warning btn-sm">Edit</a>
 
-                            <!-- Delete Form -->
-                            <form action="{{ route('pengalaman_kerja.destroy', $kerja->id) }}" method="POST" style="display:inline;">
+                            <!-- Delete Button -->
+                            <form action="{{ route('pengalaman.destroy', $kerja->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                             </form>
+
+                            <!-- New View Button -->
+                            <a href="{{ route('pengalaman.show', $kerja->id) }}" class="btn btn-info btn-sm">Detail</a>
                         </td>
+
                     </tr>
                 @endforeach
             </tbody>

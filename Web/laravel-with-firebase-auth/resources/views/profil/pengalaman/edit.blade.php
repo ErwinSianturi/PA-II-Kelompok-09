@@ -5,7 +5,7 @@
         <h1>Edit Pengalaman Kerja</h1>
 
         <!-- Form to Edit Pengalaman Kerja -->
-        <form action="{{ route('pengalaman_kerja.update', $pengalamanKerja->id) }}" method="POST">
+        <form action="{{ route('pengalaman.update', $pengalamanKerja->id) }}" method="POST">
             @csrf
             @method('PUT')
 
