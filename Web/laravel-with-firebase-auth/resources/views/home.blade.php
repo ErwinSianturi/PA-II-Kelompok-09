@@ -18,7 +18,7 @@
             font-family: 'Poppins', sans-serif;
         }
     </style>
-    
+
 </head>
 
 <body class="bg-white text-black">
@@ -371,7 +371,7 @@
             <div class="swiper-slide overflow-visible">
                 <div
                     class="w-full max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center px-6 md:px-10 py-6 bg-gradient-to-r from-[#7321DA] via-[#AD7E80] to-[#3A42D2] rounded-[30px] transition transform duration-300 hover:scale-105">
-    
+
                     <!-- Kiri: Teks -->
                     <div class="flex flex-col basis-full md:basis-1/2 gap-2">
                         <h3 class="text-white px-4 py-1 rounded-lg text-2xl md:text-3xl w-fit font-normal mb-4 md:mb-6">
@@ -382,7 +382,7 @@
                             Kami mencari tenaga pengecatan rumah<br>
                             untuk membantu dalam renovasi.
                         </p>
-    
+
                         <!-- Tombol -->
                         <a href="{{ route('category.show', ['jenis_pekerjaan' => 'Lainnya']) }}">
                             <button
@@ -391,7 +391,7 @@
                             </button>
                         </a>
                     </div>
-    
+
                     <!-- Kanan: Ikon -->
                     <div class="flex items-center justify-center basis-full md:basis-1/2 mt-6 md:mt-0">
                         <div class="w-full max-w-[200px] md:max-w-[250px] aspect-square p-3 sm:p-4 md:p-5">

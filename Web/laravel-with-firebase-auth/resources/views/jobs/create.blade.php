@@ -21,7 +21,7 @@
                 <input type="text" id="harga_pekerjaan" name="harga_pekerjaan" class="form-control" required
                     oninput="formatHarga(this)" onblur="validateHarga(this)">
                 <small id="hargaErrorMessage" class="form-text text-danger" style="display: none;">Harga harus antara 20.000
-                    dan 2.000.000.</small>
+                    dan 1.000.000.000</small>
             </div>
 
             <script>
@@ -95,7 +95,7 @@
 
             <div class="mb-3">
                 <label>Lama Pekerjaan dalam Jam</label>
-                <input type="number" name="time" id="time" class="form-control" max="8" required>
+                <input type="number" name="time" id="time" class="form-control" min="1" max="8" required>
                 <small id="timeErrorMessage" class="form-text text-danger" style="display: none;">Waktu tidak bisa lebih
                     dari 8 jam.</small>
             </div>

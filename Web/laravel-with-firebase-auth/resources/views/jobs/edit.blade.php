@@ -23,7 +23,7 @@
                     value="{{ old('harga_pekerjaan', 'Rp. ' . number_format($jobs->harga_pekerjaan)) }}" required
                     oninput="formatHarga(this)" onblur="validateHarga(this)">
                 <small id="hargaErrorMessage" class="form-text text-danger" style="display: none;">Harga harus antara 20.000
-                    dan 2.000.000.</small>
+                    dan 1.000.000.000 </small>
             </div>
 
             <script>
@@ -38,7 +38,7 @@
                 function validateHarga(input) {
                     let value = input.value.replace(/[^0-9]/g, '');
                     const min = 20000;
-                    const max = 2000000;
+                    const max = 1000000000;
                     const errorMessage = document.getElementById('hargaErrorMessage');
                     if (value < min || value > max || value === "") {
                         errorMessage.style.display = 'block';
@@ -107,7 +107,7 @@
             <div class="mb-3">
                 <label>Lama Pekerjaan dalam Jam</label>
                 <input type="number" name="time" id="time" class="form-control"
-                    value="{{ old('time', $jobs->time) }}" max="8" required>
+                    value="{{ old('time', $jobs->time) }}" min="1" max="8" required>
                 <small id="timeErrorMessage" class="form-text text-danger" style="display: none;">Waktu tidak bisa lebih
                     dari 8 jam.</small>
             </div>

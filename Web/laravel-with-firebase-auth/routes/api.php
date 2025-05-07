@@ -21,7 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 
-Route::post('/send-message', [ChatController::class, 'sendMessage']);
-Route::get('/get-messages/{senderID}/{receiverID}', [ChatController::class, 'getMessages']);
 
 

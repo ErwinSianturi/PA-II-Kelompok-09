@@ -3,24 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 
 class AdminController extends Controller
 {
     public function __construct()
     {
-        // Apply the auth middleware
+        // Apply authentication middleware to the admin routes
         $this->middleware('auth');
     }
 
-    public function index()
+    public function dashboard()
     {
         // Check if the logged-in user is the admin
-        if (Auth::user()->email !== 'admin@gmail.com') {
-            return redirect('/home')->with('error', 'Access Denied');
+        if (auth()->user()->email === 'admin@gmail.com') {
+            return view('admin.index'); // Admin dashboard view
+        } else {
+            return redirect('/home'); // Redirect to home page if not admin
         }
-
-        return view('admin.index');
     }
 }

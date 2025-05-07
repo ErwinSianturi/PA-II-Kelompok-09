@@ -22,6 +22,12 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
+    protected $routeMiddleware = [
+        // Other middlewares...
+        'admin.redirect' => \App\Http\Middleware\AdminRedirect::class,
+        'admin' => \App\Http\Middleware\AdminRedirect::class,
+
+    ];
 
     /**
      * The application's route middleware groups.
@@ -62,7 +68,7 @@ class Kernel extends HttpKernel
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-
+        'admin' => \App\Http\Middleware\AdminRedirect::class,
         'user' => \App\Http\Middleware\VerifyUser::class,
         'fireauth' => \App\Http\Middleware\FirebaseAuth::class,
     ];

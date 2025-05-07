@@ -1,128 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-    <title>{{ config('GigNego', 'Laravel') }}</title>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 80%;
+            max-width: 1200px;
+        }
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+        .login-box {
+            display: flex;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        .login-form {
+            padding: 30px;
+            width: 50%;
+        }
 
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+        h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .mb-3 {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .is-invalid {
+            border-color: red;
+        }
+
+        .invalid-feedback {
+            color: red;
+            font-size: 12px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #7F56D9;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .login-btn:hover {
+            background-color: #6d4cd1;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .links a {
+            font-size: 14px;
+            color: #7F56D9;
+            text-decoration: none;
+        }
+
+        .google-signin {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .google-btn {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            background-color: #4285F4;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .google-btn img {
+            width: 20px;
+            margin-right: 10px;
+        }
+
+        .illustration {
+            width: 50%;
+            background-color: #7F56D9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .illustration img {
+            width: 80%;
+        }
+    </style>
 </head>
-
-<body class="d-flex justify-content-center align-items-center" style="height: 100vh; background-color: #f7f7f7;">
-
+<body>
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('Login') }}</div>
-
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('login') }}">
-                            @csrf
-
-                            <div class="row mb-3">
-                                <label for="email"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Email') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="email" type="email"
-                                        class="form-control @error('email') is-invalid @enderror" name="email"
-                                        value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                    @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="password"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="password" type="password"
-                                        class="form-control @error('password') is-invalid @enderror" name="password"
-                                        required autocomplete="current-password">
-
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="row mb-0">
-                                <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        {{ __('Login') }}
-                                    </button>
-
-                                    <!-- Register Button -->
-                                    <a class="btn btn-secondary" href="{{ route('register') }}" style="margin-left: 10px;">
-                                        {{ __('Register') }}
-                                    </a>
-                                </div>
-                            </div>
-                        </form>
+        <div class="login-box">
+            <div class="login-form">
+                <h2>Welcome back</h2>
+                <p>Please enter your details</p>
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email"
+                            value="{{ old('email') }}" required autocomplete="email" autofocus>
+                        @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
+                            name="password" required autocomplete="current-password">
+                        @error('password')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <button type="submit" class="login-btn">Sign In</button>
+                </form>
+
+                <div class="links">
+                    <a href="{{ route('register') }}" class="sign-up-link">Don't have an account? Sign up</a>
                 </div>
+            </div>
+            <div class="illustration">
+                @include('items.toak')
             </div>
         </div>
     </div>
-
-    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-auth.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script>
-        var firebaseConfig = {
-            apiKey: "AIzaSyCTUhRTkuOZnhD5ObWrKrbRk5L2GIH0MjE",
-            authDomain: "chatapptest-42824.firebaseapp.com",
-            projectId: "chatapptest-42824",
-            storageBucket: "chatapptest-42824.firebasestorage.app",
-            messagingSenderId: "320062069119",
-            appId: "1:320062069119:web:299f929ce78274c26e624a"
-        };
-        firebase.initializeApp(firebaseConfig);
-        var facebookProvider = new firebase.auth.FacebookAuthProvider();
-        var googleProvider = new firebase.auth.GoogleAuthProvider();
-        var facebookCallbackLink = '/login/facebook/callback';
-        var googleCallbackLink = '/login/google/callback';
-
-        async function socialSignin(provider) {
-            var socialProvider = null;
-            if (provider == "facebook") {
-                socialProvider = facebookProvider;
-                document.getElementById('social-login-form').action = facebookCallbackLink;
-            } else if (provider == "google") {
-                socialProvider = googleProvider;
-                document.getElementById('social-login-form').action = googleCallbackLink;
-            } else {
-                return;
-            }
-            firebase.auth().signInWithPopup(socialProvider).then(function(result) {
-                result.user.getIdToken().then(function(result) {
-                    document.getElementById('social-login-tokenId').value = result;
-                    document.getElementById('social-login-form').submit();
-                });
-            }).catch(function(error) {
-                // do error handling
-                console.log(error);
-            });
-        }
-    </script>
 </body>
+</html>

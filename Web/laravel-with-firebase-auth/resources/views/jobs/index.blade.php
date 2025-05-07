@@ -31,7 +31,7 @@
                     <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th>Gambar 1</th>
+                                <th>Gambar</th>
                                 <th>Nama Pekerjaan</th>
                                 <th>Harga</th>
                                 <th>Status</th>
@@ -83,7 +83,7 @@
                     <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th>Gambar 1</th>
+                                <th>Gambar</th>
                                 <th>Nama Pekerjaan</th>
                                 <th>Harga</th>
                                 <th>Status</th>
@@ -136,7 +136,7 @@
                     <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th>Gambar 1</th>
+                                <th>Gambar</th>
                                 <th>Nama Pekerjaan</th>
                                 <th>Harga</th>
                                 <th>Status</th>
@@ -199,11 +199,11 @@
                     <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th>Gambar 1</th>
+                                <th>Gambar</th>
                                 <th>Nama Pekerjaan</th>
                                 <th>Harga</th>
                                 <th>Status</th>
-                                <th>Jenis Pekerjaan</th>
+                                <th>Status Pembayaran</th>
                                 <th>Waktu</th>
                                 <th>Jumlah Pendaftar</th>
                                 <th>Aksi</th>
@@ -225,13 +225,18 @@
                                     <td>
                                         <span class="badge badge-success">{{ ucfirst($job->status_pekerjaan) }}</span>
                                     </td>
-                                    <td>{{ $job->jenis_pekerjaan }}</td>
+                                    <td>{{ $job->status}}</td>
                                     <td>{{ $job->time }}</td>
                                     <td>{{ $job->applications->count() }}</td>
                                     <td>
+                                        @if($job->status == 'success')
+                                            <button>Sudah dibayar</button>
+                                        @else
                                         <a href="{{ url('jobs/' . $job->id . '/bayar') }}"
                                             class="btn btn-sm btn-info">Bayar</a>
+                                        @endif
                                     </td>
+
                                 </tr>
                             @endforeach
                         </tbody>

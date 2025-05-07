@@ -2,47 +2,49 @@
 
 namespace App\Services;
 
-use Google\Cloud\Core\ExponentialBackoff;
-use Google\Cloud\Firestore\FirestoreClient;
-use Google\Cloud\Firestore\DocumentSnapshot;
-use Firebase\Auth\Token\Exception\InvalidToken;
-use Firebase\Auth\Token\Verifier;
-use Illuminate\Support\Facades\Storage;
+use Kreait\Firebase\Factory;
+use Kreait\Firebase\Auth;
 
 class FirebaseService
 {
-    protected $firestore;
+    private $auth;
 
     public function __construct()
     {
-        $this->initializeFirestore();
-    }
+        try {
+            // Initialize Firebase Auth using the service account key
+            $firebase = (new Factory)
+                ->withServiceAccount(base_path('resources/credentials/firebase_credentials.json')) // Absolute path to the service account key
+                ->createAuth();  // Use createAuth to get the Firebase Auth instance
 
-    /**
-     * Initialize Firestore client
-     */
-    protected function initializeFirestore()
-    {
-        $jsonCredentials = Storage::path('firebase/credentials.json');
-        $this->firestore = new FirestoreClient([
-            'keyFilePath' => $jsonCredentials
-        ]);
-    }
-
-    /**
-     * List all Firebase users
-     *
-     * @return array
-     */
-    public function listUsers()
-    {
-        $users = [];
-        $batch = $this->firestore->documentsIterator();
-
-        foreach ($batch as $document) {
-            $users[] = $document->data();
+            $this->auth = $firebase;
+        } catch (\Exception $e) {
+            // Handle any errors that occur during initialization
+            die('Error initializing Firebase Auth: ' . $e->getMessage());
         }
+    }
 
-        return $users;
+    // Function to list all users
+    public function listAllUsers()
+    {
+        try {
+            $users = [];
+            $pageToken = null;
+            $batchSize = 1000;  // Set a valid batch size (1000 users per request)
+
+            // Loop to paginate through all users
+            do {
+                // Get users with pagination, passing the batch size and page token
+                $result = $this->auth->listUsers($batchSize, $pageToken);
+                $users = array_merge($users, iterator_to_array($result->users())); // Merge users in a single array
+                $pageToken = $result->pageToken();  // Get the next page token if more users exist
+            } while ($pageToken);  // Continue until no more users are available
+
+            return $users; // Return all users
+
+        } catch (\Exception $e) {
+            // Handle errors when trying to list users
+            return ['error' => 'Error listing users: ' . $e->getMessage()];
+        }
     }
 }

@@ -28,20 +28,19 @@ class HomeController extends Controller
      */
     public function index()
     {
-      // FirebaseAuth.getInstance().getCurrentUser();
-      try {
-        $uid = Session::get('uid');
-        $user = app('firebase.auth')->getUser($uid);
-        return view('home');
-      } catch (\Exception $e) {
-        return $e;
-      }
-
+        // FirebaseAuth.getInstance().getCurrentUser();
+        try {
+            $uid = Session::get('uid');
+            $user = app('firebase.auth')->getUser($uid);
+            return view('home');
+        } catch (\Exception $e) {
+            return $e;
+        }
     }
 
     public function customer()
     {
-      $userid = Session::get('uid');
-      return view('customers',compact('userid'));
+        $userid = Session::get('uid');
+        return view('customers', compact('userid'));
     }
 }
