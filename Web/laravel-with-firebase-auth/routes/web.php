@@ -83,3 +83,6 @@ Route::get('/checkout/{transaction}', [TransactionController::class, 'checkout']
 Route::get('/checkout/success/{transaction}', [TransactionController::class, 'success'])->name("chekcout-success");
 Route::get('jobs/{job}/bayar', [TransactionController::class, 'show'])->name("show.bayar");
 
+
+//Admin
+Route::get('{id}/delete', [AdminController::class, 'delete']);
