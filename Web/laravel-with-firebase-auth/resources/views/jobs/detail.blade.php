@@ -230,11 +230,13 @@
                             aria-label="Daftar ke pekerjaan ini">
                             Daftar ke pekerjaan ini
                         </a>
+
                     @else
                         <div class="unavailable-msg" role="alert" aria-live="polite">
                             Pekerjaan ini tidak tersedia untuk dilamar.
                         </div>
                     @endif
+                    <a href="{{ url()->previous() }}" class="btn btn-secondary px-2 py-6">Kembali</a>
                 </div>
             </div>
         </div>

@@ -136,8 +136,9 @@ class ProfilController extends Controller
 
     public function show($email)
     {
-        $user = Profil::where('email', $email)->firstOrFail();
+        $profils= Profil::where('email', $email)->firstOrFail();
+        $pengalamanKerja = PengalamanKerja::where('user_id', $profils->id)->get();
 
-        return view('users.show', compact('user'));
+        return view('users.show', compact('profils', 'pengalamanKerja'));
     }
 }

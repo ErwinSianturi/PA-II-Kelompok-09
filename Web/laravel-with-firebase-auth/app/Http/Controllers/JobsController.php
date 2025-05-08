@@ -209,7 +209,23 @@ class JobsController extends Controller
             ->where('email', '!=', Auth::user()->email)
             ->get();
 
-        return view('jobs.category', compact('jobs', 'jenis_pekerjaan'));
+        $postedJobs = JobPosting::where('jenis_pekerjaan', $jenis_pekerjaan)
+            ->where('email', '!=', Auth::user()->email)
+            ->where('status_pekerjaan', 'Tersedia')
+            ->get();
+
+        $ongoingJobs = JobPosting::where('jenis_pekerjaan', $jenis_pekerjaan)
+            ->where('email', '!=', Auth::user()->email)
+            ->where('status_pekerjaan', 'Dalam Proses')
+            ->get();
+
+        $doneJobs = JobPosting::where('jenis_pekerjaan', $jenis_pekerjaan)
+            ->where('email', '!=', Auth::user()->email)
+            ->where('status_pekerjaan', 'Selesai')
+            ->get();
+
+
+        return view('jobs.category', compact('jobs', 'postedJobs','doneJobs', 'ongoingJobs', 'jenis_pekerjaan'));
     }
 
     public function showdetil(int $id)
@@ -335,4 +351,5 @@ class JobsController extends Controller
 
         return redirect()->back()->with('success', 'Pekerjaan telah selesai.');
     }
+
 }
