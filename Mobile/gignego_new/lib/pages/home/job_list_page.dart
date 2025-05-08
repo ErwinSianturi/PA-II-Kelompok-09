@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_application/pages/home/models/job.dart';
+import 'package:flutter_application/pages/models/job.dart';
 import 'package:flutter_application/pages/home/job_detail_page.dart';
 
 class JobListPage extends StatefulWidget {

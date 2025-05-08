@@ -138,31 +138,6 @@
 // }
 
 
-// <<<<<<< HEAD:Mobile/gignego_new/gignego_new/lib/main.dart
-// =======
-
-// // import 'package:flutter/material.dart';
-// // import 'pages/auth/register_page.dart'; 
-
-// // void main() {
-// //   runApp(MyApp());
-// // }
-
-// // class MyApp extends StatelessWidget {
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return MaterialApp(
-// //       debugShowCheckedModeBanner: false,
-// //       title: 'GigNego',
-// //       theme: ThemeData(
-// //         primarySwatch: Colors.blue,
-// //       ),
-// //       home: RegisterPage(),
-// //     );
-// //   }
-// // }
-
-// >>>>>>> 7811c4cb8554265da3b35ab86c8b9bf62d1a06ad:Mobile/gignego_new/lib/main.dart
 
 
 import 'package:flutter/material.dart';
@@ -185,4 +160,60 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+// import 'package:flutter/material.dart';
+// import 'package:flutter_application/pages/profil/tambah_pengalaman.dart';
+
+// void main() {
+//   runApp(const MyApp());
+// }
+
+// class MyApp extends StatelessWidget {
+//   const MyApp({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Work Experience App',
+//       theme: ThemeData(
+//         primarySwatch: Colors.purple,
+//         visualDensity: VisualDensity.adaptivePlatformDensity,
+//       ),
+//       home: const AddWorkExperiencePage(),
+//     );
+//   }
+// }
+
+
+// import 'package:flutter/material.dart';
+// import 'package:provider/provider.dart';
+// import 'package:flutter_application/pages/profil/profile_provider.dart';
+// import 'package:flutter_application/pages/profil/profil.dart';
+
+// void main() {
+//   runApp(
+//     ChangeNotifierProvider(
+//       create: (_) => ProfileProvider(userId: 18), 
+//       child: MyApp(),
+//     ),
+//   );
+// }
+
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Profil Aplikasi',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: ProfilPage(), 
+//     );
+//   }
+// }
+
 

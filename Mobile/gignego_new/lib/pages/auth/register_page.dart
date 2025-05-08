@@ -23,7 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
     });
 
     if (_formKey.currentState!.validate()) {
-      final url = Uri.parse('http://10.0.2.2:8080/register'); 
+      final url = Uri.parse('http://10.0.2.2:8080/register');
 
       final response = await http.post(
         url,
@@ -37,13 +37,11 @@ class _RegisterPageState extends State<RegisterPage> {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        // Registrasi berhasil
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Registrasi berhasil")),
         );
         print("Registrasi sukses: ${response.body}");
       } else {
-        // Registrasi gagal
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Registrasi gagal: ${response.body}")),
         );
@@ -87,19 +85,23 @@ class _RegisterPageState extends State<RegisterPage> {
                 children: [
                   Center(child: Image.asset('assets/logo.png', height: 40)),
                   SizedBox(height: 16),
-                  Text("Buat Akun", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                  Text("Buat Akun",
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
                   SizedBox(height: 4),
                   Row(
-                   children: [
+                    children: [
                       Text("Punya akun?"),
                       TextButton(
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => LoginPage()),
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()),
                           );
                         },
-                        child: Text("Sign in", style: TextStyle(fontWeight: FontWeight.bold)),
+                        child: Text("Sign in",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                     ],
                   ),
@@ -107,27 +109,31 @@ class _RegisterPageState extends State<RegisterPage> {
                   TextFormField(
                     controller: _namaController,
                     decoration: _inputDecoration("Nama Lengkap*"),
-                    validator: (value) => value!.isEmpty ? "Nama wajib diisi" : null,
+                    validator: (value) =>
+                        value!.isEmpty ? "Nama wajib diisi" : null,
                   ),
                   SizedBox(height: 12),
                   TextFormField(
                     controller: _emailController,
                     decoration: _inputDecoration("Email*"),
-                    validator: (value) => value!.isEmpty ? "Email wajib diisi" : null,
+                    validator: (value) =>
+                        value!.isEmpty ? "Email wajib diisi" : null,
                   ),
                   SizedBox(height: 12),
                   TextFormField(
                     controller: _phoneController,
                     decoration: _inputDecoration("Nomor Ponsel*"),
                     keyboardType: TextInputType.phone,
-                    validator: (value) => value!.isEmpty ? "Nomor Ponsel wajib diisi" : null,
+                    validator: (value) =>
+                        value!.isEmpty ? "Nomor Ponsel wajib diisi" : null,
                   ),
                   SizedBox(height: 12),
                   TextFormField(
                     controller: _passwordController,
                     decoration: _inputDecoration("Password*"),
                     obscureText: true,
-                    validator: (value) => value!.isEmpty ? "Password wajib diisi" : null,
+                    validator: (value) =>
+                        value!.isEmpty ? "Password wajib diisi" : null,
                   ),
                   SizedBox(height: 20),
                   SizedBox(
@@ -137,15 +143,14 @@ class _RegisterPageState extends State<RegisterPage> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFF781CAA),
                       ),
-                      child: Text("Lanjutkan", style: TextStyle(color: Colors.white)),
+                      child: Text("Lanjutkan",
+                          style: TextStyle(color: Colors.white)),
                     ),
                   ),
                   SizedBox(height: 12),
                   Center(
                     child: TextButton(
-                      onPressed: () {
-
-                      },
+                      onPressed: () {},
                       child: Text.rich(
                         TextSpan(
                           text: "Butuh bantuan? Hubungi ",

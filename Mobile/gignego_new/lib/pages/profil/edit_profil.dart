@@ -1,215 +1,340 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_application/pages/models/user_profile.dart';
+import 'package:flutter_application/pages/profil/profile_provider.dart';
 
 class EditProfilPage extends StatefulWidget {
+  const EditProfilPage({Key? key}) : super(key: key);
+
   @override
   _EditProfilPageState createState() => _EditProfilPageState();
 }
 
 class _EditProfilPageState extends State<EditProfilPage> {
-  final _formKey = GlobalKey<FormState>();
-  TextEditingController tanggalController = TextEditingController();
-  TextEditingController alamatLengkapController = TextEditingController();
-  TextEditingController noTelpController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  String _selectedOccupation = 'Mahasiswa';
+  DateTime _selectedDate = DateTime.now();
+  File? _imageFile;
+  bool _isLoading = false;
 
-  String? selectedKecamatan;
-  String? selectedDesa;
+  final List<String> _occupationOptions = [
+    'Mahasiswa',
+    'Karyawan',
+    'Wiraswasta',
+    'Freelancer',
+    'Lainnya'
+  ];
 
-  final Map<String, List<String>> dataWilayah = {
-    'Balige': ['Lumban Pea', 'Parparean', 'Tangga Batu', 'Lumban Bulbul'],
-    'Porsea': ['Porsea','Lumban Gurning', 'Lumban Huala', 'Siraituruk','Lumban Sitorus', 'Tanjung Pasir'],
-    'Laguboti': ['Tampubolon', 'Sibarani', 'Lumban Gaol'],
-    'Tampahan': ['Tampahan', 'Lumban Binanga'],
-    'Habinsaran': ['Aek Natolu', 'Sitorang'],
-    'Borbor': ['Borbor Tonga', 'Parsaoran'],
-    'Silaen': ['Lumban Sitorus', 'Lumban Holbung'],
-    'Ajibata': ['Ajibata', 'Parparean', 'Tanjung Unta'],
-    // Tambahkan kecamatan dan desa lainnya sesuai kebutuhan
-  };
+  @override
+  void initState() {
+    super.initState();
+    // Data akan diisi di didChangeDependencies
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _loadUserProfile();
+  }
+
+  // Memuat data profil pengguna
+  void _loadUserProfile() {
+    try {
+      final profileProvider = Provider.of<ProfileProvider>(context, listen: false);
+      final userProfile = profileProvider.userProfile;
+
+      if (userProfile != null) {
+        setState(() {
+          _nameController.text = userProfile.name;
+          _emailController.text = userProfile.email;
+          _addressController.text = userProfile.address;
+          _selectedOccupation = userProfile.occupation;
+          _selectedDate = userProfile.birthDate;
+        });
+      }
+    } catch (e) {
+      print("Error saat memuat profil: $e");
+    }
+  }
+
+  // Memilih gambar dari galeri
+  Future<void> _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    }
+  }
+
+  // Memilih tanggal lahir
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+      });
+    }
+  }
+
+  // Menyimpan perubahan profil
+  Future<void> _saveProfile() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final profileProvider = Provider.of<ProfileProvider>(context, listen: false);
+      final currentProfile = profileProvider.userProfile;
+
+      if (currentProfile != null) {
+        // Update profil dengan data baru
+        UserProfile updatedProfile = UserProfile(
+          id: currentProfile.id,
+          name: _nameController.text,
+          email: _emailController.text,
+          address: _addressController.text,
+          occupation: _selectedOccupation,
+          birthDate: _selectedDate,
+          photoUrl: currentProfile.photoUrl, // Akan diperbarui jika ada foto baru
+          lastUpdate: DateTime.now().toString(),
+        );
+
+        // Jika ada gambar baru, upload gambar
+        if (_imageFile != null) {
+          String mockPhotoUrl =
+              "https://example.com/photos/profile_${DateTime.now().millisecondsSinceEpoch}.jpg";
+          
+          updatedProfile = UserProfile(
+            id: updatedProfile.id,
+            name: updatedProfile.name,
+            email: updatedProfile.email,
+            address: updatedProfile.address,
+            occupation: updatedProfile.occupation,
+            birthDate: updatedProfile.birthDate,
+            photoUrl: mockPhotoUrl, // URL foto baru
+            lastUpdate: updatedProfile.lastUpdate,
+          );
+        }
+
+        // Simpan perubahan
+        final success = await profileProvider.updateUserProfile(updatedProfile);
+
+        if (success) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Profil berhasil diperbarui')),
+          );
+          
+          // Refresh data di provider
+          await profileProvider.fetchUserProfile(updatedProfile.id ?? 18);
+          
+          // Kembali ke halaman profil
+          Navigator.pop(context, true); // Mengirim hasil true untuk trigger refresh
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Gagal memperbarui profil')),
+          );
+        }
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Terjadi kesalahan: $e')),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text("Cancel", style: TextStyle(color: Colors.grey)),
-                  ),
-                  Text("Edit Profil", style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text("GIGNEGO",
-                      style: TextStyle(color: Color(0xFF7C4CB8), fontWeight: FontWeight.bold)),
-                ],
-              ),
-              SizedBox(height: 20),
-              Stack(
-                alignment: Alignment.bottomRight,
-                children: [
-                  CircleAvatar(
-                    radius: 60,
-                    backgroundImage: AssetImage("assets/profile.jpg"),
-                  ),
-                  CircleAvatar(
-                    backgroundColor: Colors.white,
-                    radius: 16,
-                    child: Icon(Icons.edit, color: Color(0xFF7C4CB8), size: 18),
-                  )
-                ],
-              ),
-              SizedBox(height: 20),
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    buildTextField("Nama"),
-                    buildTextField("Email"),
-                    DropdownButtonFormField<String>(
-                      value: selectedKecamatan,
-                      decoration: InputDecoration(
-                        labelText: 'Kecamatan',
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF7C4CB8)),
-                        ),
-                      ),
-                      items: dataWilayah.keys
-                          .map((kec) => DropdownMenuItem(value: kec, child: Text(kec)))
-                          .toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedKecamatan = value;
-                          selectedDesa = null;
-                        });
-                      },
-                    ),
-                    SizedBox(height: 20),
-                    DropdownButtonFormField<String>(
-                      value: selectedDesa,
-                      decoration: InputDecoration(
-                        labelText: 'Desa',
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF7C4CB8)),
-                        ),
-                      ),
-                      items: (selectedKecamatan != null)
-                          ? dataWilayah[selectedKecamatan]!
-                              .map((desa) => DropdownMenuItem(value: desa, child: Text(desa)))
-                              .toList()
-                          : [],
-                      onChanged: (value) {
-                        setState(() {
-                          selectedDesa = value;
-                        });
-                      },
-                    ),
-                    SizedBox(height: 20),
-                    TextFormField(
-                      controller: alamatLengkapController,
-                      decoration: InputDecoration(
-                        labelText: "Alamat Lengkap",
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF7C4CB8)),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    TextFormField(
-                      controller: noTelpController,
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                        labelText: "Nomor Telepon",
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF7C4CB8)),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    buildTextField("Pekerjaan", isDropdown: true),
-                    buildDatePicker("Tanggal Lahir*"),
-                  ],
-                ),
-              ),
-              SizedBox(height: 30),
-              ElevatedButton(
-                onPressed: () {
-                  // simpan data di sini
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFFBB86FC),
-                  minimumSize: Size(double.infinity, 45),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                ),
-                child: Text("Simpan", style: TextStyle(fontWeight: FontWeight.bold)),
-              ),
-            ],
-          ),
+      appBar: AppBar(
+        title: Text('Edit Profil'),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 0,
+        leading: TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text('Batal', style: TextStyle(color: Colors.black)),
         ),
-      ),
-    );
-  }
-
-  Widget buildTextField(String label, {bool isDropdown = false}) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: isDropdown
-          ? DropdownButtonFormField<String>(
-              decoration: InputDecoration(
-                labelText: label,
-                labelStyle: TextStyle(color: Colors.grey),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFF7C4CB8)),
-                ),
-              ),
-              items: ["Freelancer", "Mahasiswa", "Pekerja Tetap"]
-                  .map((job) => DropdownMenuItem(value: job, child: Text(job)))
-                  .toList(),
-              onChanged: (value) {},
-            )
-          : TextFormField(
-              decoration: InputDecoration(
-                labelText: label,
-                labelStyle: TextStyle(color: Colors.grey),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFF7C4CB8)),
+        leadingWidth: 80,
+        actions: [
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: Text(
+                'GIGNEGO',
+                style: TextStyle(
+                  color: Color(0xFF9E61EB),
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-    );
-  }
-
-  Widget buildDatePicker(String label) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: TextFormField(
-        controller: tanggalController,
-        readOnly: true,
-        decoration: InputDecoration(
-          labelText: label,
-          suffixIcon: Icon(Icons.calendar_today),
-          border: OutlineInputBorder(
-            borderSide: BorderSide(color: Color(0xFF7C4CB8)),
-            borderRadius: BorderRadius.circular(5),
           ),
-        ),
-        onTap: () async {
-          DateTime? pickedDate = await showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(1900),
-            lastDate: DateTime(2100),
-          );
-          if (pickedDate != null) {
-            tanggalController.text =
-                "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
+        ],
+      ),
+      body: Consumer<ProfileProvider>(
+        builder: (context, profileProvider, child) {
+          final userProfile = profileProvider.userProfile;
+          
+          if (userProfile == null) {
+            return Center(child: CircularProgressIndicator());
           }
+          
+          return SingleChildScrollView(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Foto profil
+                Center(
+                  child: Stack(
+                    children: [
+                      CircleAvatar(
+                        radius: 50,
+                        backgroundColor: Colors.grey[300],
+                        backgroundImage: _imageFile != null
+                            ? FileImage(_imageFile!)
+                            : (userProfile.photoUrl != null
+                                ? NetworkImage(userProfile.photoUrl!)
+                                    as ImageProvider
+                                : AssetImage("assets/profile.jpg")
+                                    as ImageProvider),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: GestureDetector(
+                          onTap: _pickImage,
+                          child: CircleAvatar(
+                            radius: 18,
+                            backgroundColor: Color(0xFF9E61EB),
+                            child: Icon(Icons.edit, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 24),
+                
+                // Nama
+                Text('Nama', style: TextStyle(color: Colors.grey)),
+                TextField(
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    hintText: 'Masukkan nama lengkap',
+                    border: UnderlineInputBorder(),
+                  ),
+                ),
+                SizedBox(height: 16),
+                
+                // Email
+                Text('Email', style: TextStyle(color: Colors.grey)),
+                TextField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    hintText: 'Masukkan email',
+                    border: UnderlineInputBorder(),
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                SizedBox(height: 16),
+                
+                // Alamat
+                Text('Alamat', style: TextStyle(color: Colors.grey)),
+                TextField(
+                  controller: _addressController,
+                  decoration: InputDecoration(
+                    hintText: 'Masukkan alamat',
+                    border: UnderlineInputBorder(),
+                  ),
+                ),
+                SizedBox(height: 16),
+                
+                // Pekerjaan
+                Text('Pekerjaan', style: TextStyle(color: Colors.grey)),
+                DropdownButtonFormField<String>(
+                  value: _selectedOccupation,
+                  decoration: InputDecoration(
+                    border: UnderlineInputBorder(),
+                  ),
+                  items: _occupationOptions.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (newValue) {
+                    setState(() {
+                      _selectedOccupation = newValue!;
+                    });
+                  },
+                ),
+                SizedBox(height: 16),
+                
+                // Tanggal Lahir
+                Text('Tanggal Lahir', style: TextStyle(color: Colors.grey)),
+                InkWell(
+                  onTap: () => _selectDate(context),
+                  child: InputDecorator(
+                    decoration: InputDecoration(
+                      border: UnderlineInputBorder(),
+                      suffixIcon: Icon(Icons.calendar_today),
+                    ),
+                    child: Text(
+                      DateFormat('yyyy-MM-dd').format(_selectedDate),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 32),
+                
+                // Tombol Simpan
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: _isLoading ? null : _saveProfile,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF9E61EB),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: _isLoading
+                        ? CircularProgressIndicator(color: Colors.white)
+                        : Text('Simpan', style: TextStyle(fontSize: 16)),
+                  ),
+                ),
+              ],
+            ),
+          );
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _addressController.dispose();
+    super.dispose();
   }
 }

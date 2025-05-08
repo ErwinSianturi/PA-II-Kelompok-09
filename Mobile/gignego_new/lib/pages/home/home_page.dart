@@ -1,13 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/pages/home/form_page.dart';
-import 'package:flutter_application/pages/home/models/job.dart';
+import 'package:flutter_application/pages/models/job.dart';
 import 'package:flutter_application/pages/home/job_list_page.dart';
 import 'package:flutter_application/pages/profil/profil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-
-
 
 void main() {
   runApp(MyApp());
@@ -45,27 +42,27 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      bottomNavigationBar: BottomNavBar(),
+      bottomNavigationBar: _buildBottomNavBar(context, 0), // 0 adalah index untuk Home
       floatingActionButton: FloatingActionButton(
-  onPressed: () {
-    print('Navigasi ke FormPage');
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => FormPage(onJobAdded: tambahPekerjaan),
+        onPressed: () {
+          print('Navigasi ke FormPage');
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FormPage(onJobAdded: tambahPekerjaan),
+            ),
+          );
+        },
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        highlightElevation: 0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+        child: Image.asset(
+          'assets/add.png',
+          width: 60,
+          height: 60,
+        ),
       ),
-    );
-  },
-  backgroundColor: Colors.transparent,
-  elevation: 0,
-  highlightElevation: 0,
-  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-  child: Image.asset(
-    'assets/add.png',
-    width: 60,
-    height: 60,
-  ),
-),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -87,90 +84,90 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-Widget _buildHeader() {
-  return Stack(
-    clipBehavior: Clip.none,
-    children: [
-      Container(
-        width: double.infinity,
-        padding: EdgeInsets.only(top: 50, bottom: 80),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(30),
-            bottomRight: Radius.circular(30),
-          ),
-          gradient: LinearGradient(
-            colors: [
-              Colors.blue.shade900,
-              Colors.greenAccent.shade400,
-              Colors.blue.shade900,
-            ],
-            stops: [0.0, 0.6, 1.0],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Align(
-              alignment: Alignment.centerLeft, 
-              child: Padding(
-                padding: EdgeInsets.only(left: 60), 
-                child: Image.asset(
-                  'assets/logo.png',
-                  height: 45,
-                  fit: BoxFit.contain,
-                ),
-              ),
+  Widget _buildHeader() {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          width: double.infinity,
+          padding: EdgeInsets.only(top: 50, bottom: 80),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(30),
+              bottomRight: Radius.circular(30),
             ),
-            SizedBox(height: 5),
-            Align(
-              alignment: Alignment.centerLeft, 
-              child: Padding(
-                padding: EdgeInsets.only(left: 85),
-                child: Text(
-                  "kerja singkat deal cepat",
-                  style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    color: Colors.white,
+            gradient: LinearGradient(
+              colors: [
+                Colors.blue.shade900,
+                Colors.greenAccent.shade400,
+                Colors.blue.shade900,
+              ],
+              stops: [0.0, 0.6, 1.0],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 60),
+                  child: Image.asset(
+                    'assets/logo.png',
+                    height: 45,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
-      Positioned(
-        left: 20,
-        right: 20,
-        bottom: -40,
-        child: Container(
-          padding: EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.1),
-                blurRadius: 8,
-                spreadRadius: 2,
+              SizedBox(height: 5),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 85),
+                  child: Text(
+                    "kerja singkat deal cepat",
+                    style: GoogleFonts.poppins(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildActionItem("assets/Piala.png", "Ranking", true),
-              _buildActionItem("assets/His.png", "History", true),
-              _buildActionItem("assets/Chat.png", "Chat", true),
-            ],
+        ),
+        Positioned(
+          left: 20,
+          right: 20,
+          bottom: -40,
+          child: Container(
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.1),
+                  blurRadius: 8,
+                  spreadRadius: 2,
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildActionItem("assets/Piala.png", "Ranking", true),
+                _buildActionItem("assets/His.png", "History", true),
+                _buildActionItem("assets/Chat.png", "Chat", true),
+              ],
+            ),
           ),
         ),
-      ),
-    ],
-  );
-}
+      ],
+    );
+  }
 
   Widget _buildActionItem(dynamic icon, String label, bool isImage) {
     return Column(
@@ -185,7 +182,8 @@ Widget _buildHeader() {
                   height: 28,
                   fit: BoxFit.contain,
                   errorBuilder: (context, error, stackTrace) {
-                    return Icon(Icons.broken_image, size: 28, color: Colors.red);
+                    return Icon(Icons.broken_image,
+                        size: 28, color: Colors.red);
                   },
                 )
               : Icon(icon as IconData, color: Colors.purple, size: 28),
@@ -199,12 +197,28 @@ Widget _buildHeader() {
   Widget _buildCategorySection(BuildContext context) {
     List<Map<String, dynamic>> categories = [
       {"icon": "assets/Kebersihan.png", "label": "Kebersihan", "isImage": true},
-      {"icon": "assets/Perbaikan.png", "label": "Perbaikan Rumah", "isImage": true},
-      {"icon": "assets/kendaraan.png", "label": "Perbaikan Kendaraan", "isImage": true},
-      {"icon": "assets/Elektronik.png", "label": "Perbaikan Elektronik", "isImage": true},
+      {
+        "icon": "assets/Perbaikan.png",
+        "label": "Perbaikan Rumah",
+        "isImage": true
+      },
+      {
+        "icon": "assets/kendaraan.png",
+        "label": "Perbaikan Kendaraan",
+        "isImage": true
+      },
+      {
+        "icon": "assets/Elektronik.png",
+        "label": "Perbaikan Elektronik",
+        "isImage": true
+      },
       {"icon": "assets/Tutor.png", "label": "Tutor", "isImage": true},
       {"icon": "assets/Rumah.png", "label": "Rumah Tangga", "isImage": true},
-      {"icon": "assets/Fotografi.png", "label": "Fotografi & Videografi", "isImage": true},
+      {
+        "icon": "assets/Fotografi.png",
+        "label": "Fotografi & Videografi",
+        "isImage": true
+      },
       {"icon": "assets/Lain.png", "label": "Lainnya", "isImage": true},
     ];
 
@@ -218,7 +232,8 @@ Widget _buildHeader() {
             padding: const EdgeInsets.only(top: 50.0, left: 10, right: 16),
             child: Text(
               "Kategori",
-              style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold),
+              style: GoogleFonts.poppins(
+                  fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
           SizedBox(height: 10),
@@ -236,7 +251,8 @@ Widget _buildHeader() {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  print('Navigasi ke JobListPage: ${categories[index]["label"]}');
+                  print(
+                      'Navigasi ke JobListPage: ${categories[index]["label"]}');
                   final pekerjaanKategori = pekerjaan
                       .where((job) =>
                           job.kategori == categories[index]["label"] &&
@@ -303,7 +319,8 @@ Widget _buildHeader() {
             children: [
               Text(
                 "Saran Kerja",
-                style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold),
+                style: GoogleFonts.poppins(
+                    fontSize: 18, fontWeight: FontWeight.bold),
               ),
               Text(
                 "Selengkapnya",
@@ -371,7 +388,8 @@ Widget _buildHeader() {
         },
         child: Card(
           elevation: 4,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Row(
@@ -422,11 +440,9 @@ Widget _buildHeader() {
       ),
     );
   }
-}
 
-class BottomNavBar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
+  // Bottom Navigation Bar dengan indikator halaman aktif
+  Widget _buildBottomNavBar(BuildContext context, int currentIndex) {
     return BottomAppBar(
       shape: CircularNotchedRectangle(),
       notchMargin: 8,
@@ -436,30 +452,255 @@ class BottomNavBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            IconButton(
-              icon: Image.asset("assets/home.png", width: 35, height: 35),
-              onPressed: () {},
+            _buildNavItem(
+              context,
+              "assets/home.png",
+              0,
+              currentIndex,
+              () {
+                // Sudah di halaman home, tidak perlu navigasi
+              },
             ),
-            IconButton(
-              icon: Image.asset("assets/obrolan.png", width: 35, height: 35),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: Image.asset("assets/aktivitas.png", width: 35, height: 35),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: Image.asset("assets/profil.png", width: 35, height: 35),
-              onPressed: () {
-                Navigator.push(
+            _buildNavItem(
+              context,
+              "assets/obrolan.png",
+              1,
+              currentIndex,
+              () {
+                Navigator.pushReplacement(
                   context,
-                MaterialPageRoute(builder: (context) => ProfilPage()),
+                  MaterialPageRoute(builder: (context) => ChatPage()), // Asumsi ada ChatPage
+                );
+              },
+            ),
+            _buildNavItem(
+              context,
+              "assets/aktivitas.png",
+              2,
+              currentIndex,
+              () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => ActivityPage()), // Asumsi ada ActivityPage
+                );
+              },
+            ),
+            _buildNavItem(
+              context,
+              "assets/profil.png",
+              3,
+              currentIndex,
+              () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfilPage()),
                 );
               },
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildNavItem(BuildContext context, String iconPath, int index, int currentIndex, VoidCallback onPressed) {
+    final bool isActive = currentIndex == index;
+    
+    return IconButton(
+      icon: ColorFiltered(
+        colorFilter: ColorFilter.mode(
+          isActive ? Color(0xFF9E61EB) : Colors.black,
+          BlendMode.srcIn,
+        ),
+        child: Image.asset(
+          iconPath,
+          width: 35,
+          height: 35,
+        ),
+      ),
+      onPressed: onPressed,
+    );
+  }
+}
+
+// Placeholder classes untuk halaman yang belum dibuat
+class ChatPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Chat")),
+      body: Center(child: Text("Halaman Chat")),
+      bottomNavigationBar: _buildBottomNavBar(context, 1),
+    );
+  }
+
+  Widget _buildBottomNavBar(BuildContext context, int currentIndex) {
+    return BottomAppBar(
+      shape: CircularNotchedRectangle(),
+      notchMargin: 8,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 3, vertical: 0.5),
+        height: 50,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildNavItem(
+              context,
+              "assets/home.png",
+              0,
+              currentIndex,
+              () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
+              },
+            ),
+            _buildNavItem(
+              context,
+              "assets/obrolan.png",
+              1,
+              currentIndex,
+              () {
+                // Sudah di halaman chat, tidak perlu navigasi
+              },
+            ),
+            _buildNavItem(
+              context,
+              "assets/aktivitas.png",
+              2,
+              currentIndex,
+              () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => ActivityPage()),
+                );
+              },
+            ),
+            _buildNavItem(
+              context,
+              "assets/profil.png",
+              3,
+              currentIndex,
+              () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfilPage()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNavItem(BuildContext context, String iconPath, int index, int currentIndex, VoidCallback onPressed) {
+    final bool isActive = currentIndex == index;
+    
+    return IconButton(
+      icon: ColorFiltered(
+        colorFilter: ColorFilter.mode(
+          isActive ? Color(0xFF9E61EB) : Colors.black,
+          BlendMode.srcIn,
+        ),
+        child: Image.asset(
+          iconPath,
+          width: 35,
+          height: 35,
+        ),
+      ),
+      onPressed: onPressed,
+    );
+  }
+}
+
+class ActivityPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Aktivitas")),
+      body: Center(child: Text("Halaman Aktivitas")),
+      bottomNavigationBar: _buildBottomNavBar(context, 2),
+    );
+  }
+
+  Widget _buildBottomNavBar(BuildContext context, int currentIndex) {
+    return BottomAppBar(
+      shape: CircularNotchedRectangle(),
+      notchMargin: 8,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 3, vertical: 0.5),
+        height: 50,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildNavItem(
+              context,
+              "assets/home.png",
+              0,
+              currentIndex,
+              () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
+              },
+            ),
+            _buildNavItem(
+              context,
+              "assets/obrolan.png",
+              1,
+              currentIndex,
+              () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => ChatPage()),
+                );
+              },
+            ),
+            _buildNavItem(
+              context,
+              "assets/aktivitas.png",
+              2,
+              currentIndex,
+              () {
+              },
+            ),
+            _buildNavItem(
+              context,
+              "assets/profil.png",
+              3,
+              currentIndex,
+              () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfilPage()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNavItem(BuildContext context, String iconPath, int index, int currentIndex, VoidCallback onPressed) {
+    final bool isActive = currentIndex == index;
+    
+    return IconButton(
+      icon: ColorFiltered(
+        colorFilter: ColorFilter.mode(
+          isActive ? Color(0xFF9E61EB) : Colors.black,
+          BlendMode.srcIn,
+        ),
+        child: Image.asset(
+          iconPath,
+          width: 35,
+          height: 35,
+        ),
+      ),
+      onPressed: onPressed,
     );
   }
 }

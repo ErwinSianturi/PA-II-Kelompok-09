@@ -1,9 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'chat_page.dart';
-import '../components/user_tile.dart';
-import '../../../Services/auth/auth_service.dart';
-import '../../../Services/chat/chat_services.dart';
+import '../../../services/auth/auth_service.dart';
+import '../../../pages/API/chat_services.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -27,7 +25,7 @@ class HomePage extends StatelessWidget {
       ),
       drawer: Drawer(),
       body: Container(
-        color: Colors.grey[200], // Background color
+        color: Colors.grey[200], 
         child: _buildUserList(),
       ),
     );

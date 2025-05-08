@@ -2,13 +2,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_application/pages/home/models/job.dart';
+import 'package:flutter_application/pages/models/job.dart';
 import 'validasi.dart';
 import 'package:flutter/services.dart';
 
 
 class FormPage extends StatefulWidget {
-  final Function(Job) onJobAdded; // Tambahkan parameter untuk callback
+  final Function(Job) onJobAdded; 
 
   const FormPage({Key? key, required this.onJobAdded}) : super(key: key);
 

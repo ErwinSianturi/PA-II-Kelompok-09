@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_application/pages/home/models/job.dart';
-import 'form_daftar_kerja.dart'; // Import halaman FormDaftarKerja
+import 'package:flutter_application/pages/models/job.dart';
+import 'package:flutter_application/pages/home/form_daftar_kerja.dart';
 
 class JobDetailPage extends StatelessWidget {
   final Job job;
@@ -30,9 +30,7 @@ class JobDetailPage extends StatelessWidget {
           children: [
             Expanded(
               child: ElevatedButton(
-                onPressed: () {
-                  // Aksi untuk negosiasi
-                },
+                onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF9E61EB),
                 ),
@@ -46,11 +44,11 @@ class JobDetailPage extends StatelessWidget {
             Expanded(
               child: ElevatedButton(
                 onPressed: () {
-                  // Arahkan ke halaman FormDaftarKerja
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => FormDaftarKerja(),
+                      builder: (context) => TambahPengalamanKerjaPage(),
+
                     ),
                   );
                 },
@@ -107,10 +105,14 @@ class JobDetailPage extends StatelessWidget {
             SizedBox(height: 8),
             Text(
               "RP ${job.harga},00",
-              style: TextStyle(color: Colors.green, fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  color: Colors.green,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
             ),
             Divider(height: 32),
-            Text("Deskripsi", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Text("Deskripsi",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             SizedBox(height: 4),
             Text(job.deskripsi),
           ],

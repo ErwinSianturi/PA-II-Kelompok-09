@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/pages/home/models/job.dart';
+import 'package:flutter_application/pages/models/job.dart';
 
 class ValidasiPage extends StatelessWidget {
   final Job job;

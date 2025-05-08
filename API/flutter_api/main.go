@@ -7,8 +7,12 @@ import (
 )
 
 func main() {
-	db.InitDB()
-	r := gin.Default()
-	routes.AuthRoutes(r)
-	r.Run(":8080")
+
+	database.InitDB()
+
+	router := gin.Default()
+
+	routes.SetupRoutes(router)
+
+	router.Run(":8080")
 }

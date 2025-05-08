@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class TambahPendidikanPage extends StatefulWidget {
   const TambahPendidikanPage({super.key});
@@ -27,6 +29,33 @@ class _TambahPendidikanPageState extends State<TambahPendidikanPage> {
     'S3',
     'Lainnya'
   ];
+
+  // Function to send data to the server
+  Future<void> saveData() async {
+    if (_formKey.currentState!.validate()) {
+      final response = await http.post(
+        Uri.parse('http://localhost:8080/education'), // API URL
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+          'level': selectedJenjang,
+          'institution': institusiController.text,
+          'major': jurusanController.text,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        // Success, do something
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Data berhasil disimpan!')),
+        );
+      } else {
+        // Failure, show error
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Gagal menyimpan data')),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,17 +130,11 @@ class _TambahPendidikanPageState extends State<TambahPendidikanPage> {
                     const SizedBox(width: 10),
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            print("Jenjang: $selectedJenjang");
-                            print("Institusi: ${institusiController.text}");
-                            print("Jurusan: ${jurusanController.text}");
-                          }
-                        },
+                        onPressed: saveData,  // Call saveData function
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey[300],
+                          backgroundColor: const Color(0xFF9E61EB),
                         ),
-                        child: const Text('Simpan', style: TextStyle(color: Colors.black45)),
+                        child: const Text('Simpan', style: TextStyle(color: Colors.white)),
                       ),
                     ),
                   ],
