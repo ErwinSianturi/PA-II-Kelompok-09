@@ -63,7 +63,7 @@
                                 @forelse($postedJobs as $job)
                                 <tr>
                                     <td class="d-flex align-items-center">
-                                        <img src="{{ asset($job->image1 ?? 'images/default-job.jpg') }}"
+                                        <img src="{{ asset($job->image1) }}"
                                              class="rounded me-3" width="60" height="60"
                                              style="object-fit: cover;">
                                         <div>
@@ -117,6 +117,7 @@
 
                 <!-- Similar structure for other tabs... -->
                 <!-- Add the remaining tabs with similar styling -->
+
 
             </div>
         </div>

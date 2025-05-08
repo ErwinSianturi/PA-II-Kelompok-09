@@ -17,18 +17,18 @@ class JobPosting extends Model
         'email',
         'harga_pekerjaan',
         'deskripsi',
-        'time',
-        'tanggaldanwaktu',
         'syarat_ketentuan',
         'lingkup_kerja',
-        'email_pengambil',
-        'status_pekerja',
-        'status_pembayaran',
         'status_pekerjaan',
         'jenis_pekerjaan',
+        'status_pekerja',
+        'time',
+        'tanggaldanwaktu',
+        'email_pengambil',
         'image1',
         'image2',
         'image3',
+        'status'
     ];
 
     protected $casts = [

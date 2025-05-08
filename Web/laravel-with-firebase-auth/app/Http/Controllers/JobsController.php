@@ -44,37 +44,49 @@ class JobsController extends Controller
         return view('jobs.create');
     }
 
-
+    // Store a new job posting
     public function store(Request $request)
     {
         // Validate the incoming request
         $validated = $request->validate([
-            'nama_pekerjaan' => 'required|string',
+            'nama_pekerjaan' => 'required|string|max:255',
             'email' => 'required|email',
             'harga_pekerjaan' => 'required|numeric',
-            'deskripsi' => 'required|string',
-            'syarat_ketentuan' => 'required|string',
-            'lingkup_kerja' => 'required|string',
+            'deskripsi' => 'required|string|max:5000',
+            'syarat_ketentuan' => 'nullable|string|max:5000',
+            'lingkup_kerja' => 'nullable|string|max:5000',
             'status_pekerjaan' => 'required|in:Tersedia,Dalam Proses,Selesai',
             'jenis_pekerjaan' => 'required|in:Kebersihan,Perbaikan Rumah,Perbaikan Kendaraan,Perbaikan Elektronik,Tutor,Rumah Tangga,Fotografi & videografi,Lainnya',
+            'time' => 'required|numeric',
+            'email_pengambil' => 'nullable|email',
+            'tanggaldanwaktu' => 'required|date',
             'image1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'image2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'image3' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'time' => 'required|numeric',
-            'email_pengambil' => 'nullable|string',
-            'tanggaldanwaktu' => 'required|date'
         ]);
 
-        // Process image uploads
+        // Initialize image paths
         $imagePaths = [];
+
+        // Handle image uploads just like the edit method
         foreach (['image1', 'image2', 'image3'] as $imageField) {
             if ($request->hasFile($imageField)) {
                 $file = $request->file($imageField);
                 $filename = time() . '_' . $file->getClientOriginalName();
-                $file->move(public_path('JobPost'), $filename);
-                $imagePaths[$imageField] = 'JobPost/' . $filename;
+
+                // Check if the directory exists, if not create it
+                $destinationPath = public_path('storage/JobPost');
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0775, true);  // Make sure folder is created with correct permissions
+                }
+
+                // Move the file to the public storage folder
+                $file->move($destinationPath, $filename);
+
+                // Store the relative path for the database
+                $imagePaths[$imageField] = 'storage/JobPost/' . $filename;
             } else {
-                $imagePaths[$imageField] = null;
+                $imagePaths[$imageField] = null; // If no image is uploaded, set to null
             }
         }
 
@@ -96,8 +108,11 @@ class JobsController extends Controller
             'tanggaldanwaktu' => $request->tanggaldanwaktu
         ]);
 
+        // Redirect to the job listings page with a success message
         return redirect('jobs')->with('status', 'Job posted successfully!');
     }
+
+
 
     public function edit(int $id)
     {

@@ -52,8 +52,12 @@ Route::resource('/img', App\Http\Controllers\ImageController::class);
 
 // Job Routes - Managing jobs
 Route::get('/jobs', [JobsController::class, 'index']);
-Route::get('/jobs/create', [JobsController::class, 'create']);
-Route::post('/jobs/create', [JobsController::class, 'store']);
+Route::get('/jobs/create', [JobsController::class, 'create'])->name('jobs.create');
+Route::post('/jobs/create', [JobsController::class, 'store'])->name('jobs.store');
+
+Route::get('jobs/create', [JobsController::class, 'create'])->name('jobs.create');
+Route::post('jobs', [JobsController::class, 'store'])->name('jobs.store');
+
 Route::get('/jobs/{id}/edit', [JobsController::class, 'edit']);
 Route::put('/jobs/{id}/edit', [JobsController::class, 'update']);
 Route::get('/kategori/{jenis_pekerjaan}', [JobsController::class, 'showCategory'])->name('category.show');
@@ -62,6 +66,7 @@ Route::get('/jobs/{job}/apply', [JobsController::class, 'applyForm'])->name('job
 Route::get('/jobs/{id}/delete', [JobsController::class, 'delete']);
 Route::get('jobs/{id}/detail', [JobsController::class, 'showdetil']);
 Route::get('jobs/{jobId}/applicants', [JobsController::class, 'showApplicants'])->name('jobs.applicants');
+Route::post('/jobs', [JobsController::class, 'store']);
 
 // Profile Management Routes
 Route::get('/profil/{id}/edit', [ProfilController::class, 'edit']);

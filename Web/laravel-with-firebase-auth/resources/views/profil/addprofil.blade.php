@@ -66,7 +66,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" name="WA" class="form-control" id="nomorWA" placeholder="628123456789" required>
+                                    <input type="text" name="WA" class="form-control" id="nomorWA" placeholder="628123456789" required max="12" min="12">
                                     <label for="nomorWA"><i class="fab fa-whatsapp me-2"></i>Nomor WA</label>
                                     <div id="wa-error" class="invalid-feedback">
                                         Nomor WA harus terdiri dari 12 angka.
