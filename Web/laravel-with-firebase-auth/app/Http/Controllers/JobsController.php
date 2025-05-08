@@ -243,50 +243,56 @@ class JobsController extends Controller
     }
 
     public function apply(Request $request, $jobId)
-    {
-        // Validate the application request data
-        $request->validate([
-            'alasan' => 'required|string|max:1000',
-        ]);
+{
+    // Validate the application request data
+    $request->validate([
+        'alasan' => 'required|string|max:1000',
+    ]);
 
-        // Get the user's profile
-        $profils = Profil::where('email', Auth::user()->email)->first();
+    // Get the user's profile
+    $profils = Profil::where('email', Auth::user()->email)->first();
 
-        // Check if profile is incomplete
-        if (!$profils || empty($profils->username)) {
-            return redirect('profil')->with('error', 'Please complete your profile before applying for a job.');
-        }
-
-        // Find the job posting by ID
-        $jobPosting = JobPosting::findOrFail($jobId);
-
-        // Get the user's email
-        $userEmail = $profils->email;
-
-        // Check if the user has already applied for the same job posting
-        $existingApplication = Application::where('job_posting_id', $jobId)
-            ->where('user_email', $userEmail)
-            ->first();
-
-        if ($existingApplication) {
-            // If the application already exists, redirect with an error message
-            return redirect('jobs/' . $jobId . '/detail')
-                ->with('error', 'You have already applied for this job.');
-        }
-
-        // Save the new application with the user's email and the reason
-        $jobPosting->applications()->create([
-            'user_email' => $userEmail,
-            'alasan' => $request->alasan,
-        ]);
-
-        // Increment the applicants_count by 1
-        $jobPosting->increment('applicants_count');
-
-        // Redirect back to the job detail page with a success message
-        return redirect('jobs/' . $jobId . '/detail')
-            ->with('success', 'Your application has been submitted.');
+    // Check if profile is incomplete
+    if (!$profils || empty($profils->username)) {
+        return redirect('profil')->with('error', 'Please complete your profile before applying for a job.');
     }
+
+    // Check if the user is currently employed
+    if ($profils->status_pekerja === "Bekerja") {
+        return redirect('jobs/' . $jobId . '/detail')->with('error', 'Anda masih dalam status bekerja dan tidak dapat melamar pekerjaan.');
+    }
+
+    // Find the job posting by ID
+    $jobPosting = JobPosting::findOrFail($jobId);
+
+    // Get the user's email
+    $userEmail = $profils->email;
+
+    // Check if the user has already applied for the same job posting
+    $existingApplication = Application::where('job_posting_id', $jobId)
+        ->where('user_email', $userEmail)
+        ->first();
+
+    if ($existingApplication) {
+        // If the application already exists, redirect with an error message
+        return redirect('jobs/' . $jobId . '/detail')
+            ->with('error', 'You have already applied for this job.');
+    }
+
+    // Save the new application with the user's email and the reason
+    $jobPosting->applications()->create([
+        'user_email' => $userEmail,
+        'alasan' => $request->alasan,
+    ]);
+
+    // Increment the applicants_count by 1
+    $jobPosting->increment('applicants_count');
+
+    // Redirect back to the job detail page with a success message
+    return redirect('jobs/' . $jobId . '/detail')
+        ->with('success', 'Your application has been submitted.');
+}
+
 
 
     public function showApplicants(int $id)

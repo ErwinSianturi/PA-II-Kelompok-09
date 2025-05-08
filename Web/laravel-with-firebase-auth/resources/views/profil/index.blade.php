@@ -27,6 +27,7 @@
                                         class="btn btn-sm btn-outline-primary">
                                         <i class="fas fa-pencil-alt me-1"></i> Edit Profile
                                     </a>
+                                    <a class="btn btn-sm btn-outline-primary" href="home/profile">Account Setting</a>
                                 </div>
                             </div>
 
