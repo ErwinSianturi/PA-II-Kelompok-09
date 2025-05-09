@@ -262,6 +262,10 @@ class JobsController extends Controller
         return redirect('jobs/' . $jobId . '/detail')->with('error', 'Anda masih dalam status bekerja dan tidak dapat melamar pekerjaan.');
     }
 
+    if ($profils->status_akun != "Aktif") {
+        return redirect('jobs/' . $jobId . '/detail')->with('error', 'Akun Anda sudah di nonaktifkan');
+    }
+
     // Find the job posting by ID
     $jobPosting = JobPosting::findOrFail($jobId);
 

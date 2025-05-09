@@ -136,9 +136,35 @@ class ProfilController extends Controller
 
     public function show($email)
     {
-        $profils= Profil::where('email', $email)->firstOrFail();
+        $profils = Profil::where('email', $email)->firstOrFail();
         $pengalamanKerja = PengalamanKerja::where('user_id', $profils->id)->get();
 
         return view('users.show', compact('profils', 'pengalamanKerja'));
+    }
+
+    public function setNonAktif($id)
+    {
+        // Find the profile by ID
+        $profil = Profil::findOrFail($id);
+
+        // Update the 'status_akun' to 'Non-Aktif'
+        $profil->status_akun = 'Non-Aktif';
+        $profil->save();
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'User status has been set to Non-Aktif.');
+    }
+
+    public function setAktif($id)
+    {
+        // Find the profile by its ID
+        $profil = Profil::findOrFail($id);
+
+        // Update the 'status_akun' to 'Aktif'
+        $profil->status_akun = 'Aktif';
+        $profil->save();
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'User status has been set to Aktif.');
     }
 }

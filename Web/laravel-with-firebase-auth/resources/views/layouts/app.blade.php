@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>GIGNEGO - Kerja Singkat Deal Cepat</title>
+    <link rel="icon" href="{{ asset('GIGNEGO.svg') }}" type="image/svg+xml">
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -31,60 +32,49 @@
 </head>
 
 <body style="min-height:90vh;">
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <a class="nav-link text-dark" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                                             document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
+    <div class="container mx-auto flex justify-between items-center px-9 py-4">
+        <nav id="home" class="fixed top-0 left-0 w-full bg-white z-50 shadow">
+            <div class="container mx-auto flex justify-between items-center px-9 py-4">
+                <!-- Logo -->
+                <div class="text-2xl font-bold flex items-center">
+                    @include('items.svglogo')
+                </div>
 
-                    </ul>
+                <button id="menu-toggle" class="md:hidden text-black focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
+                <!-- Menu Items -->
+                <div id="menu"
+                    class="hidden md:flex md:items-center w-full md:w-auto mt-4 md:mt-0 space-y-4 md:space-y-0 md:space-x-8 text-lg">
+                    <a href="#" class="text-purple-500">Home</a>
+                    <a href="#" class="text-gray-700 block hover:text-purple-500">Obrolan</a>
+                    <a href="/jobs" class="text-gray-700 block hover:text-purple-500">Status kerja</a>
+                    <a href="/profil" class="text-gray-700 block hover:text-purple-500">Profil</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                        <button type="submit" class="text-gray-700 hover:text-purple-500">Logout</button>
+                    </form>
 
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" href="home/profile">{{ __('Profile') }}</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                                             document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                            </li>
-                    </div>
-                    </li>
-                @endguest
-                </ul>
+                    <a href="/jobs/create">
+                        <button
+                            class="relative px-6 py-2 rounded-lg bg-white border border-gray-300 text-black font-medium transition duration-300 overflow-hidden group">
+                            <span
+                                class="relative z-10 bg-clip-text text-black group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:via-lime-400 group-hover:to-orange-500 transition duration-300">
+                                Memberi Pekerjaan
+                            </span>
+                            <span
+                                class="absolute inset-0 rounded-lg pointer-events-none group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:via-lime-400 group-hover:to-orange-500 p-px transition duration-300"></span>
+                            <span class="absolute inset-[2px] rounded-lg bg-white"></span>
+                        </button>
+                    </a>
+                </div>
             </div>
+        </nav>
     </div>
-    </nav>
 
     <main class="py-4">
         @yield('content')
@@ -100,4 +90,3 @@
 </body>
 
 </html>
-
