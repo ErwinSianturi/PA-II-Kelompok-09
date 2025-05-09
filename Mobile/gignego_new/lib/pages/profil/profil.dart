@@ -3,13 +3,13 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_application/pages/profil/setingan.dart';
 import 'package:flutter_application/pages/profil/tambah_pendidikan.dart';
-import 'package:flutter_application/pages/profil/tambah_skill.dart';
-import 'package:flutter_application/pages/profil/tambah_cv.dart';
 import 'package:flutter_application/pages/profil/tambah_pertanyaan.dart';
 import 'package:flutter_application/pages/profil/tambah_pengalaman.dart';
 import 'package:flutter_application/pages/profil/edit_profil.dart';
 import 'package:flutter_application/pages/home/home_page.dart';
 import 'package:flutter_application/pages/profil/profile_provider.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class ProfilPage extends StatefulWidget {
   const ProfilPage({Key? key}) : super(key: key);
@@ -18,9 +18,58 @@ class ProfilPage extends StatefulWidget {
   _ProfilPageState createState() => _ProfilPageState();
 }
 
-class _ProfilPageState extends State<ProfilPage> 
+class _ProfilPageState extends State<ProfilPage> {
+  List<dynamic> educations = [];
+  bool isLoadingEducations = false;
+  String? educationError;
 
-{
+  @override
+  void initState() {
+    super.initState();
+    // Memuat data pendidikan saat halaman dibuka
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadEducations();
+    });
+  }
+
+  // Fungsi untuk memuat data pendidikan
+  Future<void> _loadEducations() async {
+    final userProfile = Provider.of<ProfileProvider>(context, listen: false).userProfile;
+    if (userProfile == null) return;
+
+    setState(() {
+      isLoadingEducations = true;
+      educationError = null;
+    });
+
+    try {
+      final response = await http.get(
+        Uri.parse('http://10.0.2.2:8080/user/${userProfile.id}/educations'),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      setState(() {
+        isLoadingEducations = false;
+      });
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        setState(() {
+          educations = data['data'] ?? [];
+        });
+      } else {
+        setState(() {
+          educationError = 'Gagal memuat data pendidikan';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        isLoadingEducations = false;
+        educationError = 'Terjadi kesalahan: $e';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,7 +154,7 @@ class _ProfilPageState extends State<ProfilPage>
                                   if (result == true) {
                                     // Jika hasil true, artinya ada perubahan data
                                     Provider.of<ProfileProvider>(context, listen: false)
-                                        .fetchUserProfile(18); // ID user
+                                        .fetchUserProfile(userProfile.id ?? 18); // ID user
                                   }
                                 });
                               },
@@ -170,44 +219,93 @@ class _ProfilPageState extends State<ProfilPage>
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                   builder: (context) => AddWorkExperiencePage(userId: 18),
+                                   builder: (context) => AddWorkExperiencePage(userId: userProfile.id ?? 18),
                                   ),
                                 );
                               },
                             ),
-                            ProfileSection(
-                              icon: Icons.school,
-                              title: "Pendidikan",
-                              buttonText: "Tambah Pendidikan",
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => TambahPendidikanPage()),
-                                );
-                              },
+                            
+                            // Bagian Pendidikan dengan daftar pendidikan
+                            Container(
+                              margin: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15),
+                                boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5)],
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(Icons.school, color: Color(0xFF054DC0)),
+                                      SizedBox(width: 10),
+                                      Expanded(child: Text("Pendidikan", style: TextStyle(fontWeight: FontWeight.bold))),
+                                      Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+                                    ],
+                                  ),
+                                  
+                                  // Daftar pendidikan
+                                  if (isLoadingEducations)
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                                    )
+                                  else if (educationError != null)
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(educationError!, style: TextStyle(color: Colors.red)),
+                                    )
+                                  else if (educations.isEmpty)
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("Belum ada data pendidikan", style: TextStyle(fontStyle: FontStyle.italic)),
+                                    )
+                                  else
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemCount: educations.length,
+                                      itemBuilder: (context, index) {
+                                        final education = educations[index];
+                                        return ListTile(
+                                          contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                                          title: Text(education['institution'] ?? '', 
+                                            style: TextStyle(fontWeight: FontWeight.bold)),
+                                          subtitle: Text('${education['level'] ?? ''} - ${education['major'] ?? ''}'),
+                                          trailing: IconButton(
+                                            icon: Icon(Icons.delete, color: Colors.red),
+                                            onPressed: () => _deleteEducation(education['id']),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  
+                                  // Tombol tambah pendidikan
+                                  TextButton.icon(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => TambahPendidikanPage(
+                                            userId: userProfile.id ?? 18,
+                                          ),
+                                        ),
+                                      ).then((result) {
+                                        if (result == true) {
+                                          _loadEducations(); // Refresh data pendidikan
+                                        }
+                                      });
+                                    },
+                                    icon: Icon(Icons.add, color: Color(0xFF054DC0)),
+                                    label: Text("Tambah Pendidikan",
+                                        style: TextStyle(color: Color(0xFF054DC0), fontWeight: FontWeight.bold)),
+                                  ),
+                                ],
+                              ),
                             ),
-                            ProfileSection(
-                              icon: Icons.build,
-                              title: "Skill",
-                              buttonText: "Tambah Skill",
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => TambahSkillPage()),
-                                );
-                              },
-                            ),
-                            ProfileSection(
-                              icon: Icons.description,
-                              title: "CV",
-                              buttonText: "Tambah CV",
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => TambahCVPage()),
-                                );
-                              },
-                            ),
+                            
                             ProfileSection(
                               icon: Icons.help_outline,
                               title: "Butuh Bantuan",
@@ -267,6 +365,52 @@ class _ProfilPageState extends State<ProfilPage>
         },
       ),
     );
+  }
+
+  // Fungsi untuk menghapus data pendidikan
+  Future<void> _deleteEducation(int id) async {
+    // Tampilkan dialog konfirmasi
+    bool confirm = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Konfirmasi'),
+        content: Text('Apakah Anda yakin ingin menghapus data pendidikan ini?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text('Batal'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text('Hapus', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    ) ?? false;
+
+    if (!confirm) return;
+
+    try {
+      final response = await http.delete(
+        Uri.parse('http://10.0.2.2:8080/education/$id'),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Data pendidikan berhasil dihapus')),
+        );
+        _loadEducations(); // Refresh data pendidikan
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Gagal menghapus data pendidikan')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Terjadi kesalahan: $e')),
+      );
+    }
   }
 
   // Bottom Navigation Bar dengan indikator halaman aktif

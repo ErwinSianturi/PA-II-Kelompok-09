@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class TambahPendidikanPage extends StatefulWidget {
-  const TambahPendidikanPage({super.key});
+  final int userId; // Tambahkan parameter userId
+
+  const TambahPendidikanPage({
+    Key? key, 
+    required this.userId, // Wajib menerima userId
+  }) : super(key: key);
 
   @override
   State<TambahPendidikanPage> createState() => _TambahPendidikanPageState();
@@ -15,6 +20,7 @@ class _TambahPendidikanPageState extends State<TambahPendidikanPage> {
   String? selectedJenjang;
   final TextEditingController institusiController = TextEditingController();
   final TextEditingController jurusanController = TextEditingController();
+  bool _isLoading = false;
 
   final List<String> jenjangPendidikan = [
     'TK',
@@ -32,28 +38,65 @@ class _TambahPendidikanPageState extends State<TambahPendidikanPage> {
 
   // Function to send data to the server
   Future<void> saveData() async {
-    if (_formKey.currentState!.validate()) {
+    // Validasi form
+    if (!_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Mohon lengkapi form dengan benar')),
+      );
+      return;
+    }
+
+    // Validasi jenjang pendidikan
+    if (selectedJenjang == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Mohon pilih jenjang pendidikan')),
+      );
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
       final response = await http.post(
-        Uri.parse('http://localhost:8080/education'), // API URL
+        Uri.parse('http://10.0.2.2:8080/education'), // Gunakan 10.0.2.2 untuk emulator Android
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
+          'user_id': widget.userId, // Tambahkan user_id
           'level': selectedJenjang,
           'institution': institusiController.text,
-          'major': jurusanController.text,
+          'major': jurusanController.text.isEmpty ? '-' : jurusanController.text,
         }),
       );
 
-      if (response.statusCode == 200) {
+      setState(() {
+        _isLoading = false;
+      });
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
         // Success, do something
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Data berhasil disimpan!')),
+          const SnackBar(content: Text('Data pendidikan berhasil disimpan!')),
         );
+        Navigator.pop(context, true); // Kembali dengan hasil sukses
       } else {
         // Failure, show error
+        final errorData = json.decode(response.body);
+        final errorMessage = errorData['error'] ?? 'Gagal menyimpan data';
+        
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Gagal menyimpan data')),
+          SnackBar(content: Text('Error: $errorMessage')),
         );
       }
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Terjadi kesalahan: $e')),
+      );
     }
   }
 
@@ -101,12 +144,24 @@ class _TambahPendidikanPageState extends State<TambahPendidikanPage> {
                     });
                   },
                   decoration: inputDecoration.copyWith(labelText: 'Jenjang Pendidikan'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Jenjang pendidikan wajib dipilih';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 16),
 
                 TextFormField(
                   controller: institusiController,
                   decoration: inputDecoration.copyWith(labelText: 'Nama Institusi'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Nama institusi wajib diisi';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 16),
 
@@ -120,7 +175,7 @@ class _TambahPendidikanPageState extends State<TambahPendidikanPage> {
                   children: [
                     Expanded(
                       child: OutlinedButton(
-                        onPressed: () => Navigator.pop(context),
+                        onPressed: _isLoading ? null : () => Navigator.pop(context),
                         style: OutlinedButton.styleFrom(
                           side: const BorderSide(color: Colors.purple),
                         ),
@@ -130,11 +185,20 @@ class _TambahPendidikanPageState extends State<TambahPendidikanPage> {
                     const SizedBox(width: 10),
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: saveData,  // Call saveData function
+                        onPressed: _isLoading ? null : saveData,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF9E61EB),
                         ),
-                        child: const Text('Simpan', style: TextStyle(color: Colors.white)),
+                        child: _isLoading
+                            ? const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : const Text('Simpan', style: TextStyle(color: Colors.white)),
                       ),
                     ),
                   ],
@@ -145,5 +209,12 @@ class _TambahPendidikanPageState extends State<TambahPendidikanPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    institusiController.dispose();
+    jurusanController.dispose();
+    super.dispose();
   }
 }

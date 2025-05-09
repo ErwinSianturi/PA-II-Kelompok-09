@@ -90,8 +90,33 @@ class _EditProfilPageState extends State<EditProfilPage> {
     }
   }
 
+  // Validasi form
+  bool _validateForm() {
+    if (_nameController.text.isEmpty) {
+      _showErrorSnackBar('Nama tidak boleh kosong');
+      return false;
+    }
+    if (_emailController.text.isEmpty) {
+      _showErrorSnackBar('Email tidak boleh kosong');
+      return false;
+    }
+    if (_addressController.text.isEmpty) {
+      _showErrorSnackBar('Alamat tidak boleh kosong');
+      return false;
+    }
+    return true;
+  }
+
+  void _showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+
   // Menyimpan perubahan profil
   Future<void> _saveProfile() async {
+    if (!_validateForm()) return;
+
     setState(() {
       _isLoading = true;
     });
@@ -115,6 +140,8 @@ class _EditProfilPageState extends State<EditProfilPage> {
 
         // Jika ada gambar baru, upload gambar
         if (_imageFile != null) {
+          // Dalam implementasi nyata, Anda perlu mengupload gambar ke server
+          // dan mendapatkan URL gambar yang disimpan
           String mockPhotoUrl =
               "https://example.com/photos/profile_${DateTime.now().millisecondsSinceEpoch}.jpg";
           

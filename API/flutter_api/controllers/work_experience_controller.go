@@ -21,7 +21,6 @@ func NewWorkExperienceController(db *gorm.DB) *WorkExperienceController {
 	return &WorkExperienceController{DB: db}
 }
 
-// GetAll mengambil semua pengalaman kerja
 func (c *WorkExperienceController) GetAll(ctx *gin.Context) {
 	if c.DB == nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Koneksi database tidak tersedia"})
@@ -39,7 +38,6 @@ func (c *WorkExperienceController) GetAll(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, workExperiences)
 }
 
-// GetByID mengambil pengalaman kerja berdasarkan ID
 func (c *WorkExperienceController) GetByID(ctx *gin.Context) {
 	if c.DB == nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Koneksi database tidak tersedia"})
@@ -62,7 +60,6 @@ func (c *WorkExperienceController) GetByID(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, workExperience)
 }
 
-// Create membuat pengalaman kerja baru
 func (c *WorkExperienceController) Create(ctx *gin.Context) {
 	if c.DB == nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Koneksi database tidak tersedia"})
@@ -76,16 +73,14 @@ func (c *WorkExperienceController) Create(ctx *gin.Context) {
 		return
 	}
 
-	// Validasi field yang diperlukan
-	if workExperience.Position == "" || workExperience.Company == "" || 
-	   workExperience.Country == "" || workExperience.City == "" {
+	if workExperience.Position == "" || workExperience.Company == "" ||
+		workExperience.Country == "" || workExperience.City == "" {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Field yang diperlukan tidak lengkap"})
 		return
 	}
 
 	fmt.Println("Data Pengalaman Kerja:", workExperience)
 
-	// Simpan ke database
 	result := c.DB.Create(&workExperience)
 	if result.Error != nil {
 		fmt.Println("Error saat membuat pengalaman kerja:", result.Error)
@@ -96,14 +91,12 @@ func (c *WorkExperienceController) Create(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, workExperience)
 }
 
-// CreateUserWorkExperience membuat pengalaman kerja untuk user tertentu
 func (c *WorkExperienceController) CreateUserWorkExperience(ctx *gin.Context) {
 	if c.DB == nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Koneksi database tidak tersedia"})
 		return
 	}
 
-	// Ambil user ID dari parameter
 	userID, err := strconv.Atoi(ctx.Param("userId"))
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Format ID user tidak valid"})
@@ -117,19 +110,16 @@ func (c *WorkExperienceController) CreateUserWorkExperience(ctx *gin.Context) {
 		return
 	}
 
-	// Validasi field yang diperlukan
-	if workExperience.Position == "" || workExperience.Company == "" || 
-	   workExperience.Country == "" || workExperience.City == "" {
+	if workExperience.Position == "" || workExperience.Company == "" ||
+		workExperience.Country == "" || workExperience.City == "" {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Field yang diperlukan tidak lengkap"})
 		return
 	}
 
-	// Set UserID
 	workExperience.UserID = uint(userID)
 
 	fmt.Println("Data Pengalaman Kerja User:", workExperience)
 
-	// Simpan ke database
 	result := c.DB.Create(&workExperience)
 	if result.Error != nil {
 		fmt.Println("Error saat membuat pengalaman kerja user:", result.Error)
@@ -140,7 +130,6 @@ func (c *WorkExperienceController) CreateUserWorkExperience(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, workExperience)
 }
 
-// Update memperbarui pengalaman kerja
 func (c *WorkExperienceController) Update(ctx *gin.Context) {
 	if c.DB == nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Koneksi database tidak tersedia"})
@@ -160,7 +149,6 @@ func (c *WorkExperienceController) Update(ctx *gin.Context) {
 		return
 	}
 
-	// Cek apakah data ada
 	var existingWorkExperience models.WorkExperience
 	result := c.DB.First(&existingWorkExperience, id)
 	if result.Error != nil {
@@ -168,17 +156,15 @@ func (c *WorkExperienceController) Update(ctx *gin.Context) {
 		return
 	}
 
-	// Update data
 	workExperience.ID = uint(id)
-	// Pertahankan UserID jika ada
+
 	workExperience.UserID = existingWorkExperience.UserID
-	
+
 	c.DB.Save(&workExperience)
 
 	ctx.JSON(http.StatusOK, workExperience)
 }
 
-// Delete menghapus pengalaman kerja
 func (c *WorkExperienceController) Delete(ctx *gin.Context) {
 	if c.DB == nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Koneksi database tidak tersedia"})
@@ -203,7 +189,6 @@ func (c *WorkExperienceController) Delete(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"message": "Pengalaman kerja berhasil dihapus"})
 }
 
-// GetUserWorkExperiences mengambil semua pengalaman kerja untuk user tertentu
 func (c *WorkExperienceController) GetUserWorkExperiences(ctx *gin.Context) {
 	if c.DB == nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Koneksi database tidak tersedia"})
