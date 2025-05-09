@@ -12,12 +12,65 @@ class ProfilPage extends StatefulWidget {
   _ProfilPageState createState() => _ProfilPageState();
 }
 class _ProfilPageState extends State<ProfilPage> {
+<<<<<<< Updated upstream
+=======
+  List<dynamic> educations = [];
+  bool isLoadingEducations = false;
+  String? educationError;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadEducations();
+    });
+  }
+
+  Future<void> _loadEducations() async {
+    final userProfile = Provider.of<ProfileProvider>(context, listen: false).userProfile;
+    if (userProfile == null) return;
+
+    setState(() {
+      isLoadingEducations = true;
+      educationError = null;
+    });
+
+    try {
+      final response = await http.get(
+        Uri.parse('http://10.0.2.2:8080/user/${userProfile.id}/educations'),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      setState(() {
+        isLoadingEducations = false;
+      });
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        setState(() {
+          educations = data['data'] ?? [];
+        });
+      } else {
+        setState(() {
+          educationError = 'Gagal memuat data pendidikan';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        isLoadingEducations = false;
+        educationError = 'Terjadi kesalahan: $e';
+      });
+    }
+  }
+
+>>>>>>> Stashed changes
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       floatingActionButton: CustomFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+<<<<<<< Updated upstream
       bottomNavigationBar: BottomNavBar(),
       body: SingleChildScrollView(
         child: Column(
@@ -49,6 +102,96 @@ class _ProfilPageState extends State<ProfilPage> {
                         SizedBox(height: 40),
                         Text("Yenny Angelita Gurning",
                             style: TextStyle(
+=======
+      bottomNavigationBar: _buildBottomNavBar(context, 3), 
+      body: Consumer<ProfileProvider>(
+        builder: (context, profileProvider, child) {
+          if (profileProvider.isLoading) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          if (profileProvider.error != null) {
+            return Center(child: Text('Error: ${profileProvider.error}'));
+          }
+
+          final userProfile = profileProvider.userProfile;
+          if (userProfile == null) {
+            return Center(child: Text('Data profil tidak tersedia'));
+          }
+
+          String formattedDate = 'Last Update: ';
+          try {
+            DateTime lastUpdate = DateTime.parse(userProfile.lastUpdate);
+            formattedDate += DateFormat('dd MMMM yyyy').format(lastUpdate);
+          } catch (e) {
+            formattedDate += userProfile.lastUpdate;
+          }
+
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                Stack(
+                  alignment: Alignment.topCenter,
+                  children: [
+                    Container(height: 200, color: Colors.white),
+                    Container(
+                      margin: EdgeInsets.only(top: 100, left: 20, right: 20),
+                      padding: EdgeInsets.only(top: 10),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Color(0xFFAB74F1),
+                            Color(0xFF7C4CB8),
+                            Color(0xFF593785)
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                            SizedBox(height: 40),
+                            Text(
+                              userProfile.name,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text("Profil Belum Lengkap",
+                                style: TextStyle(color: Colors.white70, fontSize: 14)),
+                            Text(formattedDate,
+                                style: TextStyle(color: Colors.white70, fontSize: 12)),
+                            SizedBox(height: 10),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => EditProfilPage()),
+                                ).then((result) {
+                                  if (result == true) {
+                                    Provider.of<ProfileProvider>(context, listen: false)
+                                        .fetchUserProfile(userProfile.id ?? 18); 
+                                  }
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                side: BorderSide(color: Colors.white),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              child: Text("Edit Profil", style: TextStyle(color: Colors.white)),
+                            ),
+                            SizedBox(height: 20),
+                            Container(
+                              padding: EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+>>>>>>> Stashed changes
                                 color: Colors.white,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold)),
@@ -118,6 +261,7 @@ class _ProfilPageState extends State<ProfilPage> {
                                   ),
                                 ],
                               ),
+<<<<<<< Updated upstream
                               SizedBox(height: 10),
                               Divider(color: Colors.grey),
                               Row(
@@ -128,6 +272,97 @@ class _ProfilPageState extends State<ProfilPage> {
                                   Expanded(
                                       child: Text(
                                           "Penghasilan belum jatuh tempo akan cair dalam 2 hari setelah waktu kerja")),
+=======
+                            ),
+                            ProfileSection(
+                              icon: Icons.business_center,
+                              title: "Pengalaman Kerja",
+                              buttonText: "Tambah Pengalaman Kerja",
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                   builder: (context) => AddWorkExperiencePage(userId: userProfile.id ?? 18),
+                                  ),
+                                );
+                              },
+                            ),
+                            
+                            Container(
+                              margin: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15),
+                                boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5)],
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(Icons.school, color: Color(0xFF054DC0)),
+                                      SizedBox(width: 10),
+                                      Expanded(child: Text("Pendidikan", style: TextStyle(fontWeight: FontWeight.bold))),
+                                      Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+                                    ],
+                                  ),
+                                  
+                                  if (isLoadingEducations)
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                                    )
+                                  else if (educationError != null)
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(educationError!, style: TextStyle(color: Colors.red)),
+                                    )
+                                  else if (educations.isEmpty)
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("Belum ada data pendidikan", style: TextStyle(fontStyle: FontStyle.italic)),
+                                    )
+                                  else
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemCount: educations.length,
+                                      itemBuilder: (context, index) {
+                                        final education = educations[index];
+                                        return ListTile(
+                                          contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                                          title: Text(education['institution'] ?? '', 
+                                            style: TextStyle(fontWeight: FontWeight.bold)),
+                                          subtitle: Text('${education['level'] ?? ''} - ${education['major'] ?? ''}'),
+                                          trailing: IconButton(
+                                            icon: Icon(Icons.delete, color: Colors.red),
+                                            onPressed: () => _deleteEducation(education['id']),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  
+                                  TextButton.icon(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => TambahPendidikanPage(
+                                            userId: userProfile.id ?? 18,
+                                          ),
+                                        ),
+                                      ).then((result) {
+                                        if (result == true) {
+                                          _loadEducations(); 
+                                        }
+                                      });
+                                    },
+                                    icon: Icon(Icons.add, color: Color(0xFF054DC0)),
+                                    label: Text("Tambah Pendidikan",
+                                        style: TextStyle(color: Color(0xFF054DC0), fontWeight: FontWeight.bold)),
+                                  ),
+>>>>>>> Stashed changes
                                 ],
                               ),
                             ],
@@ -231,6 +466,106 @@ class _ProfilPageState extends State<ProfilPage> {
                 ),
               ],
             ),
+<<<<<<< Updated upstream
+=======
+          );
+        },
+      ),
+    );
+  }
+
+  Future<void> _deleteEducation(int id) async {
+    bool confirm = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Konfirmasi'),
+        content: Text('Apakah Anda yakin ingin menghapus data pendidikan ini?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text('Batal'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text('Hapus', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    ) ?? false;
+
+    if (!confirm) return;
+
+    try {
+      final response = await http.delete(
+        Uri.parse('http://10.0.2.2:8080/education/$id'),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Data pendidikan berhasil dihapus')),
+        );
+        _loadEducations(); 
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Gagal menghapus data pendidikan')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Terjadi kesalahan: $e')),
+      );
+    }
+  }
+
+  Widget _buildBottomNavBar(BuildContext context, int currentIndex) {
+    return BottomAppBar(
+      shape: CircularNotchedRectangle(),
+      notchMargin: 8,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 3, vertical: 0.5),
+        height: 50,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildNavItem(
+              context,
+              "assets/home.png",
+              0,
+              currentIndex,
+              () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
+              },
+            ),
+            _buildNavItem(
+              context,
+              "assets/obrolan.png",
+              1,
+              currentIndex,
+              () {
+
+              },
+            ),
+            _buildNavItem(
+              context,
+              "assets/aktivitas.png",
+              2,
+              currentIndex,
+              () {
+              },
+            ),
+            _buildNavItem(
+              context,
+              "assets/profil.png",
+              3,
+              currentIndex,
+              () {
+              },
+            ),
+>>>>>>> Stashed changes
           ],
         ),
       ),
