@@ -24,7 +24,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('profile.store') }}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                    <form action="{{ route('addprofile.store') }}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
                         @csrf
 
                         <input type="email" name="email" class="form-control" value="{{ Auth::user()->email }}" required hidden>

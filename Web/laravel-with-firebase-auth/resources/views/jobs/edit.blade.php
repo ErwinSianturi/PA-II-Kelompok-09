@@ -63,9 +63,9 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">Lama Pekerjaan (Jam)</label>
                             <input type="number" name="time" id="time"
                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                                   value="{{ old('time', $jobs->time) }}" min="1" max="8" required>
+                                   value="{{ old('time', $jobs->time) }}" min="1" max="12" required>
                             <small id="timeErrorMessage" class="text-red-500 text-sm mt-1" style="display: none">
-                                Waktu tidak bisa lebih dari 8 jam.
+                                Waktu tidak bisa lebih dari 12 jam.
                             </small>
                         </div>
 
@@ -98,10 +98,10 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Lingkup Kerja</label>
-                            <textarea name="lingkup_kerja" rows="4"
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Lokasi</label>
+                            <textarea name="lokasi" rows="4"
                                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                                      >{{ old('lingkup_kerja', $jobs->lingkup_kerja) }}</textarea>
+                                     required >{{ old('lokasi', $jobs->lokasi) }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -191,8 +191,8 @@
     document.getElementById('time').addEventListener('input', function(event) {
         const timeInput = event.target;
         const errorMessage = document.getElementById('timeErrorMessage');
-        if (timeInput.value > 8) {
-            timeInput.value = 8;
+        if (timeInput.value > 12) {
+            timeInput.value = 12;
             errorMessage.style.display = 'block';
         } else {
             errorMessage.style.display = 'none';

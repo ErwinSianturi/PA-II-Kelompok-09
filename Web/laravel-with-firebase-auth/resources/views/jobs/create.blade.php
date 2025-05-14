@@ -12,7 +12,8 @@
 
             <!-- Main Form -->
             <div class="bg-white rounded-lg shadow-lg p-8">
-                <form id="jobForm" action="{{ route('jobs.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+                <form id="jobForm" action="{{ route('jobs.store') }}" method="POST" enctype="multipart/form-data"
+                    class="space-y-6">
                     @csrf
                     <!-- Basic Information Section -->
                     <div class="border-b pb-6">
@@ -22,7 +23,8 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Nama Pekerjaan</label>
                                 <input type="text" name="nama_pekerjaan"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" required>
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                                    required>
                             </div>
 
                             <div>
@@ -49,8 +51,7 @@
                                     <input type="text" id="harga_pekerjaan" name="harga_pekerjaan"
                                         class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                                         required oninput="formatHarga(this)" onblur="validateHarga(this)">
-                                    <small id="hargaErrorMessage" class="text-red-500 text-sm mt-1"
-                                        style="display: none">
+                                    <small id="hargaErrorMessage" class="text-red-500 text-sm mt-1" style="display: none">
                                         Harga harus antara 20.000 dan 1.000.000.000
                                     </small>
                                 </div>
@@ -60,9 +61,9 @@
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Lama Pekerjaan (Jam)</label>
                                 <input type="number" name="time" id="time"
                                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                                    min="1" max="8" required>
+                                    min="1" max="12" required>
                                 <small id="timeErrorMessage" class="text-red-500 text-sm mt-1" style="display: none">
-                                    Waktu tidak bisa lebih dari 8 jam.
+                                    Waktu tidak bisa lebih dari 12 jam.
                                 </small>
                             </div>
 
@@ -70,7 +71,7 @@
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal dan Waktu</label>
                                 <input type="datetime-local" name="tanggaldanwaktu" id="tanggaldanwaktu" required
                                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                                   >
+                                    min="<?php echo date('Y-m-d\TH:i', strtotime('+0 days')); ?>" max="<?php echo date('Y-m-d\TH:i', strtotime('+3 days')); ?>">
                             </div>
                         </div>
                     </div>
@@ -93,9 +94,9 @@
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Lingkup Kerja</label>
-                                <textarea name="lingkup_kerja" rows="4"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Lokasi</label>
+                                <textarea name="lokasi" rows="4"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" required></textarea>
                             </div>
                         </div>
                     </div>
@@ -109,8 +110,7 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Gambar
                                         {{ $i }}</label>
                                     <div class="space-y-2">
-                                        <img id="previewImage{{ $i }}"
-                                            alt="Preview"
+                                        <img id="previewImage{{ $i }}" alt="Preview"
                                             class="w-full h-40 object-cover rounded-lg">
                                         <input type="file" name="image{{ $i }}"
                                             id="image{{ $i }}Input"
@@ -179,8 +179,8 @@
         document.getElementById('time').addEventListener('input', function(event) {
             const timeInput = event.target;
             const errorMessage = document.getElementById('timeErrorMessage');
-            if (timeInput.value > 8) {
-                timeInput.value = 8;
+            if (timeInput.value > 12) {
+                timeInput.value = 12;
                 errorMessage.style.display = 'block';
             } else {
                 errorMessage.style.display = 'none';

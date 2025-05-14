@@ -154,7 +154,7 @@
                                             <td>{{ $job->jenis_pekerjaan }}</td>
                                             <td>{{ $job->time }}</td>
                                             <td>
-                                                <span class="badge bg-secondary">{{ $job->email}}</span>
+                                                <span class="badge bg-secondary">{{ $job->email }}</span>
                                             </td>
                                         </tr>
                                     @empty
@@ -213,27 +213,31 @@
                                             </td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <!-- Tombol Mulai hanya jika status_pekerja bukan "Bekerja" -->
-                                                    @if ($job->status_pekerja != 'Bekerja')
-                                                        <form action="{{ url('jobs/' . $job->id . '/start') }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <button type="submit"
-                                                                class="btn btn-sm btn-primary">Mulai</button>
-                                                        </form>
-                                                    @endif
+                                                    <div class="btn-group">
+                                                        <div class="btn-group">
+                                                            @if ($job->status_pekerja != 'Bekerja')
+                                                                <form action="{{ url('jobs/' . $job->id . '/start') }}"
+                                                                    method="POST" id="startForm">
+                                                                    @csrf
+                                                                    @method('PUT')
+                                                                    <button type="submit" class="btn btn-sm btn-primary"
+                                                                        id="startButton">Mulai</button>
+                                                                </form>
+                                                            @endif
 
-                                                    <!-- Tombol Pekerjaan Selesai hanya jika status_pekerja "Bekerja" -->
-                                                    @if ($job->status_pekerja == 'Bekerja')
-                                                        <form action="{{ url('jobs/' . $job->id . '/finish') }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <button type="submit"
-                                                                class="btn btn-sm btn-success">Pekerjaan Selesai</button>
-                                                        </form>
-                                                    @endif
+                                                            <!-- Tombol Pekerjaan Selesai hanya jika status_pekerja "Bekerja" -->
+                                                            @if ($job->status_pekerja == 'Bekerja')
+                                                                <form action="{{ url('jobs/' . $job->id . '/finish') }}"
+                                                                    method="POST" id="finishForm">
+                                                                    @csrf
+                                                                    @method('PUT')
+                                                                    <button type="submit"
+                                                                        class="btn btn-sm btn-success">Pekerjaan
+                                                                        Selesai</button>
+                                                                </form>
+                                                            @endif
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>
