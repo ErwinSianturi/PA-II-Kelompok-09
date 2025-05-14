@@ -72,7 +72,7 @@ Route::get('/profil', [ProfilController::class, 'index'])->name('profil.index');
 Route::get('/addprofile', [ProfilController::class, 'create'])->name('addprofile');
 Route::post('/addprofile', [ProfilController::class, 'store'])->name('addprofile.store'); // Changed the name here
 Route::post('/profil/{id}/nonaktif', [ProfilController::class, 'setNonAktif'])->name('profil.setNonAktif');
-Route::post('/profil/{id}/aktif', [ProfilController::class, 'setAktif'])->name('profil.setAktif');
+Route::post('/profil/{id}/aktif', [ProfilController::class, 'setAktif'])->name('profil.setAktif');  
 
 
 // Job Application Routes - Accept or reject users for jobs
