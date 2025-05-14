@@ -1,33 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Users List</title>
-</head>
-<body>
-    <h1>Users List</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>UID</th>
-                <th>Email</th>
-                <th>Display Name</th>
-                <th>Phone Number</th>
-                <th>Photo URL</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($users as $user)
-                <tr>
-                    <td>{{ $user['uid'] }}</td>
-                    <td>{{ $user['email'] }}</td>
-                    <td>{{ $user['display_name'] }}</td>
-                    <td>{{ $user['phone_number'] }}</td>
-                    <td><img src="{{ $user['photo_url'] }}" alt="Profile Photo" width="50"></td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-</body>
-</html>
+@extends('layouts.app')
+
+@section('content')
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Daftar Pengguna</h3>
+                </div>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush">
+                        @forelse ($users as $user)
+                            @if ($user->email !== Auth::user()->email)
+                                <li class="list-group-item d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <span class="fw-bold">{{ $user->name }}</span>
+                                        <span class="text-muted small">&lt;{{ $user->email }}&gt;</span>
+                                    </div>
+                                    <a href="{{ route('chat', ['userEmail' => $user->email]) }}"
+                                        class="btn btn-outline-primary btn-sm">
+                                        Chat
+                                    </a>
+                                </li>
+                            @endif
+                        @empty
+                            <li class="list-group-item text-center text-muted">
+                                Tidak ada pengguna lain.
+                            </li>
+                        @endforelse
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+@endsection

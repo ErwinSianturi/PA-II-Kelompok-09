@@ -2,11 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\UserItemController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\JobsController;
 use App\Http\Controllers\ProfilController;
 use App\Models\Profil;
-use App\Http\Controllers\ChatController;
+
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\PengalamanKerjaController;
 use App\Models\Transaction;
@@ -90,7 +90,7 @@ Route::post('/checkout', [TransactionController::class, 'process'])->name("check
 Route::get('/checkout/{transaction}', [TransactionController::class, 'checkout'])->name('checkout');
 Route::get('/checkout/success/{transaction}', [TransactionController::class, 'success'])->name("chekcout-success");
 Route::get('jobs/{job}/bayar', [TransactionController::class, 'show'])->name("show.bayar");
-Route::get('/checkout/success/{transaction}', [TransactionController::class, 'success']) ->name("chekcout-success");
+Route::get('/checkout/success/{transaction}', [TransactionController::class, 'success'])->name("chekcout-success");
 
 //Admin
 Route::get('{id}/delete', [AdminController::class, 'delete']);
@@ -107,3 +107,12 @@ Route::get('/pengalaman/{id}', [PengalamanKerjaController::class, 'show'])->name
 
 //kategori
 Route::get('/kategori/{jenis_pekerjaan}/Tersedia', [JobsController::class, 'showCategorytersedia']);
+
+// Menampilkan daftar percakapan
+Route::get('/obrolan', [ChatController::class, 'chatList'])->name('chatList');
+
+// Menampilkan percakapan dengan pengguna tertentu berdasarkan email
+Route::get('/obrolan/{userEmail}', [ChatController::class, 'chat'])->name('chat');
+
+// Mengirim pesan
+Route::post('/obrolan/send', [ChatController::class, 'sendMessage']);

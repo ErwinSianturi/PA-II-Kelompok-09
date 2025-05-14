@@ -40,16 +40,31 @@
                     <i class="fas fa-envelope me-2"></i>Email Pengambil: <span
                         class="fw-semibold">{{ $job->email_pengambil }}</span>
                 </p>
-                <p class="fs-4 fw-semibold text-success mb-4">
-                    <i class="fas fa-money-bill-wave me-2"></i>Rp{{ number_format($job->harga_pekerjaan, 0, ',', '.') }}
+
+                <!-- Original Job Price -->
+                <p class="fs-4 fw-semibold text-success mb-2">
+                    <i class="fas fa-money-bill-wave me-2"></i>Harga Pekerjaan:
+                    Rp{{ number_format($job->harga_pekerjaan, 0, ',', '.') }}
                 </p>
 
-                <!-- Payment Button -->
+                <!-- Admin Fee Calculation -->
+                @php
+                    $adminFee = $job->harga_pekerjaan * 0.1;
+                    $totalPrice = round($job->harga_pekerjaan + $adminFee); // Round the total price to the nearest integer
+                @endphp
+                <p class="fs-5 text-muted mb-2">
+                    <i class="fas fa-info-circle me-2"></i>Biaya Admin (10%): Rp{{ number_format($adminFee, 0, ',', '.') }}
+                </p>
+                <p class="fs-4 fw-semibold text-danger mb-4">
+                    <i class="fas fa-credit-card me-2"></i>Total Pembayaran: Rp{{ number_format($totalPrice, 0, ',', '.') }}
+                </p>
+
+                <!-- Payment Button (form submission to checkout) -->
                 <form action="{{ route('checkout-process') }}" method="POST" class="mt-3">
                     @csrf
                     <input type="hidden" name="id" value="{{ $job->id }}">
                     <input type="hidden" name="job_id" value="{{ $job->id }}">
-                    <input type="hidden" name="price" value="{{ $job->harga_pekerjaan }}">
+                    <input type="hidden" name="price" value="{{ $totalPrice }}"> <!-- Use rounded total price here -->
                     <button type="submit" class="btn btn-primary btn-lg px-5">
                         <i class="fas fa-cash-register me-2"></i>Bayar Sekarang
                     </button>

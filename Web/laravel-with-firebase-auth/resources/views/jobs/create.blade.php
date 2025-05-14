@@ -89,13 +89,13 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Syarat dan Ketentuan</label>
                                 <textarea name="syarat_ketentuan" rows="4"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" required></textarea>
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"></textarea>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Lingkup Kerja</label>
                                 <textarea name="lingkup_kerja" rows="4"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" required></textarea>
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"></textarea>
                             </div>
                         </div>
                     </div>

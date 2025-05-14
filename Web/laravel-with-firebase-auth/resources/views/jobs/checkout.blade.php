@@ -1,46 +1,131 @@
-@extends('layouts.app')
+{{-- resources/views/jobs/bayar-standalone.blade.php --}}
+<!DOCTYPE html>
+<html lang="en">
 
-@section('title', 'Checkout')
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bayar Jasa</title>
 
-@section('content')
-    <div class="d-flex justify-content-center">
-        <div class="card">
-            <div class="card-body text-center d-flex flex-column justify-content-center align-items-center">
-                Anda akan melakukan pembelian produk <strong>{{ $product->nama_pekerjaan }}</strong> dengan harga
-                <strong>Rp{{ number_format($product->harga_pekerjaan, 0, ',', '.') }}</strong>
-                <button type="button" class="btn btn-primary mt-3" id="pay-button">
-                    Bayar Sekarang
-                </button>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .card {
+            border: none;
+            border-radius: .75rem;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .btn-primary {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+            border-color: #0a58ca;
+        }
+
+        .payment-info i {
+            color: #6c757d;
+        }
+
+        hr {
+            margin: 1.5rem 0;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-sm-10 col-md-8 col-lg-6">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        @php
+                            $adminFee = $product->harga_pekerjaan * 0.1;
+                            $totalPrice = $product->harga_pekerjaan + $adminFee;
+                        @endphp
+
+                        <h4 class="fw-bold mb-4">Detail Pembayaran</h4>
+
+                        <p>Anda akan membayar jasa <strong>{{ $product->nama_pekerjaan }}</strong> senilai
+                            <strong>Rp{{ number_format($product->harga_pekerjaan, 0, ',', '.') }}</strong>
+                        </p>
+
+                        <div class="payment-info mb-3">
+                            <p class="mb-1">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <span>Biaya Admin (10%):</span>
+                                <strong>Rp{{ number_format($adminFee, 0, ',', '.') }}</strong>
+                            </p>
+                            <hr>
+                            <p class="fs-5 mb-0">
+                                <i class="fas fa-credit-card me-2"></i>
+                                <span>Total Pembayaran:</span>
+                                <strong class="text-success">Rp{{ number_format($totalPrice, 0, ',', '.') }}</strong>
+                            </p>
+                        </div>
+
+                        <button id="pay-button" class="btn btn-primary btn-lg px-5 mb-3">
+                            <i class="fas fa-cash-register me-2"></i>Bayar Sekarang
+                        </button>
+
+                        <!-- Back to Job Status Button -->
+                        <a href="{{ url('jobs') }}" class="btn btn-secondary btn-lg">
+                            <i class="fas fa-arrow-left me-2"></i>Kembali ke Status Kerja
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-@endsection
 
-@section('scripts')
-    <!-- Corrected the client key syntax -->
-    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}">
-    </script>
+    <!-- Midtrans Snap.js -->
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
 
-    <script type="text/javascript">
-        document.getElementById('pay-button').onclick = function() {
-            // SnapToken acquired from previous step
+    <!-- Bootstrap 5 Bundle JS (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.getElementById('pay-button').addEventListener('click', function() {
             snap.pay('{{ $transaction->snap_token }}', {
-                // Optional
                 onSuccess: function(result) {
-                    // Corrected route name typo
                     window.location.href = '{{ route('chekcout-success', $transaction->id) }}';
                 },
-                // Optional
                 onPending: function(result) {
-                    /* You may add your own js here, this is just example */
-                    document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                    alert('Pembayaran sedang diproses, harap tunggu.');
                 },
-                // Optional
                 onError: function(result) {
-                    /* You may add your own js here, this is just example */
-                    document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                    alert('Terjadi kesalahan saat pembayaran. Silakan coba lagi.');
                 }
             });
-        };
+        });
     </script>
-@endsection
+
+</body>
+
+</html>

@@ -26,6 +26,12 @@ class profil extends Model
         'status_akun',
     ];
 
+    // Set email as the primary key (if it's not already)
+    protected $primaryKey = 'email';
+
+    // Optionally, if 'email' is not automatically treated as unique, you can make it unique in the migration
+    protected $keyType = 'string';
+
     public function jobPosting()
     {
         return $this->belongsTo(JobPosting::class, 'user_id');

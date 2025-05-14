@@ -1,8 +1,7 @@
-@extends('layouts.navbar')
+@extends('layouts.app')
 
 @section('content')
     <div class="container mx-auto px-4 py-8">
-
         {{-- Bagian Header, Quote --}}
         <div
             class="flex flex-col md:flex-row justify-between items-center md:items-start mb-32 md:space-x-10 space-y-10 md:space-y-6">
@@ -10,7 +9,7 @@
             <div class="w-full md:w-1/2 flex flex-col items-center md:items-start space-y-24 mt-14">
                 {{-- Judul dan Quote --}}
                 <div class="text-center md:text-left space-y-16">
-                    <h1 class="text-5xl md:text-7xl font-bold text-red-600 mb-20"><i>Kebersihan</i></h1>
+                    <h1 class="text-5xl md:text-7xl font-bold text-red-600 mb-20"><i>{{ $jenis_pekerjaan }}</i></h1>
                     <p class="italic text-black text-xl md:text-3xl leading-relaxed mb-16">
                         "Jelajahi ratusan peluang kerja setiap hari!<br>
                         Temukan proyek impianmu dan raih penghasilan <br>lebih!"
@@ -18,8 +17,6 @@
                 </div>
 
                 <div x-data="dateSelector()" x-init="init()" class="relative flex justify-center space-x-4 mt-10">
-
-
                     <!-- Panah Atas (mengarah ke bawah 🔻) -->
                     <div class="absolute top-full mt-2 transition-all duration-300 ease-in-out"
                         :style="`left: ${arrowX}px; transform: translateX(-50%)`">
@@ -38,7 +35,6 @@
                         </div>
                     </div>
 
-
                     <template x-for="(date, index) in dates" :key="index">
                         <div @click="selectedDate = index; $nextTick(() => updateArrow($el))" x-init="$nextTick(() => { if (selectedDate === index) updateArrow($el) })"
                             :class="selectedDate === index ?
@@ -48,13 +44,8 @@
                             <p class="text-lg font-semibold" x-text="date.bulan"></p>
                             <p class="text-3xl font-bold" x-text="date.tanggal"></p>
                             <p class="text-md" x-text="date.hari"></p>
-
                         </div>
-
                     </template>
-
-
-
                 </div>
             </div>
             {{-- Kanan: Gambar SVG --}}
@@ -62,16 +53,15 @@
                 @include('items.daftarkerja')
             </div>
         </div>
-
     </div>
 
-    <div class="max-w-screen-2xl mx-auto px-4 md:px-1">
+    <div x-data="{ activeTab: 'semua' }" class="max-w-screen-2xl mx-auto px-4 md:px-1">
         {{-- Status Pekerjaan --}}
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10 text-left">
-
             {{-- Card 1: Semua --}}
-            <a href="#"
-                class="block bg-blue-100 rounded-2xl p-8 min-h-[220px] shadow transition-transform duration-300 hover:shadow-xl hover:-translate-y-2">
+            <div @click="activeTab = 'semua'"
+                :class="activeTab === 'semua' ? 'ring-4 ring-blue-400 transform scale-105' : ''"
+                class="block bg-blue-100 rounded-2xl p-8 min-h-[220px] shadow transition-transform duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer">
                 <div class="w-14 h-14 rounded-full flex items-center justify-center mb-6">
                     @include('items.semua')
                 </div>
@@ -81,57 +71,58 @@
                         <p class="text-lg text-black">Segala pekerjaan ditampilkan di sini</p>
                     </div>
                 </div>
-            </a>
+            </div>
 
             {{-- Card 2: Tersedia --}}
-            <a href="#"
-                class="block bg-[#F2E7FF] rounded-2xl p-8 min-h-[220px] shadow transition-transform duration-300 hover:shadow-xl hover:-translate-y-2">
+            <div @click="activeTab = 'Tersedia'"
+                :class="activeTab === 'Tersedia' ? 'ring-4 ring-purple-400 transform scale-105' : ''"
+                class="block bg-[#F2E7FF] rounded-2xl p-8 min-h-[220px] shadow transition-transform duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer">
                 <div class="w-14 h-14 bg-purple-300 rounded-full flex items-center justify-center mb-6">
                     @include('items.tersedia')
                 </div>
                 <h3 class="text-purple-600 font-bold text-2xl mb-3">Tersedia</h3>
                 <p class="text-lg text-black">Beberapa pekerjaan yang tersedia</p>
-            </a>
+            </div>
 
             {{-- Card 3: Dalam Proses --}}
-            <a href="#"
-                class="block bg-[#FFE9DE] rounded-2xl p-8 min-h-[220px] shadow transition-transform duration-300 hover:shadow-xl hover:-translate-y-2">
+            <div @click="activeTab = 'Dalam Proses'"
+                :class="activeTab === 'Dalam Proses' ? 'ring-4 ring-orange-400 transform scale-105' : ''"
+                class="block bg-[#FFE9DE] rounded-2xl p-8 min-h-[220px] shadow transition-transform duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer">
                 <div class="w-14 h-14 rounded-full flex items-center justify-center mb-6">
                     @include('items.proses')
                 </div>
                 <h3 class="text-orange-600 font-bold text-2xl mb-3">Dalam Proses</h3>
                 <p class="text-lg text-black">Pekerjaan ini sedang berjalan</p>
-            </a>
+            </div>
 
             {{-- Card 4: Selesai --}}
-            <a href="#"
-                class="block bg-[#E7FFEC] rounded-2xl p-8 min-h-[220px] shadow transition-transform duration-300 hover:shadow-xl hover:-translate-y-2">
+            <div @click="activeTab = 'Selesai'"
+                :class="activeTab === 'Selesai' ? 'ring-4 ring-green-400 transform scale-105' : ''"
+                class="block bg-[#E7FFEC] rounded-2xl p-8 min-h-[220px] shadow transition-transform duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer">
                 <div class="w-14 h-14 rounded-full flex items-center justify-center mb-6">
                     @include('items.selesai')
                 </div>
                 <h3 class="text-green-600 font-bold text-2xl mb-3">Selesai</h3>
                 <p class="text-lg text-black">Pekerjaan yang sudah selesai</p>
-            </a>
-
+            </div>
         </div>
-
 
         {{-- Daftar Pekerjaan --}}
         <h2 class="text-2xl font-semibold mb-6">Jenis Pekerjaan: {{ ucfirst($jenis_pekerjaan) }}</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach ($jobs as $job)
                 <a href="{{ url('/jobs/' . $job->id . '/detail') }}"
+                    x-show="activeTab === 'semua' || activeTab === '{{ $job->status_pekerjaan }}'"
                     class="transform transition-transform duration-300 hover:scale-105 block">
                     <div
                         class="bg-white rounded-2xl shadow-lg p-6 flex items-start justify-between relative min-h-[180px] hover:shadow-xl cursor-pointer">
-
                         {{-- Ikon atas kanan --}}
                         <div class="absolute top-3 right-3 p-1">
-                            @if ($job->status == 'tersedia')
+                            @if ($job->status_pekerjaan == 'Tersedia')
                                 @include('items.tersedia')
-                            @elseif ($job->status == 'proses')
+                            @elseif ($job->status_pekerjaan == 'Dalam Proses')
                                 @include('items.proses')
-                            @elseif ($job->status == 'selesai')
+                            @elseif ($job->status_pekerjaan == 'Selesai')
                                 @include('items.selesai')
                             @else
                                 @include('items.tersedia')
@@ -162,7 +153,7 @@
                         {{-- Status --}}
                         <div class="absolute bottom-3 right-3">
                             @php
-                                $statusLabel = $job->status_pekerjaan ?? 'tersedia';
+                                $statusLabel = $job->status_pekerjaan ?? 'Tersedia';
                                 $statusConfig = [
                                     'Tersedia' => [
                                         'bg' => 'bg-purple-100',
@@ -180,7 +171,7 @@
                                         'label' => 'Selesai',
                                     ],
                                 ];
-                                $config = $statusConfig[$statusLabel] ?? $statusConfig['tersedia'];
+                                $config = $statusConfig[$statusLabel] ?? $statusConfig['Tersedia'];
                             @endphp
                             <span
                                 class="{{ $config['bg'] }} {{ $config['text'] }} text-sm px-4 py-1.5 rounded-full font-semibold">
@@ -192,45 +183,40 @@
             @endforeach
         </div>
     </div>
-            @include('layouts.footer')
+@endsection
 
-            @endsection
+@push('scripts')
+    <script>
+        function dateSelector() {
+            return {
+                selectedDate: 0,
+                arrowX: 0,
+                dates: [],
+                updateArrow(el) {
+                    const rect = el.getBoundingClientRect();
+                    const parentRect = el.parentElement.getBoundingClientRect();
+                    this.arrowX = rect.left - parentRect.left + rect.width / 2;
+                },
+                init() {
+                    // Reset array dates
+                    this.dates = [];
+                    const hariList = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+                    const bulanList = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus',
+                        'September', 'Oktober', 'November', 'Desember'
+                    ];
+                    const now = new Date();
 
-            @push('scripts')
-                <script>
-                    function dateSelector() {
-                        return {
-                            selectedDate: 0,
-                            arrowX: 0,
-                            dates: [],
-                            updateArrow(el) {
-                                const rect = el.getBoundingClientRect();
-                                const parentRect = el.parentElement.getBoundingClientRect();
-                                this.arrowX = rect.left - parentRect.left + rect.width / 2;
-                            },
-                            init() {
-                                // Reset array dates
-                                this.dates = [];
-                                const hariList = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-                                const bulanList = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus',
-                                    'September', 'Oktober', 'November', 'Desember'
-                                ];
-                                const now = new Date();
-
-                                for (let i = 0; i < 3; i++) {
-                                    const date = new Date(now);
-                                    date.setDate(now.getDate() + i);
-                                    this.dates.push({
-                                        hari: hariList[date.getDay()],
-                                        tanggal: date.getDate(),
-                                        bulan: bulanList[date.getMonth()]
-                                    });
-                                }
-                            }
-
-                        }
+                    for (let i = 0; i < 3; i++) {
+                        const date = new Date(now);
+                        date.setDate(now.getDate() + i);
+                        this.dates.push({
+                            hari: hariList[date.getDay()],
+                            tanggal: date.getDate(),
+                            bulan: bulanList[date.getMonth()]
+                        });
                     }
-                </script>
-
-            @endpush
-        </div>
+                }
+            }
+        }
+    </script>
+@endpush

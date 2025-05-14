@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\JobPosting;
 use Illuminate\Http\Request;
 use App\Models\Profil;
+use App\Models\Transaction;
 use App\Models\PengalamanKerja;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,13 +22,23 @@ class AdminController extends Controller
         // Check if the logged-in user is the admin
         if (auth()->user()->email === 'admin@gmail.com') {
             $Jobs = JobPosting::all();
-            $Profil = Profil::all();
-            return view('admin.index', compact('Jobs', 'Profil'));
+            $Profil = Profil::where('email', '!=', Auth::user()->email)->get();
+            $transaksi = Transaction::all();
+
+            // Calculate the sum of all the prices from all transactions
+            $jlh_penghasilan = $transaksi->sum('price');
+
+            return view('admin.index', compact('Jobs', 'Profil', 'jlh_penghasilan'));
         } else {
             // If not admin, redirect to home
             return redirect('/home');
         }
     }
+
+
+
+
+
     public function delete(int $id)
     {
         // Retrieve the job by ID

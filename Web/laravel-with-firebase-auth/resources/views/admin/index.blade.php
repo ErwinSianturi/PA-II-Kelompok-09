@@ -277,6 +277,12 @@
                     <i class="fas fa-user me-2"></i>Profil Pengguna
                 </a>
             </li>
+            <li class="nav-item" role="penghasilan web">
+                <a class="nav-link" id="tab3-tab" data-bs-toggle="tab" href="#tab3" role="tab"
+                    aria-controls="tab3" aria-selected="false">
+                    <i class="fas fa-user me-2"></i>Pendapatan
+                </a>
+            </li>
         </ul>
 
         <!-- Tab content -->
@@ -435,6 +441,25 @@
                     </div>
                 </div>
             </div>
+            <!-- Penghasilan TAb -->
+            <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                        <h3 class="card-title mb-0">Total Pendapatan</h3>
+                        @php
+
+                        @endphp
+                        <p>Total Penghasilan (10% dari semua transaksi): {{ $jumlah }}</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <!-- Additional table content can go here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--end -->
         </div>
     </div>
 </div>

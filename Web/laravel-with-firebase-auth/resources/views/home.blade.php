@@ -40,8 +40,8 @@
             <!-- Menu Items -->
             <div id="menu"
                 class="hidden md:flex md:items-center w-full md:w-auto mt-4 md:mt-0 space-y-4 md:space-y-0 md:space-x-8 text-lg">
-                <a href="#" class="text-purple-500">Home</a>
-                <a href="#" class="text-gray-700 block hover:text-purple-500">Obrolan</a>
+                <a href="/home" class="text-purple-500">Home</a>
+                <a href="/obrolan" class="text-gray-700 block hover:text-purple-500">Obrolan</a>
                 <a href="/jobs" class="text-gray-700 block hover:text-purple-500">Status kerja</a>
                 <a href="/profil" class="text-gray-700 block hover:text-purple-500">Profil</a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
