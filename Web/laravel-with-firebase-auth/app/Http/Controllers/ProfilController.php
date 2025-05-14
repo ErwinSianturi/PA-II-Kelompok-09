@@ -81,16 +81,18 @@ class ProfilController extends Controller
     // Show the form for editing an existing profile
     public function edit($id)
     {
-        // Find the profile by ID
-        $profil = Profil::findOrFail($id);
+        // Find the profile by email using Query Builder
+        $profil = Profil::where('id', $id)->first();
 
         return view('profil.editprofil', compact('profil'));
     }
 
+
+
     public function update(Request $request, $id)
     {
         // Find the profile by ID
-        $profil = Profil::findOrFail($id);
+        $profil = Profil::where('id', $id)->first();
 
         // Validate the form data
         $validated = $request->validate([
@@ -145,7 +147,7 @@ class ProfilController extends Controller
     public function setNonAktif($id)
     {
         // Find the profile by ID
-        $profil = Profil::findOrFail($id);
+        $profil = Profil::where('id', $id)->first();
 
         // Update the 'status_akun' to 'Non-Aktif'
         $profil->status_akun = 'Non-Aktif';
@@ -158,7 +160,7 @@ class ProfilController extends Controller
     public function setAktif($id)
     {
         // Find the profile by its ID
-        $profil = Profil::findOrFail($id);
+        $profil = Profil::where('id', $id)->first();
 
         // Update the 'status_akun' to 'Aktif'
         $profil->status_akun = 'Aktif';

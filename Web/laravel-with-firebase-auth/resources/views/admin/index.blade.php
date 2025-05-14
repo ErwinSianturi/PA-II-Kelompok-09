@@ -449,7 +449,7 @@
                         @php
 
                         @endphp
-                        <p>Total Penghasilan (10% dari semua transaksi): {{ $jumlah }}</p>
+                        <p>Total Penghasilan (10% dari semua transaksi): </p>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">

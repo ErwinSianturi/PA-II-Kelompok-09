@@ -6,7 +6,6 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\JobsController;
 use App\Http\Controllers\ProfilController;
 use App\Models\Profil;
-
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\PengalamanKerjaController;
 use App\Models\Transaction;
@@ -71,9 +70,10 @@ Route::get('/profil/{id}/edit', [ProfilController::class, 'edit']);
 Route::put('/profil/{id}/edit', [ProfilController::class, 'update'])->name('profil.update');
 Route::get('/profil', [ProfilController::class, 'index'])->name('profil.index');
 Route::get('/addprofile', [ProfilController::class, 'create'])->name('addprofile');
-Route::post('/addprofile', [ProfilController::class, 'store'])->name('profile.store');
+Route::post('/addprofile', [ProfilController::class, 'store'])->name('addprofile.store'); // Changed the name here
 Route::post('/profil/{id}/nonaktif', [ProfilController::class, 'setNonAktif'])->name('profil.setNonAktif');
 Route::post('/profil/{id}/aktif', [ProfilController::class, 'setAktif'])->name('profil.setAktif');
+
 
 // Job Application Routes - Accept or reject users for jobs
 Route::post('/jobs/{jobId}/accept/{userEmail}', [JobsController::class, 'acceptUser'])->name('jobs.acceptUser');
