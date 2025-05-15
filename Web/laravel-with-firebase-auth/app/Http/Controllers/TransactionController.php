@@ -40,6 +40,7 @@ class TransactionController extends Controller
             'email' => Auth::user()->email,
             'job_id' => $data['job_id'],
             'price' => $data['price'],
+            'biaya_admin' => $data['biaya_admin'],
             'status' => 'pending',
         ]);
 

@@ -245,8 +245,8 @@
                             <div class="value-text">{{ $job->syarat_ketentuan }}</div>
                         </div>
                         <div>
-                            <div class="section-label">Lingkup Kerja</div>
-                            <div class="value-text">{{ $job->lingkup_kerja }}</div>
+                            <div class="section-label">Lokasi</div>
+                            <div class="value-text">{{ $job->lokasi }}</div>
                         </div>
                         <div>
                             <div class="section-label">Lama Pekerjaan (Jam)</div>

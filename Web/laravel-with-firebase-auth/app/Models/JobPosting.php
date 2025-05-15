@@ -18,7 +18,7 @@ class JobPosting extends Model
         'harga_pekerjaan',
         'deskripsi',
         'syarat_ketentuan',
-        'lingkup_kerja',
+        'lokasi',
         'status_pekerjaan',
         'jenis_pekerjaan',
         'status_pekerja',

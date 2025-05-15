@@ -26,7 +26,7 @@ class AdminController extends Controller
             $transaksi = Transaction::all();
 
             // Calculate the sum of all the prices from all transactions
-            $jlh_penghasilan = $transaksi->sum('price');
+            $jlh_penghasilan = $transaksi->sum('biaya_admin');
 
             return view('admin.index', compact('Jobs', 'Profil', 'jlh_penghasilan'));
         } else {

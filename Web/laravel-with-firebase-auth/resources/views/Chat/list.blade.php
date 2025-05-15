@@ -15,7 +15,7 @@
                             @if ($user->email !== Auth::user()->email)
                                 <li class="list-group-item d-flex align-items-center justify-content-between">
                                     <div>
-                                        <span class="fw-bold">{{ $user->name }}</span>
+                                        <span class="fw-bold">{{ $user->username }}</span>
                                         <span class="text-muted small">&lt;{{ $user->email }}&gt;</span>
                                     </div>
                                     <a href="{{ route('chat', ['userEmail' => $user->email]) }}"

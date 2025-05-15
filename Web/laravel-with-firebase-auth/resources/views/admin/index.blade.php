@@ -444,13 +444,27 @@
             <!-- Penghasilan TAb -->
             <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
                 <div class="card shadow-sm">
-                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                        <h3 class="card-title mb-0">Total Pendapatan</h3>
-                        @php
-
-                        @endphp
-                        <p>Total Penghasilan (10% dari semua transaksi): </p>
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center border-bottom">
+                        <h3 class="card-title mb-0 text-primary">Total Pendapatan</h3>
+                        <p class="text-muted mb-0">Total Penghasilan (10% dari semua transaksi):</p>
+                        <span class="badge bg-success text-white fs-5">Rp{{ number_format($jlh_penghasilan, 0, ',', '.') }}</span>
                     </div>
+
+                    <style>
+                        .card-header {
+                            padding: 20px;
+                        }
+
+                        .card-title {
+                            font-weight: bold;
+                        }
+
+                        .badge {
+                            padding: 10px 15px;
+                            font-size: 1.2em;
+                        }
+                    </style>
+
                     <div class="card-body">
                         <div class="table-responsive">
                             <!-- Additional table content can go here -->

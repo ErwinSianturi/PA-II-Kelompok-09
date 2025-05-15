@@ -184,8 +184,35 @@
                 </form>
             </div>
         </div>
-        <P>Selesai Melakukan Negosiasi?</P>
-        <br>
-        <p>chat dengan admin <a href="{{ route('chat', ['userEmail' => 'admin@gmail.com']) }}">disni</a></p>
+        @if ($receiver->username != 'Super Admin')
+            <p>Selesai Melakukan Negosiasi?</p>
+            <br>
+            <p>Chat dengan admin <a href="{{ route('chat', ['userEmail' => 'admin@gmail.com']) }}"
+                    class="chat-button">disini</a></p>
+            <style>
+                .chat-button {
+                    display: inline-block;
+                    padding: 10px 20px;
+                    background-color: yellow;
+                    /* Warna tombol kuning */
+                    color: black;
+                    /* Warna teks */
+                    text-decoration: none;
+                    /* Menghapus garis bawah pada tautan */
+                    border-radius: 5px;
+                    /* Sudut melengkung */
+                    font-weight: bold;
+                    /* Teks tebal */
+                    transition: background-color 0.3s;
+                    /* Efek transisi */
+                }
+
+                .chat-button:hover {
+                    background-color: gold;
+                    /* Warna saat hover */
+                }
+            </style>
+        @endif
+
     </body>
 @endsection

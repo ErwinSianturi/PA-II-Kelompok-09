@@ -13,6 +13,7 @@ class Transaction extends Model
         'email',
         'job_id',
         'price',
+        'biaya_admin',
         'status',
         'snap_token',
     ];

@@ -48,7 +48,7 @@ class ProfilController extends Controller
             'WA' => 'required|string',
             'alamat_lengkap' => 'required|string',
             'pekerjaan' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
         // Handle the image upload if available
@@ -103,7 +103,7 @@ class ProfilController extends Controller
             'desa' => 'required|string',
             'alamat_lengkap' => 'required|string',
             'pekerjaan' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
         // Handle the image upload if a new one is provided

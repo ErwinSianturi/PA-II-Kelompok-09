@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('email');
             $table->integer('job_id');
             $table->integer('price');
+            $table->integer('biaya_admin');
             $table->enum('status', ['pending', 'success', 'failed']);
             $table->string('snap_token')->nullable();
             $table->timestamps();

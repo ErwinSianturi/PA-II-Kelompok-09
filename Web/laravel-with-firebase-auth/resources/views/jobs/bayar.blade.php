@@ -64,6 +64,7 @@
                     @csrf
                     <input type="hidden" name="id" value="{{ $job->id }}">
                     <input type="hidden" name="job_id" value="{{ $job->id }}">
+                    <input type="hidden" name="biaya_admin" value="{{ $adminFee }}">
                     <input type="hidden" name="price" value="{{ $totalPrice }}"> <!-- Use rounded total price here -->
                     <button type="submit" class="btn btn-primary btn-lg px-5">
                         <i class="fas fa-cash-register me-2"></i>Bayar Sekarang
