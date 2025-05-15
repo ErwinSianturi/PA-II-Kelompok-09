@@ -44,7 +44,8 @@
                         data: $(this).serialize(),
                         success: function(response) {
                             // Clear the message input
-                            $('textarea[name="message"]').val('');
+                            $('input[name="message"]').val('');
+
                             // After sending the message, we fetch the updated messages
                             fetchMessages();
                         }
@@ -58,18 +59,26 @@
                 margin: 0;
                 padding: 0;
                 color: #333;
+                background-color: #f3f2f3;
+                border-radius: 20px;
+                min-height: 800px;
+
             }
 
             .containerss {
-                max-width: 800px;
+
+                max-width: 100%;
                 margin: 0 auto;
                 padding: 20px;
+                min-height: 800px;
+                max-height: 800px;
+                border-radius: 20px;
             }
 
-
-
             .messages-wrapper {
-                max-height: 400px;
+                border-radius: 20px;
+                max-height: 100%;
+                max-height: 600px;
                 overflow-y: auto;
                 margin-bottom: 20px;
                 padding-right: 10px;
@@ -98,12 +107,12 @@
             }
 
             .message.current-user .message-content {
-                background-color: #4A90E2;
+                background-color: #AE7EE9;
                 color: #fff;
             }
 
             .message:not(.current-user) .message-content {
-                background-color: #F0F4F8;
+                background-color: #e0effd;
             }
 
             .message strong {
@@ -117,7 +126,7 @@
             }
 
             .message small {
-                color: #9B9B9B;
+                color: #cac6c6;
                 font-size: 14px;
             }
 
@@ -154,21 +163,79 @@
             form button:hover {
                 background-color: #3A7DB7;
             }
+
+            .receiver-username {
+                font-size: 40px;
+                font-weight: bold;
+
+
+            }
+
+            img {
+                width: 45px;
+                height: 45px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+
+            .profile-container {
+                display: flex;
+                align-items: center;
+
+                gap: 5px;
+            }
+
+            .forms {
+                background-color: #fff;
+                border-radius: 8px;
+                padding: 10px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+
+            .inputs[type="text"] {
+                flex-grow: 1;
+                border: 1px solid #D8D8D8;
+                border-radius: 4px;
+                padding: 10px;
+                font-size: 16px;
+                min-height: 40px;
+                outline: none;
+                transition: border-color 0.3s;
+            }
+            .buttons {
+                background-color: #4A90E2;
+                color: #fff;
+                border: none;
+                border-radius: 4px;
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+
+            .buttons:hover {
+                background-color: #3A7DB7;
+            }
         </style>
     </head>
 
     <body>
+        <br><br>
         <div class="bodyss">
             <div class="containerss">
-                <h1 class="Judul">Obrolan dengan</h1> <strong>{{ $receiver->username }}</strong>
-
+                <div class="profile-container">
+                    <img src="{{ asset($receiver->image ?? 'images/default-avatar.jpg') }}" alt="Profile Picture">
+                    <strong class="receiver-username">{{ $receiver->username }}</strong>
+                </div>
                 <div class="messages-wrapper">
                     <div class="messages">
                         @foreach ($messages as $message)
                             <div
                                 class="message {{ $message->sender_email == auth()->user()->email ? 'current-user' : '' }}">
                                 <div class="message-content">
-                                    <strong>{{ $message->sender_email == auth()->user()->email ? 'You' : $message->sender_email }}:</strong>
                                     <p>{{ $message->message }}</p>
                                     <small>{{ $message->created_at->diffForHumans() }}</small>
                                 </div>
@@ -176,15 +243,16 @@
                         @endforeach
                     </div>
                 </div>
-                <form action="{{ url('/obrolan/send') }}" method="POST">
+                <form class="forms" action="{{ url('/obrolan/send') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="receiver_email" value="{{ $receiver->email }}">
-                    <textarea name="message" placeholder="Tulis pesan" required></textarea>
-                    <button type="submit">Kirim</button>
+                    <input class="inputs" type="hidden" name="receiver_email" value="{{ $receiver->email }}">
+                    <input type="text" class="inputs" name="message" placeholder="Tulis pesan" required>
+                    <button class="buttons" type="submit">Kirim</button>
                 </form>
+
             </div>
         </div>
-        @if ($receiver->username != 'Super Admin')
+        @if ($receiver->username != 'Admin' && Auth::user()->email != 'admin@gmail.com')
             <p>Selesai Melakukan Negosiasi?</p>
             <br>
             <p>Chat dengan admin <a href="{{ route('chat', ['userEmail' => 'admin@gmail.com']) }}"

@@ -294,8 +294,7 @@
                                             </td>
                                             <td>
                                                 @if ($job->status == 'success')
-                                                    <p>Sudah dibayar</p>
-                                                    <p>komentari pekerja</p>
+                                                    <p>Sudah dibayar ke admin</p>
                                                 @else
                                                     <div class="btn-group">
                                                         <a href="{{ url('jobs/' . $job->id . '/bayar') }}"

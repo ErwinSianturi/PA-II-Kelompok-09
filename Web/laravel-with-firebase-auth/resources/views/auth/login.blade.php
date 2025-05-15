@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="icon" href="{{ asset('GIGNEGO.svg') }}" type="image/svg+xml">
     <meta charset="UTF-8">
@@ -20,6 +21,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            flex-direction: column;
         }
 
         .container {
@@ -139,28 +141,42 @@
         .illustration img {
             width: 80%;
         }
+        .header-image{
+            width: 70%;
+            max-height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
+
 <body>
+    <!-- Header Image -->
+
+
     <div class="container">
         <div class="login-box">
             <div class="login-form">
-                <h2>Welcome back</h2>
-                <p>Please enter your details</p>
+                <div class="header-image">
+                    @include('items.footer')
+                </div>
+                <p>Welcome Back</p>
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email"
-                            value="{{ old('email') }}" required autocomplete="email" autofocus>
+                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
+                            name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                         @error('email')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
-                            name="password" required autocomplete="current-password">
+                        <input id="password" type="password"
+                            class="form-control @error('password') is-invalid @enderror" name="password" required
+                            autocomplete="current-password">
                         @error('password')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -179,4 +195,5 @@
         </div>
     </div>
 </body>
+
 </html>

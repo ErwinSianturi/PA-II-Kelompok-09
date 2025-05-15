@@ -348,6 +348,10 @@
                                                         class="btn btn-sm btn-danger">
                                                         <i class="fas fa-trash-alt me-1"></i>Delete
                                                     </a>
+                                                    <a href="{{ url('jobs/' . $job->id . '/edit') }}"
+                                                        class="btn btn-sm btn-outline-warning">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
                                                 @endif
                                             </td>
                                         </tr>
@@ -447,7 +451,8 @@
                     <div class="card-header bg-white d-flex justify-content-between align-items-center border-bottom">
                         <h3 class="card-title mb-0 text-primary">Total Pendapatan</h3>
                         <p class="text-muted mb-0">Total Penghasilan (10% dari semua transaksi):</p>
-                        <span class="badge bg-success text-white fs-5">Rp{{ number_format($jlh_penghasilan, 0, ',', '.') }}</span>
+                        <span
+                            class="badge bg-success text-white fs-5">Rp{{ number_format($jlh_penghasilan, 0, ',', '.') }}</span>
                     </div>
 
                     <style>

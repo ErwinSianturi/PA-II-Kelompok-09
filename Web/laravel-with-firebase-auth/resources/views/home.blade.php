@@ -411,7 +411,7 @@
                             “Senang bekerja dengan tanaman?”<br>
                             Kami butuh pembersih taman untuk proyek kebun kota.
                         </p>
-                        <a href="#"><button class="mt-4 px-4 py-2 rounded-lg bg-white text-black hover:bg-black hover:text-white transition-colors duration-300">Lihat Selengkapnya</button></a>
+                        <a href="/kategori/kebersihan"><button class="mt-4 px-4 py-2 rounded-lg bg-white text-black hover:bg-black hover:text-white transition-colors duration-300">Lihat Selengkapnya</button></a>
                     </div>
                     <div class="flex items-center justify-center basis-full md:basis-1/2 mt-6 md:mt-0">
                         <div class="w-full max-w-[200px] md:max-w-[250px] aspect-square p-3 sm:p-4 md:p-5">
@@ -431,7 +431,7 @@
                             kebahagiaan akan selalu ada ketika dua menjadi satu<br>
                             kami membutuhkan fotografi untuk pernikahan kami.
                         </p>
-                        <a href="#"><button class="mt-4 px-4 py-2 rounded-lg bg-white text-black hover:bg-black hover:text-white transition-colors duration-300">Lihat Selengkapnya</button></a>
+                        <a href="/kategori/Fotografi%20&%20videografi"><button class="mt-4 px-4 py-2 rounded-lg bg-white text-black hover:bg-black hover:text-white transition-colors duration-300">Lihat Selengkapnya</button></a>
                     </div>
                     <div class="flex items-center justify-center basis-full md:basis-1/2 mt-6 md:mt-0">
                         <div class="w-full max-w-[200px] md:max-w-[250px] aspect-square p-3 sm:p-4 md:p-5">

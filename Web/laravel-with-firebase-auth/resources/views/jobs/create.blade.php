@@ -104,6 +104,7 @@
                     <!-- Images Section -->
                     <div>
                         <h3 class="text-xl font-semibold mb-4 text-gray-700">Gambar Pekerjaan</h3>
+                        <h4 class="text-xs font-semibold mb-4 text-gray-400"> Minimal 1 Gambar</h4>
                         <div class="grid gap-6 md:grid-cols-3">
                             @for ($i = 1; $i <= 3; $i++)
                                 <div>
