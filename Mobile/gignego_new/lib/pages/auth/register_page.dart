@@ -1,248 +1,204 @@
-// Samuel Rizki Sinambela - 11423003 - 42TRPL1
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:flutter_application/pages/login-register/home_page.dart';
-
-
-
+import 'package:flutter_application/pages/auth/login.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
-
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   final _namaController = TextEditingController();
   final _emailController = TextEditingController();
-  final _nomorController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _passwordController = TextEditingController();
 
-  bool _isFormValid = false;
+  bool _showValidationErrors = false;
+  bool _isLoading = false;
 
-  void _checkFormValidity() {
-    final isValid = _formKey.currentState?.validate() ?? false;
-    setState(() => _isFormValid = isValid);
-  }
+  Future<void> _register() async {
+    setState(() {
+      _showValidationErrors = true;
+    });
 
-  void _showMessage(String msg) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
-  }
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+      });
 
-  void _submitForm() {
-    if (_isFormValid) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomePage()));
-    }
-  }
+      final url = Uri.parse('http://192.168.225.39:8080/register');
 
-  Future<void> _signInWithGoogle() async {
-    try {
-      final googleUser = await GoogleSignIn().signIn();
-      if (googleUser != null) {
-        _showMessage("Google Login Berhasil: ${googleUser.displayName} (${googleUser.email})");
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomePage()));
-      }
-    } catch (e) {
-      _showMessage("Google Login Gagal: $e");
-    }
-  }
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'name': _namaController.text,
+          'email': _emailController.text,
+          'phone': _phoneController.text,
+          'password': _passwordController.text,
+        }),
+      );
 
-  Future<void> _signInWithFacebook() async {
-    try {
-      final result = await FacebookAuth.instance.login();
-      if (result.status == LoginStatus.success) {
-        final data = await FacebookAuth.instance.getUserData();
-        _showMessage("Facebook Login Berhasil: ${data['name']} (${data['email'] ?? 'Email tidak tersedia'})");
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomePage()));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Delay sebelum tampilkan snackbar
+        await Future.delayed(Duration(milliseconds: 1500));
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Registrasi berhasil")),
+        );
+        print("Registrasi sukses: ${response.body}");
+
+        // Delay biar user bisa baca snackbar
+        await Future.delayed(Duration(milliseconds: 1500));
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => LoginPage()),
+        );
       } else {
-        _showMessage("Facebook Login Gagal: ${result.message}");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Registrasi gagal: ${response.body}")),
+        );
+        print("Error: ${response.body}");
       }
-    } catch (e) {
-      _showMessage("Facebook Error: $e");
+
+      setState(() {
+        _isLoading = false;
+      });
     }
+  }
+
+  InputDecoration _inputDecoration(String label) {
+    return InputDecoration(
+      labelText: label,
+      border: OutlineInputBorder(),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(backgroundColor: Colors.white, elevation: 0),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 22),
-        child: Form(
-          key: _formKey,
-          onChanged: _checkFormValidity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 20),
-              Image.asset('assets/gignego.png', height: 50),
-              const SizedBox(height: 10),
-              const Text("Buat Akun", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 5),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text("Punya akun? "),
-                  Text("Sign in", style: TextStyle(color: Colors.purple, fontWeight: FontWeight.w500)),
-                ],
-              ),
-              const SizedBox(height: 24),
-              _buildSocialButton(
-                icon: 'assets/Gogle.png',
-                text: "Daftar dengan Google",
-                onPressed: _signInWithGoogle,
-              ),
-              const SizedBox(height: 12),
-              _buildSocialButton(
-                icon: 'assets/Fb.png',
-                text: "Daftar dengan Facebook",
-                onPressed: _signInWithFacebook,
-              ),
-              const SizedBox(height: 24),
-              const DividerWithText(text: "atau daftar dengan email"),
-              const SizedBox(height: 16),
-              _buildTextField(
-                controller: _namaController,
-                label: "Nama Lengkap*",
-                validator: (value) {
-                  if (value == null || value.isEmpty) return "Nama tidak boleh kosong";
-                  if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) return "Nama hanya boleh huruf";
-                  return null;
-                },
-              ),
-              const SizedBox(height: 12),
-              _buildTextField(
-                controller: _emailController,
-                label: "Email*",
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value == null || value.isEmpty) return "Email tidak boleh kosong";
-                  if (!value.contains('@')) return "Email tidak valid";
-                  return null;
-                },
-              ),
-              const SizedBox(height: 12),
-              _buildTextField(
-                controller: _nomorController,
-                label: "Nomor Ponsel*",
-                keyboardType: TextInputType.phone,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                validator: (value) {
-                  if (value == null || value.isEmpty) return "Nomor tidak boleh kosong";
-                  if (!RegExp(r'^[0-9]+$').hasMatch(value)) return "Nomor hanya boleh angka";
-                  return null;
-                },
-              ),
-              const SizedBox(height: 4),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text("Nomor terhubung dengan WhatsApp.",
-                    style: TextStyle(fontSize: 12, color: Colors.black54)),
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: _isFormValid ? _submitForm : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: _isFormValid ? const Color(0xFF781CAA) : Colors.grey.shade300,
-                  minimumSize: const Size.fromHeight(48),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                ),
-                child: const Text("Lanjutkan", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-              ),
-              const SizedBox(height: 32),
-              Container(
-                padding: const EdgeInsets.all(12),
-                color: const Color(0xFFF8E9FF),
-                width: double.infinity,
-                child: const Center(
-                  child: Text.rich(
-                    TextSpan(
-                      text: "Butuh bantuan? Hubungi ",
-                      children: [
-                        TextSpan(
-                          text: "Gignego Care",
-                          style: TextStyle(color: Colors.purple, fontWeight: FontWeight.w500),
-                        ),
-                      ],
+      appBar: AppBar(
+        title: Text('Register', style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.black87,
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 24.0),
+            padding: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [BoxShadow(blurRadius: 8, color: Color(0xFF781CAA))],
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Form(
+              key: _formKey,
+              autovalidateMode: _showValidationErrors
+                  ? AutovalidateMode.always
+                  : AutovalidateMode.disabled,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(child: Image.asset('assets/logo.png', height: 40)),
+                  SizedBox(height: 16),
+                  Text("Buat Akun",
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                  SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Text("Punya akun?"),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()),
+                          );
+                        },
+                        child: Text("Sign in",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    controller: _namaController,
+                    decoration: _inputDecoration("Nama Lengkap*"),
+                    validator: (value) =>
+                        value!.isEmpty ? "Nama wajib diisi" : null,
+                  ),
+                  SizedBox(height: 12),
+                  TextFormField(
+                    controller: _emailController,
+                    decoration: _inputDecoration("Email*"),
+                    validator: (value) =>
+                        value!.isEmpty ? "Email wajib diisi" : null,
+                  ),
+                  SizedBox(height: 12),
+                  TextFormField(
+                    controller: _phoneController,
+                    decoration: _inputDecoration("Nomor Ponsel*"),
+                    keyboardType: TextInputType.phone,
+                    validator: (value) =>
+                        value!.isEmpty ? "Nomor Ponsel wajib diisi" : null,
+                  ),
+                  SizedBox(height: 12),
+                  TextFormField(
+                    controller: _passwordController,
+                    decoration: _inputDecoration("Password*"),
+                    obscureText: true,
+                    validator: (value) =>
+                        value!.isEmpty ? "Password wajib diisi" : null,
+                  ),
+                  SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _isLoading ? null : _register,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF781CAA),
+                      ),
+                      child: _isLoading
+                          ? SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : Text("Lanjutkan",
+                              style: TextStyle(color: Colors.white)),
                     ),
                   ),
-                ),
+                  SizedBox(height: 12),
+                  Center(
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Text.rich(
+                        TextSpan(
+                          text: "Butuh bantuan? Hubungi ",
+                          children: [
+                            TextSpan(
+                              text: "Gignego Care",
+                              style: TextStyle(color: Colors.purple),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 24),
-            ],
+            ),
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildSocialButton({
-    required String icon,
-    required String text,
-    required VoidCallback onPressed,
-  }) {
-    return SizedBox(
-      width: double.infinity,
-      child: OutlinedButton(
-        onPressed: onPressed,
-        style: OutlinedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 14),
-          side: const BorderSide(color: Colors.purple),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(icon, height: 24),
-            const SizedBox(width: 10),
-            Text(text, style: const TextStyle(color: Colors.purple, fontWeight: FontWeight.bold)),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String label,
-    TextInputType keyboardType = TextInputType.text,
-    List<TextInputFormatter>? inputFormatters,
-    required String? Function(String?) validator,
-  }) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: keyboardType,
-      inputFormatters: inputFormatters,
-      validator: validator,
-      decoration: InputDecoration(
-        labelText: label,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-      ),
-    );
-  }
-}
-
-class DividerWithText extends StatelessWidget {
-  final String text;
-  const DividerWithText({super.key, required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const Expanded(child: Divider()),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Text(text, style: const TextStyle(color: Colors.black54)),
-        ),
-        const Expanded(child: Divider()),
-      ],
     );
   }
 }

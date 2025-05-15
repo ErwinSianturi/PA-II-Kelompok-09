@@ -90,6 +90,7 @@
 
 import 'package:flutter/material.dart';
 import 'pages/auth/register_page.dart'; 
+import 'pages/auth/login.dart'; 
 
 void main() {
   runApp(MyApp());
@@ -104,7 +105,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: RegisterPage(),
+      home: LoginPage(),
     );
   }
 }

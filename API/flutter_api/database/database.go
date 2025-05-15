@@ -3,12 +3,13 @@ package database
 import (
 	"flutter_api/models"
 	"fmt"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 	"log"
 	"os"
 	"time"
+
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 var DB *gorm.DB
@@ -30,12 +31,12 @@ func InitDB() *gorm.DB {
 	dbUser := getEnv("DB_USER", "root")
 	dbPass := getEnv("DB_PASS", "")
 	dbHost := getEnv("DB_HOST", "127.0.0.1")
-	dbPort := getEnv("DB_PORT", "3306")
+	dbPort := getEnv("DB_PORT", "3307")
 	dbName := getEnv("DB_NAME", "laravel")
-	
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true&charset=utf8mb4&loc=Local", 
+
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true&charset=utf8mb4&loc=Local",
 		dbUser, dbPass, dbHost, dbPort, dbName)
-	
+
 	var err error
 
 	// Buka koneksi database
@@ -76,6 +77,7 @@ func InitDB() *gorm.DB {
 		&models.Profile{},
 		&models.WorkExperience{},
 		&models.HelpRequest{},
+		&models.JobPosting{}, // Menambahkan model JobPosting
 	); err != nil {
 		fmt.Println("Error AutoMigrate:", err)
 		panic("Gagal melakukan migrasi tabel")
