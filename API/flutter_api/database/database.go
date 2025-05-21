@@ -15,31 +15,31 @@ import (
 var DB *gorm.DB
 
 func InitDB() *gorm.DB {
-	// Konfigurasi logger
+	// Konfigurasi logger untuk GORM
 	newLogger := logger.New(
 		log.New(os.Stdout, "\r\n", log.LstdFlags),
 		logger.Config{
-			SlowThreshold:             time.Second,
-			LogLevel:                  logger.Info,
-			IgnoreRecordNotFoundError: true,
-			Colorful:                  true,
+			SlowThreshold:             time.Second, // log query yang lambat lebih dari 1 detik
+			LogLevel:                  logger.Info, // tampilkan log info
+			IgnoreRecordNotFoundError: true,        // abaikan error data tidak ditemukan
+			Colorful:                  true,        // warna pada log
 		},
 	)
 
-	// Konfigurasi koneksi database
-	// Gunakan environment variable jika tersedia
+	// Ambil konfigurasi DB dari environment variable (atau default)
 	dbUser := getEnv("DB_USER", "root")
 	dbPass := getEnv("DB_PASS", "")
 	dbHost := getEnv("DB_HOST", "127.0.0.1")
 	dbPort := getEnv("DB_PORT", "3307")
 	dbName := getEnv("DB_NAME", "laravel")
 
+	// Format Data Source Name (DSN)
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true&charset=utf8mb4&loc=Local",
 		dbUser, dbPass, dbHost, dbPort, dbName)
 
 	var err error
 
-	// Buka koneksi database
+	// Buka koneksi ke database
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
 		Logger: newLogger,
 	})
@@ -49,17 +49,17 @@ func InitDB() *gorm.DB {
 	}
 	fmt.Println("Koneksi database berhasil")
 
-	// Aktifkan mode debug
+	// Aktifkan debug mode untuk query database
 	DB = DB.Debug()
 
-	// Konfigurasi koneksi pool
+	// Dapatkan koneksi SQL database untuk konfigurasi pool
 	sqlDB, err := DB.DB()
 	if err != nil {
 		fmt.Println("Error mendapatkan koneksi database:", err)
 		panic("Gagal mendapatkan koneksi database")
 	}
 
-	// Cek koneksi dengan ping
+	// Tes ping database
 	if err := sqlDB.Ping(); err != nil {
 		fmt.Println("Error ping database:", err)
 		panic("Ping database gagal")
@@ -67,17 +67,18 @@ func InitDB() *gorm.DB {
 	fmt.Println("Ping database berhasil")
 
 	// Konfigurasi pool koneksi
-	sqlDB.SetMaxIdleConns(10)
-	sqlDB.SetMaxOpenConns(100)
-	sqlDB.SetConnMaxLifetime(time.Hour)
+	sqlDB.SetMaxIdleConns(10)           // koneksi idle maksimal 10
+	sqlDB.SetMaxOpenConns(100)          // koneksi terbuka maksimal 100
+	sqlDB.SetConnMaxLifetime(time.Hour) // maksimal umur koneksi 1 jam
 
-	// Migrasi model
+	// Migrasi model ke tabel database
 	if err := DB.AutoMigrate(
 		&models.User{},
 		&models.Profile{},
 		&models.WorkExperience{},
 		&models.HelpRequest{},
-		&models.JobPosting{}, // Menambahkan model JobPosting
+		&models.JobPosting{},
+		&models.Application{}, // <<< ini tambahan untuk tabel applications
 	); err != nil {
 		fmt.Println("Error AutoMigrate:", err)
 		panic("Gagal melakukan migrasi tabel")
@@ -87,7 +88,7 @@ func InitDB() *gorm.DB {
 	return DB
 }
 
-// GetDB mengembalikan instance database yang sudah diinisialisasi
+// Fungsi untuk mendapatkan instance database yang sudah diinisialisasi
 func GetDB() *gorm.DB {
 	if DB == nil {
 		return InitDB()
@@ -95,7 +96,7 @@ func GetDB() *gorm.DB {
 	return DB
 }
 
-// getEnv mengambil nilai environment variable atau nilai default jika tidak ada
+// Fungsi bantu ambil environment variable dengan default value
 func getEnv(key, defaultValue string) string {
 	value := os.Getenv(key)
 	if value == "" {

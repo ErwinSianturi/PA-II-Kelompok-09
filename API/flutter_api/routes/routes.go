@@ -60,9 +60,15 @@ func SetupRoutes(router *gin.Engine) {
 
 	// Job Posting Routes
 	jobPostingController := controllers.JobPostingController{}
-	router.POST("/job-postings", jobPostingController.CreateJobPosting)       // Menambahkan JobPosting
-	router.GET("/job-postings", jobPostingController.GetJobPostings)          // Mendapatkan semua JobPostings
-	router.GET("/job-postings/:id", jobPostingController.GetJobPostingByID)   // Mendapatkan JobPosting berdasarkan ID
-	router.PUT("/job-postings/:id", jobPostingController.UpdateJobPosting)    // Update JobPosting berdasarkan ID
+	router.POST("/job-postings", jobPostingController.CreateJobPosting)     // Menambahkan JobPosting
+	router.GET("/job-postings", jobPostingController.GetJobPostings)        // Mendapatkan semua JobPostings
+	router.GET("/job-postings/:id", jobPostingController.GetJobPostingByID) // Mendapatkan JobPosting berdasarkan ID
+	router.PUT("/job-postings/:id", jobPostingController.UpdateJobPosting)  // Update JobPosting berdasarkan ID
+
 	router.DELETE("/job-postings/:id", jobPostingController.DeleteJobPosting) // Menghapus JobPosting berdasarkan ID
+
+	applicationController := controllers.ApplicationController{}
+	router.POST("/applications", applicationController.CreateApplication)
+	router.GET("/applications", applicationController.GetApplications) // route GET untuk ambil semua aplikasi
+
 }

@@ -8,9 +8,10 @@ import 'validasi.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_application/pages/models/applicant.dart';
 
 class ApiService {
-  static const String apiUrl = 'http://192.168.225.39:8080/job-postings';
+  static const String apiUrl = 'http://192.168.254.39:8080/job-postings';
 
   // Fungsi untuk mengirim data pekerjaan baru ke API
   static Future<bool> createJob(Job job) async {
@@ -83,7 +84,7 @@ class ApiService {
 }
 static Future<bool> deleteJobFromApi(int id) async {
     final response = await http.delete(
-      Uri.parse('http://192.168.225.39:8080/job-postings/id'),
+      Uri.parse('http://192.168.94.39:8080/job-postings/id'),
     );
 
     if (response.statusCode == 200) {
@@ -93,12 +94,69 @@ static Future<bool> deleteJobFromApi(int id) async {
       return false;
     }
   }
+
+  static Future<bool> updateJob(Job job) async {
+  final url = Uri.parse('http://192.168.254.39:8080/job-postings/${job.id}');
+  try {
+    var request = http.MultipartRequest('PUT', url);
+
+    request.fields['nama_pekerjaan'] = job.namaPekerjaan;
+    request.fields['deskripsi'] = job.deskripsi;
+    request.fields['lokasi'] = job.lokasi;
+    request.fields['harga_pekerjaan'] = job.hargaPekerjaan.toString();
+    request.fields['syarat_ketentuan'] = job.syaratKetentuan;
+    request.fields['jenis_pekerjaan'] = job.jenisPekerjaan;
+    request.fields['status_pekerjaan'] = job.status;
+    request.fields['time'] = job.time.toString();
+    request.fields['email'] = job.email;
+    request.fields['waktu'] = job.waktu;
+    request.fields['tanggal'] = job.tanggal;
+
+    if (job.gambar1.isNotEmpty) {
+      request.files.add(await http.MultipartFile.fromPath('image1', job.gambar1));
+    }
+    if (job.gambar2.isNotEmpty) {
+      request.files.add(await http.MultipartFile.fromPath('image2', job.gambar2));
+    }
+    if (job.gambar3.isNotEmpty) {
+      request.files.add(await http.MultipartFile.fromPath('image3', job.gambar3));
+    }
+
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      print("Failed to update job: ${response.statusCode}");
+      var resBody = await http.Response.fromStream(response);
+      print('Response body: ${resBody.body}');
+      return false;
+    }
+  } catch (e) {
+    print('Error updating job: $e');
+    return false;
+  }
+}
+static Future<List<Applicant>> fetchApplicantsByJobId(int jobId) async {
+  final url = Uri.parse('http://192.168.254.39:8080/applications?job_id=$jobId');
+  final response = await http.get(url);
+
+  if (response.statusCode == 200) {
+    final List<dynamic> data = jsonDecode(response.body);
+    return data.map((item) => Applicant.fromMap(item)).toList();
+  } else {
+    print('Failed to fetch applicants: ${response.statusCode}');
+    return [];
+  }
+}
+
 }
 
 class FormPage extends StatefulWidget {
   final Function(Job) onJobAdded;
+  final Job? job; // job bisa null jika membuat pekerjaan baru
 
-  const FormPage({Key? key, required this.onJobAdded}) : super(key: key);
+  const FormPage({Key? key, required this.onJobAdded, this.job}) : super(key: key);
 
   @override
   _FormPageState createState() => _FormPageState();
@@ -123,6 +181,24 @@ class _FormPageState extends State<FormPage> {
 
   final picker = ImagePicker();
   final _formKey = GlobalKey<FormState>(); // Tambahkan untuk validasi
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.job != null) {
+      // Jika mode edit, isi form dengan data dari job
+      _judulController.text = widget.job!.namaPekerjaan;
+      _deskripsiController.text = widget.job!.deskripsi;
+      _lokasiController.text = widget.job!.lokasi;
+      _waktuController.text = widget.job!.waktu;
+      _tanggalController.text = widget.job!.tanggal;
+      _hargaController.text = widget.job!.hargaPekerjaan.toString();
+      _syaratController.text = widget.job!.syaratKetentuan;
+      _selectedKategori = widget.job!.jenisPekerjaan;
+      _timeController.text = widget.job!.time.toString();
+      _emailController.text = widget.job!.email;
+    }
+  }
 
   Future<void> _pickDate(TextEditingController controller) async {
     final DateTime today = DateTime.now();
@@ -194,6 +270,7 @@ class _FormPageState extends State<FormPage> {
 
 // Lanjutkan proses pengiriman pekerjaan dengan email
       final jobBaru = Job(
+         id: widget.job?.id,
         namaPekerjaan: _judulController.text,
         deskripsi: _deskripsiController.text,
         lokasi: _lokasiController.text,
@@ -209,6 +286,8 @@ class _FormPageState extends State<FormPage> {
         time: int.tryParse(_timeController.text) ?? 0,
         email: email,
       );
+
+      
       // Log data pekerjaan yang akan dikirim
       print("Data pekerjaan yang akan dikirim:");
       print("Nama Pekerjaan: ${jobBaru.namaPekerjaan}");
@@ -219,43 +298,73 @@ class _FormPageState extends State<FormPage> {
       print("Jenis Pekerjaan: ${jobBaru.jenisPekerjaan}");
       print("Email: ${jobBaru.email}"); // Log email yang akan dikirim
 
-      bool isSuccess = await ApiService.createJob(jobBaru);
+  //     bool isSuccess = await ApiService.createJob(jobBaru);
+
+  //     setState(() {
+  //       isLoading = false; // Hide loading indicator after request is complete
+  //     });
+
+  //     if (isSuccess) {
+  //       widget.onJobAdded(jobBaru);
+  //       Navigator.pop(context);
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //           SnackBar(content: Text('Pekerjaan berhasil ditambahkan!')));
+
+  //       Navigator.push(
+  //         context,
+  //         MaterialPageRoute(
+  //           builder: (context) => ValidasiPage(
+  //             job: jobBaru,
+  //             onJobAdded: (Job job) {
+  //               widget.onJobAdded(job);
+  //             },
+  //           ),
+  //         ),
+  //       );
+  //     } else {
+  //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //           content: Text('Terjadi kesalahan saat menambahkan pekerjaan!')));
+  //     }
+  //   } else {
+  //     setState(() {
+  //       isLoading = false; // Sembunyikan indikator loading jika validasi gagal
+  //     });
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //         content:
+  //             Text("Pastikan semua field wajib diisi dan gambar 1 dipilih!")));
+  //   }
+  // }
+
+      bool isSuccess;
+      if (widget.job == null) {
+        // Jika job null, buat job baru
+        isSuccess = await ApiService.createJob(jobBaru);
+      } else {
+        // Jika job sudah ada, update job yang ada
+        isSuccess = await ApiService.updateJob(jobBaru);
+      }
 
       setState(() {
-        isLoading = false; // Hide loading indicator after request is complete
+        isLoading = false;
       });
 
       if (isSuccess) {
         widget.onJobAdded(jobBaru);
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Pekerjaan berhasil ditambahkan!')));
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ValidasiPage(
-              job: jobBaru,
-              onJobAdded: (Job job) {
-                widget.onJobAdded(job);
-              },
-            ),
-          ),
-        );
+            SnackBar(content: Text(widget.job == null ? 'Pekerjaan berhasil ditambahkan!' : 'Pekerjaan berhasil diperbarui!')));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Terjadi kesalahan saat menambahkan pekerjaan!')));
+            content: Text('Terjadi kesalahan saat menyimpan pekerjaan!')));
       }
     } else {
       setState(() {
-        isLoading = false; // Sembunyikan indikator loading jika validasi gagal
+        isLoading = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content:
-              Text("Pastikan semua field wajib diisi dan gambar 1 dipilih!")));
+          content: Text("Pastikan semua field wajib diisi dan gambar 1 dipilih!")));
     }
   }
-
   @override
   void dispose() {
     _judulController.dispose();

@@ -144,18 +144,52 @@ func (controller *JobPostingController) UpdateJobPosting(c *gin.Context) {
 	id := c.Param("id")
 	log.Printf("Received request to update job posting with ID: %s", id)
 
-	var jobPosting models.JobPosting
 	db := database.GetDB()
+	var jobPosting models.JobPosting
 	if err := db.First(&jobPosting, id).Error; err != nil {
 		log.Printf("Job posting with ID %s not found: %v", id, err)
 		c.JSON(http.StatusNotFound, gin.H{"error": "Job posting not found"})
 		return
 	}
 
-	if err := c.ShouldBindJSON(&jobPosting); err != nil {
-		log.Printf("Error binding JSON for update: %v", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+	// Ambil field dari form-data
+	jobPosting.NamaPekerjaan = c.PostForm("nama_pekerjaan")
+	jobPosting.Deskripsi = c.PostForm("deskripsi")
+	jobPosting.Lokasi = c.PostForm("lokasi")
+	jobPosting.SyaratKetentuan = c.PostForm("syarat_ketentuan")
+	jobPosting.JenisPekerjaan = c.PostForm("jenis_pekerjaan")
+	jobPosting.StatusPekerjaan = c.PostForm("status_pekerjaan")
+	jobPosting.Email = c.PostForm("email")
+
+	timeStr := c.PostForm("time")
+	if timeInt, err := strconv.Atoi(timeStr); err == nil {
+		jobPosting.Time = timeInt
+	}
+
+	hargaStr := c.PostForm("harga_pekerjaan")
+	if hargaFloat, err := strconv.ParseFloat(hargaStr, 64); err == nil {
+		jobPosting.HargaPekerjaan = hargaFloat
+	}
+
+	// Ambil file gambar baru jika ada
+	image1, _ := c.FormFile("image1")
+	image2, _ := c.FormFile("image2")
+	image3, _ := c.FormFile("image3")
+
+	if image1 != nil {
+		if err := c.SaveUploadedFile(image1, "./uploads/"+image1.Filename); err == nil {
+			jobPosting.Image1 = image1.Filename
+		}
+	}
+	if image2 != nil {
+		if err := c.SaveUploadedFile(image2, "./uploads/"+image2.Filename); err == nil {
+			jobPosting.Image2 = image2.Filename
+		}
+	}
+	if image3 != nil {
+		if err := c.SaveUploadedFile(image3, "./uploads/"+image3.Filename); err == nil {
+			jobPosting.Image3 = image3.Filename
+		}
 	}
 
 	if err := db.Save(&jobPosting).Error; err != nil {

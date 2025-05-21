@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/pages/models/job.dart';
-import 'package:flutter_application/pages/home/form_daftar_kerja.dart';
+import 'package:flutter_application/pages/home/form_daftar_kerja.dart'; // Halaman alasan pekerjaan
 
 class JobDetailPage extends StatelessWidget {
   final Job job;
@@ -30,7 +30,9 @@ class JobDetailPage extends StatelessWidget {
           children: [
             Expanded(
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  // Bisa dikembangkan untuk negosiasi
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF9E61EB),
                 ),
@@ -44,10 +46,15 @@ class JobDetailPage extends StatelessWidget {
             Expanded(
               child: ElevatedButton(
                 onPressed: () {
+                  // Pindah ke halaman alasan ambil pekerjaan dengan data job dikirim
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => TambahPengalamanKerjaPage(),
+                      builder: (context) => AlasanPekerjaanPage(
+                        namaPekerjaan: job.namaPekerjaan,
+                        harga: 'Rp${job.hargaPekerjaan},00', // Format sesuai contoh
+                        lamaPengerjaan: job.waktu,
+                      ),
                     ),
                   );
                 },
@@ -67,53 +74,44 @@ class JobDetailPage extends StatelessWidget {
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
-            // Menampilkan Gambar 1
             if (job.gambar1.isNotEmpty)
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: Image.file(
-                  File(job.gambar1),  // Gambar 1
+                  File(job.gambar1),
                   width: double.infinity,
                   height: 180,
                   fit: BoxFit.cover,
                 ),
               ),
             SizedBox(height: 10),
-
-            // Menampilkan Gambar 2
             if (job.gambar2.isNotEmpty)
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: Image.file(
-                  File(job.gambar2),  // Gambar 2
+                  File(job.gambar2),
                   width: double.infinity,
                   height: 180,
                   fit: BoxFit.cover,
                 ),
               ),
             SizedBox(height: 10),
-
-            // Menampilkan Gambar 3
             if (job.gambar3.isNotEmpty)
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: Image.file(
-                  File(job.gambar3),  // Gambar 3
+                  File(job.gambar3),
                   width: double.infinity,
                   height: 180,
                   fit: BoxFit.cover,
                 ),
               ),
             SizedBox(height: 16),
-
-            // Menampilkan Nama Pekerjaan dan Jenis Pekerjaan
             Text(
               "${job.jenisPekerjaan}\n${job.namaPekerjaan}",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8),
-
-            // Menampilkan Tanggal Pekerjaan
             Row(
               children: [
                 Text("Tanggal: ", style: TextStyle(color: Colors.grey[600])),
@@ -133,8 +131,6 @@ class JobDetailPage extends StatelessWidget {
               ],
             ),
             SizedBox(height: 8),
-
-            // Menampilkan Harga Pekerjaan
             Text(
               "RP ${job.hargaPekerjaan},00",
               style: TextStyle(
@@ -143,8 +139,6 @@ class JobDetailPage extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
             Divider(height: 32),
-
-            // Deskripsi
             Text("Deskripsi",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             SizedBox(height: 4),

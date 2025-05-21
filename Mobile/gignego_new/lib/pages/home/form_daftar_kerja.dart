@@ -1,152 +1,129 @@
-
 import 'package:flutter/material.dart';
 
-class TambahPengalamanKerjaPage extends StatefulWidget {
+class AlasanPekerjaanPage extends StatefulWidget {
+  final String namaPekerjaan;
+  final String harga;
+  final String lamaPengerjaan;
+
+  const AlasanPekerjaanPage({
+    Key? key,
+    required this.namaPekerjaan,
+    required this.harga,
+    required this.lamaPengerjaan,
+  }) : super(key: key);
+
   @override
-  _TambahPengalamanKerjaPageState createState() => _TambahPengalamanKerjaPageState();
+  _AlasanPekerjaanPageState createState() => _AlasanPekerjaanPageState();
 }
 
-class _TambahPengalamanKerjaPageState extends State<TambahPengalamanKerjaPage> {
+class _AlasanPekerjaanPageState extends State<AlasanPekerjaanPage> {
   final _formKey = GlobalKey<FormState>();
-  bool _masihBekerja = false;
-
-  // Controllers
-  final posisiController = TextEditingController();
-  final perusahaanController = TextEditingController();
-  final kotaController = TextEditingController();
-  final deskripsiController = TextEditingController();
-
-  // Dropdown values
-  String? negara;
-  String? tanggalMulai;
-  String? tanggalBerakhir;
-  String? fungsi;
-  String? industri;
-  String? level;
-  String? tipe;
-
-  bool get isFormValid {
-    return posisiController.text.isNotEmpty &&
-        perusahaanController.text.isNotEmpty &&
-        negara != null &&
-        kotaController.text.isNotEmpty &&
-        tanggalMulai != null &&
-        (_masihBekerja || tanggalBerakhir != null) &&
-        fungsi != null &&
-        industri != null &&
-        level != null &&
-        tipe != null &&
-        deskripsiController.text.isNotEmpty;
-  }
-
-  void checkFormStatus() {
-    setState(() {});
-  }
+  final alasanController = TextEditingController();
 
   @override
   void dispose() {
-    posisiController.dispose();
-    perusahaanController.dispose();
-    kotaController.dispose();
-    deskripsiController.dispose();
+    alasanController.dispose();
     super.dispose();
+  }
+
+  void kirimAlasan() {
+    if (_formKey.currentState!.validate()) {
+      // Kalau valid, proses data alasan di sini
+      print('Alasan dikirim: ${alasanController.text}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Alasan berhasil dikirim!')),
+      );
+      // Bisa tambahkan navigasi kembali atau logic lain sesuai kebutuhan
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tambah Pengalaman Kerja"),
+        title: Text('Alasan Mengambil Pekerjaan'),
+        backgroundColor: const Color(0xFF9E61EB),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          onChanged: checkFormStatus,
-          child: SingleChildScrollView(
-            child: Column(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              widget.namaPekerjaan,
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildTextField("Posisi Pekerjaan", posisiController),
-                _buildTextField("Nama Perusahaan", perusahaanController),
-                _buildDropdown("Negara", ["Indonesia", "Malaysia"], negara, (val) => setState(() => negara = val)),
-                _buildTextField("Kota", kotaController),
-                _buildDropdown("Tanggal Mulai", ["Januari 2024", "Februari 2024"], tanggalMulai, (val) => setState(() => tanggalMulai = val)),
-                if (!_masihBekerja)
-                  _buildDropdown("Tanggal Berakhir", ["Januari 2025", "Februari 2025"], tanggalBerakhir, (val) => setState(() => tanggalBerakhir = val)),
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _masihBekerja,
-                      onChanged: (val) {
-                        setState(() {
-                          _masihBekerja = val!;
-                          if (_masihBekerja) tanggalBerakhir = null;
-                        });
-                      },
-                    ),
-                    Text("Saya masih bekerja di sini"),
-                  ],
-                ),
-                _buildDropdown("Fungsi Pekerjaan", ["Administrasi", "IT", "Keuangan"], fungsi, (val) => setState(() => fungsi = val)),
-                _buildDropdown("Industri Perusahaan", ["Universitas/Instansi Pendidikan", "Perusahaan Teknologi"], industri, (val) => setState(() => industri = val)),
-                Row(
-                  children: [
-                    Expanded(child: _buildDropdown("Level Pekerjaan", ["Pemula/Staf", "Menengah"], level, (val) => setState(() => level = val))),
-                    SizedBox(width: 10),
-                    Expanded(child: _buildDropdown("Tipe Pekerjaan", ["Paruh Waktu", "Penuh Waktu"], tipe, (val) => setState(() => tipe = val))),
-                  ],
-                ),
-                TextFormField(
-                  controller: deskripsiController,
-                  maxLines: 3,
-                  maxLength: 1000,
-                  decoration: InputDecoration(
-                    labelText: "Deskripsi Pekerjaan",
-                    hintText: "Tulis tugas dan tanggung jawab atau pencapaianmu di sini",
-                  ),
-                ),
-                SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: Text("Batal"),
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: isFormValid ? () {} : null,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: isFormValid ? Colors.purple : Colors.grey[400],
-                        ),
-                        child: Text("Simpan"),
-                      ),
-                    ),
-                  ],
-                )
+                Text('Harga Jasa', style: TextStyle(fontWeight: FontWeight.w600)),
+                Text('Waktu Mulai', style: TextStyle(fontWeight: FontWeight.w600)),
               ],
             ),
-          ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(widget.harga, style: TextStyle(fontWeight: FontWeight.bold)),
+                Text(widget.lamaPengerjaan, style: TextStyle(fontWeight: FontWeight.bold)),
+              ],
+            ),
+            SizedBox(height: 20),
+            Text('Alasan Anda Cocok untuk Pekerjaan Ini:', style: TextStyle(fontWeight: FontWeight.w600)),
+            SizedBox(height: 8),
+            Form(
+              key: _formKey,
+              child: TextFormField(
+                controller: alasanController,
+                maxLines: 4,
+                maxLength: 500,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Jelaskan mengapa Anda cocok dan memilih pekerjaan ini...',
+                ),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Tolong isi alasan Anda';
+                  }
+                  if (value.trim().length < 10) {
+                    return 'Alasan terlalu pendek';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Tuliskan alasan terbaik Anda dalam beberapa kalimat.',
+              style: TextStyle(fontSize: 12, color: Colors.grey[700]),
+            ),
+            SizedBox(height: 24),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: kirimAlasan,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF9E61EB),
+                    ),
+                    child: Text(
+                      'Kirim Alasan',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text('Kembali'),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
-    );
-  }
-
-  Widget _buildTextField(String label, TextEditingController controller) {
-    return TextFormField(
-      controller: controller,
-      decoration: InputDecoration(labelText: label),
-    );
-  }
-
-  Widget _buildDropdown(String label, List<String> items, String? value, void Function(String?) onChanged) {
-    return DropdownButtonFormField<String>(
-      value: value,
-      decoration: InputDecoration(labelText: label),
-      items: items.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
-      onChanged: onChanged,
     );
   }
 }
