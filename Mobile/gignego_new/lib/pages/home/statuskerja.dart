@@ -74,7 +74,8 @@ class _StatusKerjaPageState extends State<StatusKerjaPage> {
   }
 
   void ambilPekerjaanDariDB() async {
-    final dataDariDB = await DatabaseHelper.instance.getJobsByEmail(widget.userEmail);
+    final dataDariDB =
+        await DatabaseHelper.instance.getJobsByEmail(widget.userEmail);
     setState(() {
       pekerjaan = dataDariDB;
     });
@@ -90,6 +91,18 @@ class _StatusKerjaPageState extends State<StatusKerjaPage> {
     } catch (e) {
       return false;
     }
+
+    void updateJobInList(Job updatedJob) {
+  setState(() {
+    int index = pekerjaan.indexWhere((job) => job.id == updatedJob.id);
+    if (index != -1) {
+      pekerjaan[index] = updatedJob;
+    } else {
+      pekerjaan.add(updatedJob);
+    }
+  });
+}
+
   }
 
   List<Job> _filteredJobs() {
@@ -102,6 +115,37 @@ class _StatusKerjaPageState extends State<StatusKerjaPage> {
           selectedStatus == 'Semua' || job.status == selectedStatus;
       return matchTanggal && matchStatus;
     }).toList();
+  }
+
+  // Tambahkan fungsi konfirmasi hapus
+  Future<void> konfirmasiHapus(BuildContext context, int jobId) async {
+    final bool? confirm = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: Text('Konfirmasi Hapus'),
+          content: Text('Apakah Anda yakin ingin menghapus pekerjaan ini?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Batal'),
+              onPressed: () {
+                Navigator.of(dialogContext).pop(false); // batal hapus
+              },
+            ),
+            TextButton(
+              child: Text('Ya'),
+              onPressed: () {
+                Navigator.of(dialogContext).pop(true); // konfirmasi hapus
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirm == true) {
+      hapusPekerjaan(jobId);
+    }
   }
 
   void hapusPekerjaan(int id) async {
@@ -158,14 +202,18 @@ class _StatusKerjaPageState extends State<StatusKerjaPage> {
                       itemBuilder: (context, index) {
                         final job = jobs[index];
                         return Padding(
-                          padding:
-                              const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8),
                           child: GestureDetector(
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => JobDetailPage(job: job),
+                                  builder: (context) => JobDetailPage(
+                                    job: job,
+                                    currentUserEmail: widget
+                                        .userEmail, // atau currentUserEmail yang valid
+                                  ),
                                 ),
                               );
                             },
@@ -174,72 +222,75 @@ class _StatusKerjaPageState extends State<StatusKerjaPage> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12)),
                               child: ListTile(
-  contentPadding: EdgeInsets.all(12),
-  leading: ClipRRect(
-    borderRadius: BorderRadius.circular(8),
-    child: job.gambar1.isNotEmpty
-        ? Image.file(
-            File(job.gambar1),
-            width: 60,
-            height: 60,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) =>
-                Icon(Icons.image, size: 60),
-          )
-        : Icon(Icons.image, size: 60),
-  ),
-  title: Text(
-    job.namaPekerjaan,
-    style: TextStyle(fontWeight: FontWeight.bold),
-  ),
-  trailing: Row(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      // Tombol Edit
-      IconButton(
-        icon: Icon(Icons.edit, color: Colors.blue),
-        tooltip: 'Edit Pekerjaan',
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => FormPage(
-                job: job, // pastikan FormPage mendukung parameter job untuk edit
-                onJobAdded: (updatedJob) {
-                  ambilPekerjaanDariDB(); // refresh setelah edit
-                },
-              ),
-            ),
-          );
-        },
+                                contentPadding: EdgeInsets.all(12),
+                                leading: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: job.gambar1.isNotEmpty
+                                      ? Image.file(
+                                          File(job.gambar1),
+                                          width: 60,
+                                          height: 60,
+                                          fit: BoxFit.cover,
+                                          errorBuilder:
+                                              (context, error, stackTrace) =>
+                                                  Icon(Icons.image, size: 60),
+                                        )
+                                      : Icon(Icons.image, size: 60),
+                                ),
+                                title: Text(
+                                  job.namaPekerjaan,
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    // Tombol Edit
+                                    IconButton(
+  icon: Icon(Icons.edit, color: Colors.blue),
+  tooltip: 'Edit Pekerjaan',
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FormPage(
+          job: job,
+          onJobAdded: (updatedJob) {
+            ambilPekerjaanDariDB(); // Refresh data di UI setelah update
+          },
+        ),
       ),
-      // Tombol Lihat Pelamar
-      IconButton(
-        icon: Icon(Icons.people, color: Colors.green),
-        tooltip: 'Lihat Pelamar',
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => PendaftarPage(jobId: job.id!),
-            ),
-          );
-        },
-      ),
-      // Tombol Hapus
-      IconButton(
-        icon: Icon(Icons.delete, color: Colors.red),
-        tooltip: 'Hapus Pekerjaan',
-        onPressed: () {
-          if (job.id != null) {
-            hapusPekerjaan(job.id!);
-          }
-        },
-      ),
-    ],
-  ),
+    );
+  },
 ),
 
+                                    // Tombol Lihat Pelamar
+                                    IconButton(
+                                      icon: Icon(Icons.people,
+                                          color: Colors.green),
+                                      tooltip: 'Lihat Pelamar',
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                PendaftarPage(jobId: job.id!),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon:
+                                          Icon(Icons.delete, color: Colors.red),
+                                      tooltip: 'Hapus Pekerjaan',
+                                      onPressed: () {
+                                        if (job.id != null) {
+                                          konfirmasiHapus(context, job.id!);
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         );

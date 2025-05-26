@@ -5,11 +5,18 @@ import 'package:flutter_application/pages/home/form_daftar_kerja.dart'; // Halam
 
 class JobDetailPage extends StatelessWidget {
   final Job job;
+  final String currentUserEmail; // tambahkan ini
 
-  const JobDetailPage({super.key, required this.job});
+  const JobDetailPage({
+    super.key,
+    required this.job,
+    required this.currentUserEmail,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final bool isOwner = job.email == currentUserEmail;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Detail'),
@@ -20,56 +27,57 @@ class JobDetailPage extends StatelessWidget {
         ),
         elevation: 0,
       ),
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: BoxDecoration(
-          border: Border(top: BorderSide(color: Colors.grey.shade300)),
-          color: Colors.white,
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () {
-                  // Bisa dikembangkan untuk negosiasi
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF9E61EB),
-                ),
-                child: Text(
-                  'Lakukan Negosiasi',
-                  style: TextStyle(color: Colors.white),
-                ),
+      bottomNavigationBar: isOwner
+          ? SizedBox.shrink() // Jika owner, tombol dihilangkan
+          : Container(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: BoxDecoration(
+                border: Border(top: BorderSide(color: Colors.grey.shade300)),
+                color: Colors.white,
               ),
-            ),
-            SizedBox(width: 12),
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () {
-                  // Pindah ke halaman alasan ambil pekerjaan dengan data job dikirim
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AlasanPekerjaanPage(
-                        namaPekerjaan: job.namaPekerjaan,
-                        harga: 'Rp${job.hargaPekerjaan},00', // Format sesuai contoh
-                        lamaPengerjaan: job.waktu,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Logika negosiasi
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF9E61EB),
+                      ),
+                      child: Text(
+                        'Lakukan Negosiasi',
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF9E61EB),
-                ),
-                child: Text(
-                  'Daftar Sekarang',
-                  style: TextStyle(color: Colors.white),
-                ),
+                  ),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AlasanPekerjaanPage(
+                              namaPekerjaan: job.namaPekerjaan,
+                              harga: 'Rp${job.hargaPekerjaan},00',
+                              lamaPengerjaan: job.waktu,
+                            ),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF9E61EB),
+                      ),
+                      child: Text(
+                        'Daftar Sekarang',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(

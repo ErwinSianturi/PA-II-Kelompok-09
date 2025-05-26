@@ -9,8 +9,7 @@ class JobListPage extends StatefulWidget {
   final List<Job> job;
   final bool showNotification;
   final String selectedCategory;
-  final String currentUserEmail; 
-    
+  final String currentUserEmail;
 
   const JobListPage({
     Key? key,
@@ -99,24 +98,27 @@ class _JobListPageState extends State<JobListPage> {
     }
   }
 
+  List<Job> _filteredJobs() {
+    String selectedFullDate = tanggalList[selectedDateIndex]['fullDate'] ?? '';
+    String selectedStatus = statusFilter[selectedFilterIndex];
 
-List<Job> _filteredJobs() {
-  String selectedFullDate = tanggalList[selectedDateIndex]['fullDate'] ?? '';
-  String selectedStatus = statusFilter[selectedFilterIndex];
-
-  return widget.job.where((job) {
-    bool matchTanggal = isSameDate(job.tanggal, selectedFullDate);
-    bool matchStatus = selectedStatus == 'Semua' || job.status == selectedStatus;
-    bool excludeCurrentUserJob = job.email != widget.currentUserEmail; // Kecualikan pekerjaan user sendiri
-    return matchTanggal && matchStatus && excludeCurrentUserJob;
-  }).toList();
-}
+    return widget.job.where((job) {
+      bool matchTanggal = isSameDate(job.tanggal, selectedFullDate);
+      bool matchStatus =
+          selectedStatus == 'Semua' || job.status == selectedStatus;
+      bool excludeCurrentUserJob = job.email !=
+          widget.currentUserEmail; // Kecualikan pekerjaan user sendiri
+      return matchTanggal && matchStatus && excludeCurrentUserJob;
+    }).toList();
+  }
 
   // Fungsi untuk menghapus pekerjaan dari database dan server
   void hapusPekerjaan(int id) async {
-    bool success = await ApiService.deleteJobFromApi(id); // Menghapus dari server
+    bool success =
+        await ApiService.deleteJobFromApi(id); // Menghapus dari server
     if (success) {
-      await DatabaseHelper.instance.deleteJob(id); // Menghapus dari database lokal
+      await DatabaseHelper.instance
+          .deleteJob(id); // Menghapus dari database lokal
       ambilPekerjaanDariDB(); // Memperbarui UI setelah data dihapus
       print('Pekerjaan dengan id $id berhasil dihapus.');
     } else {
@@ -128,8 +130,8 @@ List<Job> _filteredJobs() {
   void ambilPekerjaanDariDB() async {
     final dataDariDB = await DatabaseHelper.instance.getJobs();
     setState(() {
-      widget.job.clear();  // Menghapus data lama
-      widget.job.addAll(dataDariDB);  // Menambahkan data baru
+      widget.job.clear(); // Menghapus data lama
+      widget.job.addAll(dataDariDB); // Menambahkan data baru
     });
   }
 
@@ -182,10 +184,13 @@ List<Job> _filteredJobs() {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => JobDetailPage(job: job),
+                                  builder: (context) => JobDetailPage(
+                                    job: job,
+                                    currentUserEmail: widget.currentUserEmail,
+                                  ),
                                 ),
                               );
-                            },
+                              },
                             child: Card(
                               elevation: 3,
                               shape: RoundedRectangleBorder(
@@ -210,14 +215,7 @@ List<Job> _filteredJobs() {
                                   job.namaPekerjaan,
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
-                                trailing: IconButton(
-                                  icon: Icon(Icons.delete),
-                                  onPressed: () {
-                                    if (job.id != null) {
-                                      hapusPekerjaan(job.id!); // Menghapus pekerjaan
-                                    }
-                                  },
-                                ),
+                                trailing: null,
                               ),
                             ),
                           ),
